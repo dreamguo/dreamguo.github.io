@@ -44,21 +44,7 @@ News
   <p>👨‍🎓 [09.2017] I graduted from Beihang University supervised by Prof.  <a href="#">Excellent Graduate</a> in !</p>
   <p>👨‍🎓 [07.2017] I graduted from <a href="http://www.vie.group/team">VIE</a> in Shenzhen, China!</p>
 
-  <!-- <p>😎 [10.2023] Our paper <a href="https://link.springer.com/article/10.1007/s11263-023-01826-6">ABanditNAS</a> is accepted at IJCV!</p>
-  <p>👨‍🎓 [08.2022] I joined the <b>CVRP lab</b> of SoC, NUS as a phd student!</p>
-  <p>🙇 [03.2021] I joined <b>Alibaba DAMO Academy</b> to work as a computer vision algorithm engineer!</p>
-  <p>🚀 [01.2021] I am awarded the <a href="#">Excellent Graduation Thesis</a> in Beihang University!</p>
-  <p>🚀 [01.2021] I am awarded the <a href="#">Excellent Graduate</a> in Beihang University!</p>
-  <p>🚀 [12.2020] I am awarded the <a href="#">National Scholarship in China</a>!</p>
-  <p>😎 [09.2020] Our paper <a href="https://arxiv.org/pdf/2009.04247.pdf">BNAS</a> is accepted at IJCV!</p>
-  <p>😎 [07.2020] Our paper <a href="https://arxiv.org/pdf/2008.00698.pdf">ABanditNAS</a> is accepted at ECCV 2020!</p>
-  <p>🙇 [06.2020] I joined <b>Alibaba DAMO Academy</b> as a research intern!</p>
-  <p>😎 [04.2020] Our paper <a href="https://www.ijcai.org/proceedings/2020/0144.pdf">CP-NAS</a> is accepted at IJCAI 2020!</p>
-  <p>😎 [11.2019] Our paper <a href="https://openaccess.thecvf.com/content_CVPR_2020/papers/Zhuo_Cogradient_Descent_for_Bilinear_Optimization_CVPR_2020_paper.pdf">CoGD</a> is accepted at CVPR 2020!</p>
-  <p>😎 [10.2019] Our paper <a href="https://arxiv.org/pdf/1911.10862v1.pdf">BNAS</a> is accepted at AAAI 2020!</p> -->
-  <!-- <p>✈️ [03.2021] I joined <b>Alibaba DAMO Academy</b> to work as a computer vision algorithm engineer!</p>
-  <p>🏆 [15.03.2024] Received the .</p> -->
-  <!-- 你可以在这里添加更多隐藏的新闻项 -->
+  <!-- <p>🏆 [15.03.2024] Received the .</p> -->
   </div>
 </div>
 

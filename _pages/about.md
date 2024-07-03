@@ -41,9 +41,7 @@ News
   <p>🙇 [06.2020] I joined <a href="https://ccvl.jhu.edu/">CCVL</a> of JHU as a research intern!</p>
   <p>🙇 [10.2019] I joined <a href="https://en.megvii.com/megvii_research">MEGVII Research</a> as a 3D vision research intern!</p>
   <p>🙇 [06.2019] I joined <a href="http://www.vie.group/team">VIE</a> at PKU as a research intern!</p>
-  <p>👨‍🎓 [09.2017] I graduted from Beihang University supervised by Prof.  <a href="#">Excellent Graduate</a> in !</p>
-  <p>👨‍🎓 [07.2017] I graduted from <a href="http://www.vie.group/team">VIE</a> in Shenzhen, China!</p>
-<!-- 
+  <!-- <p>😎 [10.2023] Our paper <a href="https://link.springer.com/article/10.1007/s11263-023-01826-6">ABanditNAS</a> is accepted at IJCV!</p>
   <p>👨‍🎓 [08.2022] I joined the <b>CVRP lab</b> of SoC, NUS as a phd student!</p>
   <p>🙇 [03.2021] I joined <b>Alibaba DAMO Academy</b> to work as a computer vision algorithm engineer!</p>
   <p>🚀 [01.2021] I am awarded the <a href="#">Excellent Graduation Thesis</a> in Beihang University!</p>

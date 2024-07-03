@@ -43,7 +43,8 @@ News
   <p>🙇 [06.2019] I joined <a href="http://www.vie.group/team">VIE</a> at PKU as a research intern!</p>
   <p>👨‍🎓 [09.2017] I graduted from Beihang University supervised by Prof.  <a href="#">Excellent Graduate</a> in !</p>
   <p>👨‍🎓 [07.2017] I graduted from <a href="http://www.vie.group/team">VIE</a> in Shenzhen, China!</p>
-
+<!-- 
+  <p>👨‍🎓 [08.2022] I joined the <b>CVRP lab</b> of SoC, NUS as a phd student!</p>
   <p>🙇 [03.2021] I joined <b>Alibaba DAMO Academy</b> to work as a computer vision algorithm engineer!</p>
   <p>🚀 [01.2021] I am awarded the <a href="#">Excellent Graduation Thesis</a> in Beihang University!</p>
   <p>🚀 [01.2021] I am awarded the <a href="#">Excellent Graduate</a> in Beihang University!</p>

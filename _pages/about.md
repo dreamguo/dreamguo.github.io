@@ -31,9 +31,11 @@ News
 </style>
 
 <div class="news-container">
-  <p>😎 [03.2024] Our paper <a href="https://arxiv.org/pdf/2404.00931">GOV-NeSF</a> is accepted at CVPR 2024!</p>
-  <p>🚀 [01.2024] I am awarded the <a href="#">Research Achievement Award</a> by NUS!</p>
+  <p>😎 [07.2024] Our three paper <a href="https://dreamguo.github.io/">UNIKD</a> <a href="https://dreamguo.github.io/">TreeSBA</a> <a href="https://dreamguo.github.io/">URS-NeRF</a> are accepted at ECCV 2024!!</p>
   <p>😎 [03.2024] Our paper <a href="https://arxiv.org/pdf/2310.15712.pdf">GNeSF</a> is accepted at NeurIPS 2023!</p>
+  <p>😎 [03.2022] Our paper <a href="https://arxiv.org/pdf/2103.14098">CGPart</a> is accepted at CVPR 2022 (oral)!</p>
+  <p>👨‍🎓 [08.2021] I joined the <a href="https://www.comp.nus.edu.sg/~leegh/">CVRP lab</a> of SoC, NUS as a phd student!</p>
+  <p>🚀 [07.2021] I am awarded the <a href="#">Excellent Graduate</a> in Beihang University!</p>
 
   <div id="hidden-news" style="display: none;">
   <p>😎 [10.2023] Our paper <a href="https://link.springer.com/article/10.1007/s11263-023-01826-6">ABanditNAS</a> is accepted at IJCV!</p>

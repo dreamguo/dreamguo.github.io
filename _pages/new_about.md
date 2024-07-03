@@ -42,6 +42,7 @@ News
   <p>🙇 [06.2019] Joined <a href="http://www.vie.group/team">VIE</a> at PKU as a research intern!</p>
   <p>👨‍🎓 [09.2017] Entered <a href="https://hc.buaa.edu.cn/">Shenyuan Honors School</a> at Beihang University as a undergraduate student.</p>
   <p>👨‍🎓 [07.2017] Graduted from <a href="http://www.szsy.cn/">SZSY High School</a> in Shenzhen, China.</p>
+
   <!-- <p>🏆 [15.03.2024] Received the .</p> -->
   </div>
 </div>

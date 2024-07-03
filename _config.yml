@@ -73,6 +73,8 @@ author:
   youtube          : # Username
   zhihu            : # URL
 
+<script type="text/javascript" id="clstr_globe" src="//clustrmaps.com/globe.js?d=76q_kvp9C9IdUxxL6culGaZYcQGVaYsIH-LMQGUf1uU"></script>
+
 
 # Site Settings
 teaser                   :  # filename of teaser fallback teaser image placed in /images/, .e.g. "500x300.png"
@@ -335,5 +337,3 @@ compress_html:
   clippings: all
   ignore:
     envs: development
-
-<script type="text/javascript" id="clstr_globe" src="//clustrmaps.com/globe.js?d=76q_kvp9C9IdUxxL6culGaZYcQGVaYsIH-LMQGUf1uU"></script>

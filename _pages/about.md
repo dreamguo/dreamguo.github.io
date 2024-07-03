@@ -35,14 +35,13 @@ News
   <p>😎 [06.2022] Our paper <a href="https://arxiv.org/pdf/2103.14098">CGPart</a> is accepted at CVPR 2022 (oral)!</p>
  
   <div id="hidden-news" style="display: none;">
-  <p>👨‍🎓 [08.2021] I joined the <a href="https://www.comp.nus.edu.sg/~leegh/">CVRP lab</a> of SoC, NUS as a phd student!</p>
-  <p>🚀 [07.2021] I am awarded the <a href="#">Excellent Graduate</a> in Beihang University!</p>
-  <p>👨‍🎓 [06.2021] I graduted from Beihang University supervised by Prof.  <a href="#">Excellent Graduate</a> in !</p>
-  <p>🙇 [06.2020] I joined <a href="https://ccvl.jhu.edu/">CCVL</a> of JHU as a research intern!</p>
-  <p>🙇 [10.2019] I joined <a href="https://en.megvii.com/megvii_research">MEGVII Research</a> as a 3D vision research intern!</p>
-  <p>🙇 [06.2019] I joined <a href="http://www.vie.group/team">VIE</a> at PKU as a research intern!</p>
-  <p>👨‍🎓 [09.2017] I graduted from Beihang University supervised by Prof.  <a href="#">Excellent Graduate</a> in !</p>
-  <p>👨‍🎓 [07.2017] I graduted from <a href="http://www.vie.group/team">VIE</a> in Shenzhen, China!</p>
+  <p>👨‍🎓 [08.2021] Joined the <a href="https://www.comp.nus.edu.sg/~leegh/">CVRP lab</a> of SoC, NUS as a Ph.D. student!</p>
+  <p>🚀 [07.2021] I am awarded the <a href="#">Outstanding Graduate/a> in Beihang University!</p>
+  <p>🙇 [06.2020] Joined <a href="https://ccvl.jhu.edu/">CCVL</a> of JHU as a research intern!</p>
+  <p>🙇 [10.2019] Joined <a href="https://en.megvii.com/megvii_research">MEGVII Research</a> as a 3D vision research intern!</p>
+  <p>🙇 [06.2019] Joined <a href="http://www.vie.group/team">VIE</a> at PKU as a research intern!</p>
+  <p>👨‍🎓 [09.2017] Entered <a href="https://hc.buaa.edu.cn/">Shenyuan Honors School</a> at Beihang University as a undergraduate student.</p>
+  <p>👨‍🎓 [07.2017] Graduted from <a href="http://www.szsy.cn/">SZSY High School</a> in Shenzhen, China.</p>
 
   <!-- <p>🏆 [15.03.2024] Received the .</p> -->
   </div>

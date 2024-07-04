@@ -1,4 +1,4 @@
----
+<!-- ---
 layout: archive
 title: "About Myself"
 # permalink: /about/
@@ -8,7 +8,7 @@ redirect_from:
   - /about/
   - /about.html
   # - /
----
+--- -->
 
 I am currently a Ph.D. candidate in the Computer Vision and Robotic Perception (CVRP) laboratory at <strong>National University of Singapore (NUS)</strong>, supervised by [Prof. Gim Hee Lee](https://www.comp.nus.edu.sg/~leegh/). Before entering NUS, I was an research intern in Computational Cognition, Vision, and Learning (CCVL) laboratory at Johns Hopkins University under [Prof. Alan Yuille](https://www.cs.jhu.edu/~ayuille/). I recived my B.S. degree in Computer Science and Technology from [Shenyuan Honors School at Beihang University](https://hc.buaa.edu.cn/) in 2021, advised by [Prof. Si Liu](https://colalab.net/people). My research interests lie in 3D computer vision, especially in sequential 3D reconstruction and generation.
 
@@ -36,7 +36,7 @@ News
  
   <div id="hidden-news" style="display: none;">
   <p>👨‍🎓 [08.2021] Joined the <a href="https://www.comp.nus.edu.sg/~leegh/">CVRP lab</a> of SoC, NUS as a Ph.D. student!</p>
-  <p>🚀 [07.2021] I am awarded the <a href="#">Outstanding Graduate/a> in Beihang University!</p>
+  <p>🚀 [07.2021] I am awarded the <a href="">Outstanding Graduate/a> in Beihang University!</p>
   <p>🙇 [06.2020] Joined <a href="https://ccvl.jhu.edu/">CCVL</a> of JHU as a research intern!</p>
   <p>🙇 [10.2019] Joined <a href="https://en.megvii.com/megvii_research">MEGVII Research</a> as a 3D vision research intern!</p>
   <p>🙇 [06.2019] Joined <a href="http://www.vie.group/team">VIE</a> at PKU as a research intern!</p>

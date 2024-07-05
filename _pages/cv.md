@@ -11,11 +11,10 @@ redirect_from:
 
 Education
 ======
-* Ph.D in Computer Science, National University of Singapore, 2026 (expected)
-* M.S. in Pattern Recognition and Intelligent System, Beihang University, 2021
-* B.S. in Aircraft Design and Engineering, Shenyang Aerospace University, 2018
+* Ph.D in Computer Science, National University of Singapore, 2025 (expected)
+* B.S. in Computer Science and Technology, Beihang University, 2021
 
-Work experience
+<!-- Work experience
 ======
 * 03.2021 - 07.2022: Computer Vision Algorithm Engineer
   * Alibaba DAMO Academy
@@ -25,7 +24,7 @@ Work experience
 * Summer 2020: Research Intern
   * Alibaba DAMO Academy
   * Duties included: Evaluatint the latency of Neural Networks
-  * Supervisor: Mr. Xiuyu Sun
+  * Supervisor: Mr. Xiuyu Sun -->
 
   
 Skills
@@ -46,7 +45,7 @@ Institution: National University of Singapore
 
 <!-- **Address**: Room 1126, New Main Building #E, XueYuan Road No.37, Beihang University, 100191 -->
 
-E-mail: [hanlin.chen@u.nus.edu](mailto:hanlin.chen@u.nus.edu) or [hlchen1105@gmai.com](mailto:hlchen1105@gmai.com) or [hlinchen@foxmail.com](mailto:hlinchen@foxmail.com)
+E-mail: [mengqi.guo@u.nus.edu](mailto:mengqi.guo@u.nus.edu) or [im.guomengqi@gmai.com](mailto:im.guomengqi@gmai.com) 
 
 
 <!-- Publications

@@ -29,7 +29,7 @@ News
 </style>
 
 <div class="news-container">
-  <p>🚀 [07.2024] Three papers <a href="https://dreamguo.github.io/">UNIKD</a> <a href="https://dreamguo.github.io/">TreeSBA</a> <a href="https://dreamguo.github.io/">URS-NeRF</a> are accepted at ECCV 2024!!</p>
+  <p>🚀 <span style="color: red;">[07.2024] Three papers <a href="https://dreamguo.github.io/">UNIKD</a> <a href="https://dreamguo.github.io/">TreeSBA</a> <a href="https://dreamguo.github.io/">URS-NeRF</a> are accepted at ECCV 2024!!</span></p>
   <p>🚀 [03.2024] One paper <a href="https://arxiv.org/pdf/2310.15712.pdf">GNeSF</a> is accepted at NeurIPS 2023!</p>
   <p>🚀 [06.2023] One paper <a href="https://www.sciencedirect.com/science/article/pii/S1361841523000312">HeiChole</a> is accepted at Medical Image Analysis!</p>
   <p>🚀 [06.2022] One paper <a href="https://arxiv.org/pdf/2103.14098">CGPart</a> is accepted at CVPR 2022 (oral)!</p>
@@ -90,6 +90,30 @@ Featured Works
 </div>
 
 
+<div style="display: flex; align-items: center; margin-bottom: 40px;">
+  <img src="images/cgpart.jpg" alt="Learning Part Segmentation Through Unsupervised Domain Adaptation from Synthetic Vehicles." style="width: 350px; height: auto; margin-right: 20px;">
+
+  <div>
+    <h3 style="margin: 0;"><a href="https://openaccess.thecvf.com/content/CVPR2022/papers/Liu_Learning_Part_Segmentation_Through_Unsupervised_Domain_Adaptation_From_Synthetic_Vehicles_CVPR_2022_paper.pdf" style="text-decoration: none;">Learning Part Segmentation Through Unsupervised Domain Adaptation from Synthetic Vehicles</a></h3>
+    <p style="margin: 5px 0;">
+      <a href="https://qliu24.github.io/">Qing Liu</a>,
+      <a href="https://gvrl.mpi-inf.mpg.de/">Adam Kortylewski</a>,
+      <a href="https://scholar.google.com/citations?user=8gRM3xMAAAAJ&hl=en">Zhishuai Zhang</a>,
+      <a href="https://kyleleey.github.io/">Zizhang Li</a>,
+      <strong>Mengqi Guo</strong>,
+      <a href="https://qihao067.github.io/">Qihao Liu</a>,
+      <a href="https://scholar.google.com/citations?user=p7QTY-cAAAAJ&hl=en">Xiaoding Yuan</a>,
+      <a href="https://jitengmu.github.io/">Jiteng Mu</a>,
+      <a href="https://scholar.google.com.hk/citations?user=9_AUwFUAAAAJ&hl=zh-TW">Weichao Qiu</a>,
+      <a href="https://www.cs.jhu.edu/~ayuille/">Alan Yuille</a>,
+      <br>
+      CVPR, 2022 (Oral)<br>
+      <a href="https://qliu24.github.io/udapart/" style="text-decoration: none;">[Project Page]</a>
+      <a href="https://openaccess.thecvf.com/content/CVPR2022/papers/Liu_Learning_Part_Segmentation_Through_Unsupervised_Domain_Adaptation_From_Synthetic_Vehicles_CVPR_2022_paper.pdf" style="text-decoration: none;">[PDF]</a>
+    </p>
+  </div>
+</div>
+
 
 Other Publications / Preprints
 ------
@@ -110,6 +134,6 @@ Other Publications / Preprints
 - Martin Wagner, …, **Mengqi Guo**, …, Sebastian Bodenstedt. [Comparative validation of machine learning algorithms for surgical workflow and skill analysis with the heichole benchmark](https://www.researchgate.net/publication/336051683_Guided_Convolutional_Network). Medical Image Analysis (MedIA), 2023 [[Dataset](https://endovissub-workflowandskill.grand-challenge.org/)]
 
 
-<div style="width: 200px; height: 200px; display: block; align-items: center; margin-top: 40px; margin-bottom: 40px;">
+<div style="width: 100px; height: 100px; display: block; align-items: center; margin-top: 40px; margin-bottom: 40px;">
   <script type="text/javascript" id="clstr_globe" src="//clustrmaps.com/globe.js?d=76q_kvp9C9IdUxxL6culGaZYcQGVaYsIH-LMQGUf1uU =10x10"></script>
 </div>

@@ -10,7 +10,7 @@ redirect_from:
   # - /
 ---
 
-I am currently a Ph.D. candidate in the Computer Vision and Robotic Perception (CVRP) laboratory at <strong>National University of Singapore (NUS)</strong>, supervised by [Prof. Gim Hee Lee](https://www.comp.nus.edu.sg/~leegh/). Before entering NUS, I was an research intern in Computational Cognition, Vision, and Learning (CCVL) laboratory at Johns Hopkins University under [Prof. Alan Yuille](https://www.cs.jhu.edu/~ayuille/). I recived my B.S. degree in Computer Science and Technology from [Shenyuan Honors School at Beihang University](https://hc.buaa.edu.cn/) in 2021, advised by [Prof. Si Liu](https://colalab.net/people). My research interests lie in 3D computer vision, especially in sequential 3D reconstruction and generation.
+I am currently a Ph.D. candidate in the Computer Vision and Robotic Perception (CVRP) laboratory at <strong>National University of Singapore (NUS)</strong>, supervised by [Prof. Gim Hee Lee](https://www.comp.nus.edu.sg/~leegh/). Before entering NUS, I was an research intern in Computational Cognition, Vision, and Learning (CCVL) laboratory at Johns Hopkins University under [Prof. Alan Yuille](https://www.cs.jhu.edu/~ayuille/). I recived my B.S. degree in Computer Science and Technology from [ShenYuan Honors College at Beihang University](https://hc.buaa.edu.cn/) in 2021, advised by [Prof. Si Liu](https://colalab.net/people). My research interests lie in 3D computer vision, especially in sequential 3D reconstruction and generation.
 
 
 News
@@ -31,7 +31,7 @@ News
 <div class="news-container">
   <p>🚀 <span style="color: red;">[07.2024] Three papers <a href="https://dreamguo.github.io/">UNIKD</a> <a href="https://dreamguo.github.io/">TreeSBA</a> <a href="https://dreamguo.github.io/">URS-NeRF</a> are accepted at ECCV 2024!!</span></p>
   <p>🚀 [03.2024] One paper <a href="https://arxiv.org/pdf/2310.15712.pdf">GNeSF</a> is accepted at NeurIPS 2023!</p>
-  <p>🚀 [06.2023] One paper <a href="https://www.sciencedirect.com/science/article/pii/S1361841523000312">HeiChole</a> is accepted at Medical Image Analysis!</p>
+  <p>🚀 [06.2023] One paper <a href="https://www.sciencedirect.com/science/article/pii/S1361841523000312">HeiChole</a> is accepted at Medical Image Analysis 2023!</p>
   <p>🚀 [06.2022] One paper <a href="https://arxiv.org/pdf/2103.14098">CGPart</a> is accepted at CVPR 2022 (oral)!</p>
 
   <div id="hidden-news" style="display: none;">
@@ -40,10 +40,9 @@ News
   <p>🙇 [06.2020] Joined <a href="https://ccvl.jhu.edu/">CCVL Lab</a> of JHU as a research intern!</p>
   <p>🙇 [10.2019] Joined <a href="https://en.megvii.com/megvii_research">MEGVII Research</a> as a 3D vision research intern!</p>
   <p>🙇 [06.2019] Joined <a href="http://www.vie.group/team">VIE Lab</a> at PKU as a research intern!</p>
-  <p>😎 [09.2017] Joined <a href="https://hc.buaa.edu.cn/">Shenyuan Honors School</a> at Beihang University as an undergraduate!</p>
+  <p>😎 [09.2017] Joined <a href="https://hc.buaa.edu.cn/">ShenYuan Honors College</a> at Beihang University as an undergraduate!</p>
   <p>👨‍🎓 [07.2017] Awarded Outstanding Graduate in <a href="http://www.szsy.cn/">SZSY High School</a>!</p>
-    <!-- <p>✈️ [03.2021] I joined <b>Alibaba DAMO Academy</b> to work as a computer vision algorithm engineer!</p>
-    <p>🏆 [15.03.2024] Received the .</p> -->
+    <!-- <p>🏆 [15.03.2024] Received the .</p> -->
     <!-- 你可以在这里添加更多隐藏的新闻项 -->
   </div>
 </div>
@@ -118,20 +117,9 @@ Featured Works
 Other Publications / Preprints
 ------
 
-<!-- - Song Xue<sup>†</sup>, **Hanlin Chen**<sup>†</sup>(co-first), Chunyu Xie, Baochang Zhang, Xuan Gong, David Doermann. [Fast and Unsupervised Neural Architecture Evolution for Visual Representation Learning](https://ieeexplore.ieee.org/document/9492168). IEEE Computational Intelligence Magazine, 2021.
-
-- **Hanlin Chen**, Xudong Zhang, et al. Efficient Facial Landmark Localization based on Binarized Neural Networks. Electronics, 2020.
-
-- Sheng Xu, **Hanlin Chen**, Kexin Liu, Jinhu Lii, Baochang Zhang, [Efficient Block Pruning based on kernel and feature stabilization](https://ieeexplore.ieee.org/document/8946001). Neural Computing and Applications, 2020.
-
-- Sheng Xu, **Hanlin Chen**, Kexin Liu, Jinhu Lii, Baochang Zhang. [Efficient Block Pruning based on kernel and feature stablization](https://ieeexplore.ieee.org/document/8946001). Proceedings of Digital Image Computing: Techniques and Applications, 2019. (DICTA 2019)
-
-- Chunlei Liu, Wenrui Ding, Yu Hu, **Hanlin Chen**, Baochang Zhang, Shuo Liu. [Guided Convolutional Network](https://www.researchgate.net/publication/336051683_Guided_Convolutional_Network). 13th International Conference on Distributed Smart Cameras. (ICDSC 2019) -->
-
-
 - **Mengqi Guo**, Yutong Bai, Zhishuai Zhang, Adam Kortylewski, Alan Yuille. [Unsupervised Part Discovery via Feature Alignment](https://arxiv.org/pdf/2012.00313). ArXiv.
 
-- Martin Wagner, …, **Mengqi Guo**, …, Sebastian Bodenstedt. [Comparative validation of machine learning algorithms for surgical workflow and skill analysis with the heichole benchmark](https://www.researchgate.net/publication/336051683_Guided_Convolutional_Network). Medical Image Analysis (MedIA), 2023 [[Dataset](https://endovissub-workflowandskill.grand-challenge.org/)]
+- Martin Wagner, …, **Mengqi Guo**, …, Sebastian Bodenstedt. [Comparative validation of machine learning algorithms for surgical workflow and skill analysis with the heichole benchmark](https://www.sciencedirect.com/science/article/pii/S1361841523000312). Medical Image Analysis (MedIA), 2023 [[Dataset](https://endovissub-workflowandskill.grand-challenge.org/)]
 
 
 <div style="width: 100px; height: 100px; display: block; align-items: center; margin-top: 40px; margin-bottom: 40px;">

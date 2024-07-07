@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="UNIKD">
+  <meta name="keywords" content="UNIKD">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>UNIKD</title>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+    });
+  </script>
+
+  <!-- Bootstrap -->
+  <!-- <link rel="stylesheet" href="./static/css/bootstrap-4.4.1.css"> -->
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+  
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/72.png">
+
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+  
+  <script src="./static/js/app.js"></script>
+  <script src="./static/js/video_comparison.js"></script>
+
+  <link rel="stylesheet" href="./static/css/dics.original.css">
+  <script src="./static/js/event_handler.js"></script>
+  <script src="./static/js/dics.original.js"></script>
+  
+</head>
+<body>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title" style="margin-bottom: 0"><strong>UNIKD</strong></h1>
+          <br>
+          <h2 class="title is-3 publication-title" style="margin-top: 0; margin-bottom: 0">UNcertainty-filtered Incremental Knowledge Distillation</h2>
+          <h2 class="title is-3 publication-title" style="margin-top: 0; margin-bottom: 0">for Neural Implicit Representation</h2>
+          <br>
+          <div class="is-size-5 publication-authors">
+
+            <span class="author-block">
+              <a href="https://dreamguo.github.io/">Mengqi Guo*</a><sup></sup>
+            </span>&nbsp;&nbsp;&nbsp;&nbsp;
+
+            <span class="author-block">
+              <a href="https://chaneyddtt.github.io/">Chen Li*</a><sup></sup>
+            </span>&nbsp;&nbsp;&nbsp;&nbsp;
+
+            <span class="author-block">
+              <a href="https://hlinchen.github.io/">Hanlin Chen</a><sup></sup>
+            </span>&nbsp;&nbsp;&nbsp;&nbsp;
+
+            <span class="author-block">
+              <a href="https://www.comp.nus.edu.sg/~leegh/">Gim Hee Lee</a><sup></sup>
+            </span>
+          </div>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup></sup>National University of Singapore</span>            
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup></sup>* denotes equal contribution</span>            
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <!-- <span class="link-block">
+                <a href="https://drive.google.com/file/d/13i3HeVBiqN8JXnwAzTvQrPz2rShxIhMv/view?usp=sharing"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span> -->
+
+              <!-- arXiv Link. -->
+              <span class="link-block">
+                <a href=""
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+          
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href=""
+                   class="external-link button is-normal is-rounded is-dark disabled">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+
+              <!-- Code Link. -->
+              <!-- <span class="link-block">
+                <a href="https://niujinshuchong.github.io/mip-splatting-demo/"
+                   class="external-link button is-normal is-rounded is-dark disabled">
+                  <span class="icon">
+                      <i class="fab fa-dribbble"></i>
+                  </span>
+                  <span>Viewer</span>
+                  </a>
+              </span> -->
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-full-width">      
+          <img src="./resources/UNIKD.png" style="transform: scale(1.);" class="center">
+          <h2 class="subtitle" style="margin-top: 25px; text-align: left;">
+            Visualization of the 3D reconstruction by MonoSDF and our approach under the incremental setting. MonoSDF fails to reconstruct 3D surface observed at $t=0$ after being trained with new data because of the forgetting problem. In comparison, our approach is able to reconstruct both previously seen and new data.
+          </h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+
+    <div class="columns is-centered ">
+      <div class="column is-full-width">
+        <h2 class="title is-3 has-text-centered" style="margin-top: 00px">Reconstruction Video</h2>
+        <video poster="" id="ICL-NUIM" autoplay controls muted loop playsinline height="100%">
+          <source src="./resources/ICL_NUIM.mp4"
+                  type="video/mp4">
+        </video>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3" style="margin-top: -30px">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Recent neural implicit representations (NIRs) have achieved great success in the tasks of 3D reconstruction and novel view synthesis. However, they require the images of a scene from different camera views to be available for one-time training. This is expensive, especially for scenarios with large-scale scenes and limited data storage. In view of this, we explore the task of incremental learning for NIRs in this work. We design a student-teacher framework to mitigate the catastrophic forgetting problem. Specifically, we iterate the process of using the student as the teacher at the end of each time step and let the teacher guide the training of the student in the next step. As a result, the student network is able to learn new information from the streaming data and retain old knowledge from the teacher network simultaneously. Although intuitive, naively applying the student-teacher pipeline does not work well in our task. Not all information from the teacher network is helpful since it is only trained with the old data. To alleviate this problem, we further introduce a random inquirer and an uncertainty-based filter to filter useful information. Our proposed method is general and thus can be adapted to different implicit representations such as neural radiance field (NeRF) and neural SDF. Extensive experimental results for both 3D reconstruction and novel view synthesis demonstrate the effectiveness of our approach compared to different baselines.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- 
+<section class="section">
+  <div class="container is-max-desktop">
+
+    
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3" style="margin-top: -20px">Motivation</h2>
+
+        <img src="./resources/teaser.png" class="center">
+        <div class="content has-text-justified">
+          <p style="margin-top: 30px">
+            XXX
+          </p>
+        </div>
+
+      </div>
+    </div>
+   
+
+  </div>
+</section> -->
+
+<!-- <section class="hero is-light is-small">
+  <div class="hero-body">
+    <h2 class="title is-2 has-text-centered" style="margin-top: -30px">Reconstruction and novel view synthesis</h2>
+    <div class="container">
+      
+      <div id="results-carousel" class="carousel results-carousel">
+        <div class="item item-scannet101">
+          <video poster="" id="scannet101" autoplay controls muted loop playsinline height="100%">
+            <source src="./resources/scannet101.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+
+        <div class="item item-scannet241">
+          <video poster="" id="scannet241" autoplay controls muted loop playsinline height="100%">
+            <source src="./resources/scannet241.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+
+        <div class="item item-ICL_NUIM">
+          <video poster="" id="ICL_NUIM" autoplay controls muted loop playsinline height="100%">
+            <source src="./resources/scannet101.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+
+        <div class="item item-truck">
+          <video poster="" id="truck" autoplay controls muted loop playsinline height="100%">
+            <source src="./resources/scannet101.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section> -->
+
+<section class="section">
+  <div class="container is-max-desktop">
+
+    <div class="columns is-centered ">
+      <div class="column is-full-width">
+        <h2 class="title is-3 has-text-centered" style="margin-top: 00px">Framework</h2>
+        <img src="./resources/framework.png" style="transform: scale(1.);" class="center">
+        <div class="content has-text-justified">
+          <p>
+            The overall framework of our proposed student-teacher pipeline. At time step $t$, The student network learns simultaneously from the currently available data $\mathcal{D}^t$ and the previously learned knowledge from the teacher network. The input of the teacher network is generated with the random inquirer. The output is filtered with an uncertainty based filter for useful information selection. $V$ denotes the differentiable volume renderer.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="columns is-centered ">
+      <div class="column is-full-width">
+        <h2 class="title is-3 has-text-centered" style="margin-top: 30px">Results</h2>
+        <img src="./resources/result_sdf.png" style="transform: scale(1.);" class="center">
+        <div class="content has-text-justified">
+          <p>
+            Qualitative comparison on the ICL-NUIM and Replica datasets. Both 'MonoSDF' and 'Ours' models are incrementally trained on the 10-step training datasets. The red boxes are the previously learned views.
+          </p>
+        </div>
+        
+        <img src="./resources/result_nerf.png" style="transform: scale(1.);" class="center">
+        <div class="content has-text-justified">
+          <p>
+            Qualitative comparison on the ScanNet and 360Capture datasets. 'NeRF' and 'Ours' models are incrementally trained on the 10-step training datasets. $\mathcal{D}^0,\mathcal{D}^3,\mathcal{D}^6$ denote the results of previous views from each time step test datasets and $\mathcal{D}^9$ is the results of current views from the latest test dataset.
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+
+    <div class="columns is-centered ">
+      <div class="column is-full-width">
+        <h2 class="title is-3 has-text-centered" style="margin-top: 00px">Novel View Synthesis Video</h2>
+        <h2 class="title is-5 has-text-centered" style="margin-top: 00px">ScanNet101</h2>
+        <div class="content has-text-centered">
+          <video class="video" width="100%" id="xyalias1" loop playsinline autoplay muted src="resources/scannet101.mp4" onplay="resizeAndPlay(this)" style="height: 0px;"></video>
+          <canvas height=0 class="videoMerge" id="xyalias1Merge"></canvas>
+        </div>
+        <!-- <video poster="" id="scannet101" autoplay controls muted loop playsinline height="100%">
+          <source src="./resources/scannet101.mp4"
+                  type="video/mp4">
+        </video> -->
+        
+        <h2 class="title is-5 has-text-centered" style="margin-top: 30px">ScanNet241</h2>
+        <div class="content has-text-centered">
+          <video class="video" width="100%" id="xyalias2" loop playsinline autoplay muted src="resources/scannet241.mp4" onplay="resizeAndPlay(this)" style="height: 0px;"></video>
+          <canvas height=0 class="videoMerge" id="xyalias2Merge"></canvas>
+        </div>
+        <!-- <video poster="" id="scannet241" autoplay controls muted loop playsinline height="100%">
+          <source src="./resources/scannet241.mp4"
+                  type="video/mp4">
+        </video> -->
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- BibTeX. -->
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{Chen2024VCRGauS,
+  author    = {Mengqi, Guo and Li, Chen and Chen, Hanlin and Lee, Gim Hee},
+  title     = {UNIKD: UNcertainty-filtered Incremental Knowledge Distillation for Neural Implicit Representation},
+  journal   = {European Conference on Computer Vision (ECCV)},
+  year      = {2024},
+}</code></pre>
+  </div>
+</section>
+
+<!-- <section class="section" id="Acknowledgements">
+  <div class="container is-max-desktop content">
+    <h2 class="title">Acknowledgements</h2>
+    We thank Christian Reiser for insightful discussions and valuable feedback throughout the project.
+    We also thank Binbin Huang for proofreading. 
+    ZY and AG are supported by the ERC Starting Grant LEGO-3D (850533) and DFG EXC number 2064/1 - project number 390727645.
+    TS is supported by a Czech Science Foundation (GACR) EXPRO grant (UNI-3D, grant no. 23-07973X).
+  </div>
+</section> -->
+
+<section class="section" id="References">
+  <div class="container is-max-desktop content">
+
+        <h3 class="title is-4">References</h3>
+        <div class="content has-text-justified">
+          <ul>
+            <li>
+              <a href="https://niujinshuchong.github.io/monosdf/" target="_blank">
+                MonoSDF: Exploring Monocular Geometric Cues for Neural Implicit Surface Reconstruction</a>
+            </li>
+
+            <li>
+              <a href="https://www.matthewtancik.com/nerf" target="_blank">
+                NeRF: Representing Scenes as Neural Radiance Fields for View Synthesis</a>
+            </li>
+
+            <li>
+              <a href="https://openaccess.thecvf.com/content/ICCV2021/papers/Yan_Continual_Neural_Mapping_Learning_an_Implicit_Scene_Representation_From_Sequential_ICCV_2021_paper.pdf" target="_blank">
+                Continual Neural Mapping: Learning An Implicit Scene Representation from Sequential Observations</a>
+            </li>
+
+          </ul>
+        </div>
+      </div>
+</section>
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+            This webpage template is from <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>. 
+            We sincerely thank <a href="https://keunhong.com/">Keunhong Park</a> for developing and open-sourcing this template. 
+            The video comparison with sliding bar is from <a href="https://dorverbin.github.io/refnerf/">Ref-NeRF</a>. 
+            The image comparison with sliding bar is from <a href="https://research.nvidia.com/labs/dir/neuralangelo/">Neuralangelo</a>. 
+          </p>
+        </div>
+      </div>
+        
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

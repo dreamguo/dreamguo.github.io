@@ -1,6 +1,6 @@
 ---
 layout: archive
-title: "About Myself"
+title: ""
 # permalink: /about/
 permalink: /
 author_profile: true
@@ -10,7 +10,7 @@ redirect_from:
   # - /
 ---
 
-I am currently a Ph.D. candidate in the Computer Vision and Robotic Perception (CVRP) laboratory at <strong>National University of Singapore (NUS)</strong>, supervised by [Prof. Gim Hee Lee](https://www.comp.nus.edu.sg/~leegh/). Before entering NUS, I was an research intern in Computational Cognition, Vision, and Learning (CCVL) laboratory at Johns Hopkins University under [Prof. Alan Yuille](https://www.cs.jhu.edu/~ayuille/). I recived my B.S. degree in Computer Science and Technology from [ShenYuan Honors College at Beihang University](https://hc.buaa.edu.cn/) in 2021, advised by [Prof. Si Liu](https://colalab.net/people). My research interests lie in 3D computer vision, especially in sequential 3D reconstruction and generation.
+I am currently a Ph.D. candidate in the Computer Vision and Robotic Perception (CVRP) laboratory at <strong>National University of Singapore (NUS)</strong>, supervised by [Prof. Gim Hee Lee](https://www.comp.nus.edu.sg/~leegh/). Before entering NUS, I was an research intern in Computational Cognition, Vision, and Learning (CCVL) laboratory at Johns Hopkins University under [Prof. Alan Yuille](https://www.cs.jhu.edu/~ayuille/). I recived my B.S. degree in Computer Science and Technology from ShenYuan Honors College at [Beihang University](https://ev.buaa.edu.cn/) in 2021, advised by [Prof. Si Liu](https://colalab.net/people). My research interests lie in 3D computer vision, especially in sequential 3D reconstruction and generation.
 
 
 News
@@ -70,18 +70,57 @@ Featured Works
 
 
 <div style="display: flex; align-items: center; margin-bottom: 40px;">
+  <img src="images/TreeSBA.gif" alt="TreeSBA: Tree-Transformer for Self-Supervised Sequential Brick Assembly" style="width: 350px; height: auto; margin-right: 20px;">
+
+  <div>
+    <h3 style="margin: 0;"><a href="https://dreamguo.github.io/" style="text-decoration: none;">TreeSBA: Tree-Transformer for Self-Supervised Sequential Brick Assembly</a></h3>
+    <p style="margin: 5px 0;">
+      <strong>Mengqi Guo*</strong>,
+      <a href="https://chaneyddtt.github.io/">Chen Li*</a>,
+      <a href="https://yuyangzhao.com/">Yuyang Zhao</a>,
+      <a href="https://www.comp.nus.edu.sg/~leegh/">Gim Hee Lee</a>
+      <br>
+      ECCV, 2024<br>
+      <a href="projects/TreeSBA/" style="text-decoration: none;">[Project Page]</a>
+      <a href="" style="text-decoration: none;">[PDF]</a>
+      <a href="" style="text-decoration: none;">[Code]</a>
+    </p>
+  </div>
+</div>
+
+<div style="display: flex; align-items: center; margin-bottom: 40px;">
+  <img src="images/UNIKD.gif" alt="UNIKD: UNcertainty-Filtered Incremental Knowledge Distillation for Neural Implicit Representation" style="width: 350px; height: auto; margin-right: 20px;">
+
+  <div>
+    <h3 style="margin: 0;"><a href="https://dreamguo.github.io/" style="text-decoration: none;">UNIKD: UNcertainty-Filtered Incremental Knowledge Distillation for Neural Implicit Representation</a></h3>
+    <p style="margin: 5px 0;">
+      <strong>Mengqi Guo*</strong>,
+      <a href="https://chaneyddtt.github.io/">Chen Li*</a>,
+      <a href="https://hlinchen.github.io/">Hanlin Chen</a>,
+      <a href="https://www.comp.nus.edu.sg/~leegh/">Gim Hee Lee</a>
+      <br>
+      ECCV, 2024<br>
+      <a href="projects/UNIKD/" style="text-decoration: none;">[Project Page]</a>
+      <a href="" style="text-decoration: none;">[PDF]</a>
+      <a href="" style="text-decoration: none;">[Code]</a>
+    </p>
+  </div>
+</div>
+
+<div style="display: flex; align-items: center; margin-bottom: 40px;">
   <img src="images/GNeSF.jpg" alt="GNeSF: Generalizable Neural Semantic Fields" style="width: 350px; height: auto; margin-right: 20px;">
 
   <div>
     <h3 style="margin: 0;"><a href="https://arxiv.org/pdf/2310.15712.pdf" style="text-decoration: none;">GNeSF: Generalizable Neural Semantic Fields</a></h3>
     <p style="margin: 5px 0;">
-      <a href="https://hlinchen.github.io/hlchen/">Hanlin Chen</a>,
+      <a href="https://hlinchen.github.io/">Hanlin Chen</a>,
       <a href="https://chaneyddtt.github.io/">Chen Li</a>,
       <strong>Mengqi Guo</strong>,
       <a href="https://jokeryan.github.io/about/">Zhiwen Yan</a>,
       <a href="https://www.comp.nus.edu.sg/~leegh/">Gim Hee Lee</a>
       <br>
       NeurIPS, 2023<br>
+      <a href="https://dreamguo.github.io/projects/VCR-GauS/" style="text-decoration: none;">[Project Page]</a>
       <a href="https://arxiv.org/pdf/2310.15712.pdf" style="text-decoration: none;">[PDF]</a>
       <a href="https://github.com/HLinChen/GNeSF" style="text-decoration: none;">[Code]</a>
     </p>

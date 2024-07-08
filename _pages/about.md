@@ -29,7 +29,7 @@ News
 </style>
 
 <div class="news-container">
-  <p>🚀 <span style="color: red;">[07.2024] Three papers <a href="https://dreamguo.github.io/">UNIKD</a> <a href="https://dreamguo.github.io/">TreeSBA</a> <a href="https://dreamguo.github.io/">URS-NeRF</a> are accepted at ECCV 2024!!</span></p>
+  <p>🚀 <span style="color: red;">[07.2024] Three papers <a href="projects/UNIKD/">UNIKD</a> <a href="projects/TreeSBA/">TreeSBA</a> <a href="">URS-NeRF</a> are accepted at ECCV 2024!!</span></p>
   <p>🚀 [03.2024] One paper <a href="https://arxiv.org/pdf/2310.15712.pdf">GNeSF</a> is accepted at NeurIPS 2023!</p>
   <p>🚀 [06.2023] One paper <a href="https://www.sciencedirect.com/science/article/pii/S1361841523000312">HeiChole</a> is accepted at Medical Image Analysis 2023!</p>
   <p>🚀 [06.2022] One paper <a href="https://arxiv.org/pdf/2103.14098">CGPart</a> is accepted at CVPR 2022 (oral)!</p>
@@ -73,7 +73,7 @@ Featured Works
   <img src="images/TreeSBA.gif" alt="TreeSBA: Tree-Transformer for Self-Supervised Sequential Brick Assembly" style="width: 350px; height: auto; margin-right: 20px;">
 
   <div>
-    <h3 style="margin: 0;"><a href="https://dreamguo.github.io/" style="text-decoration: none;">TreeSBA: Tree-Transformer for Self-Supervised Sequential Brick Assembly</a></h3>
+    <h3 style="margin: 0;"><a href="projects/TreeSBA/" style="text-decoration: none;">TreeSBA: Tree-Transformer for Self-Supervised Sequential Brick Assembly</a></h3>
     <p style="margin: 5px 0;">
       <strong>Mengqi Guo*</strong>,
       <a href="https://chaneyddtt.github.io/">Chen Li*</a>,
@@ -82,8 +82,8 @@ Featured Works
       <br>
       ECCV, 2024<br>
       <a href="projects/TreeSBA/" style="text-decoration: none;">[Project Page]</a>
-      <a href="" style="text-decoration: none;">[PDF]</a>
-      <a href="" style="text-decoration: none;">[Code]</a>
+      <!-- <a href="" style="text-decoration: none;">[PDF]</a>
+      <a href="" style="text-decoration: none;">[Code]</a> -->
     </p>
   </div>
 </div>
@@ -92,7 +92,7 @@ Featured Works
   <img src="images/UNIKD.gif" alt="UNIKD: UNcertainty-Filtered Incremental Knowledge Distillation for Neural Implicit Representation" style="width: 350px; height: auto; margin-right: 20px;">
 
   <div>
-    <h3 style="margin: 0;"><a href="https://dreamguo.github.io/" style="text-decoration: none;">UNIKD: UNcertainty-Filtered Incremental Knowledge Distillation for Neural Implicit Representation</a></h3>
+    <h3 style="margin: 0;"><a href="projects/UNIKD/" style="text-decoration: none;">UNIKD: UNcertainty-Filtered Incremental Knowledge Distillation for Neural Implicit Representation</a></h3>
     <p style="margin: 5px 0;">
       <strong>Mengqi Guo*</strong>,
       <a href="https://chaneyddtt.github.io/">Chen Li*</a>,
@@ -101,8 +101,8 @@ Featured Works
       <br>
       ECCV, 2024<br>
       <a href="projects/UNIKD/" style="text-decoration: none;">[Project Page]</a>
-      <a href="" style="text-decoration: none;">[PDF]</a>
-      <a href="" style="text-decoration: none;">[Code]</a>
+      <!-- <a href="" style="text-decoration: none;">[PDF]</a>
+      <a href="" style="text-decoration: none;">[Code]</a> -->
     </p>
   </div>
 </div>
@@ -120,7 +120,7 @@ Featured Works
       <a href="https://www.comp.nus.edu.sg/~leegh/">Gim Hee Lee</a>
       <br>
       NeurIPS, 2023<br>
-      <a href="https://dreamguo.github.io/projects/VCR-GauS/" style="text-decoration: none;">[Project Page]</a>
+      <a href="https://hlinchen.github.io/projects/VCR-GauS/" style="text-decoration: none;">[Project Page]</a>
       <a href="https://arxiv.org/pdf/2310.15712.pdf" style="text-decoration: none;">[PDF]</a>
       <a href="https://github.com/HLinChen/GNeSF" style="text-decoration: none;">[Code]</a>
     </p>

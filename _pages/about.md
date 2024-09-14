@@ -85,7 +85,7 @@ Featured Works
       <br>
       <a href="projects/UNIKD/" style="text-decoration: none;">[Project Page]</a>
       <a href="https://arxiv.org/pdf/2212.10950" style="text-decoration: none;">[PDF]</a>
-      <a href="" style="text-decoration: none;">[Code (Coming soon)]</a>
+      <a href="https://github.com/dreamguo/UNIKD" style="text-decoration: none;">[Code]</a>
     </p>
   </div>
 </div>

@@ -105,7 +105,7 @@ Featured Works
       <br>
       <a href="projects/TreeSBA/" style="text-decoration: none;">[Project Page]</a>
       <a href="https://arxiv.org/pdf/2407.15648" style="text-decoration: none;">[PDF]</a>
-      <a href="" style="text-decoration: none;">[Code (Coming soon)]</a>
+      <a href="https://github.com/dreamguo/TreeSBA/" style="text-decoration: none;">[Code]</a>
     </p>
   </div>
 </div>
@@ -126,7 +126,7 @@ Featured Works
       <br>
       <a href="https://boxuLibrary.github.io/projects/URS-NeRF/" style="text-decoration: none;">[Project Page]</a>
       <a href="https://arxiv.org/pdf/2403.10119" style="text-decoration: none;">[PDF]</a>
-      <a href="" style="text-decoration: none;">[Code (Coming soon)]</a>
+      <a href="https://boxuLibrary.github.io/projects/URS-NeRF/" style="text-decoration: none;">[Code]</a>
     </p>
   </div>
 </div>

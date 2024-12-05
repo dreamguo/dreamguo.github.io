@@ -45,7 +45,7 @@ Institution: National University of Singapore
 
 <!-- **Address**: Room 1126, New Main Building #E, XueYuan Road No.37, Beihang University, 100191 -->
 
-E-mail: [mengqi.guo@u.nus.edu](mailto:mengqi.guo@u.nus.edu) or [im.guomengqi@gmai.com](mailto:im.guomengqi@gmai.com) 
+E-mail: [mengqi.guo@u.nus.edu](mailto:mengqi.guo@u.nus.edu) or [im.guomengqi@gmail.com](mailto:im.guomengqi@gmail.com) 
 
 
 <!-- Publications

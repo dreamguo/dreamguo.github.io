@@ -187,10 +187,6 @@ Other Publications / Preprints
 
 - Martin Wagner, …, **Mengqi Guo**, …, Sebastian Bodenstedt. [Comparative validation of machine learning algorithms for surgical workflow and skill analysis with the heichole benchmark](https://www.sciencedirect.com/science/article/pii/S1361841523000312). Medical Image Analysis (MedIA), 2023 [[Dataset](https://endovissub-workflowandskill.grand-challenge.org/)]
 
-Professional Service
-------
-Conference Reviewer: CVPR, ICCV, NeurIPS, ACM MM
-
 Awards
 ------
 - Research Achievement Award, National University of Singapore, 2024
@@ -198,6 +194,10 @@ Awards
 - Research Scholarship, National University of Singapore, 2021
 
 - Awarded Outstanding Graduate, Beihang University, 2021
+
+Professional Service
+------
+Conference Reviewer: CVPR, ICCV, NeurIPS, ACM MM
 
 <div style="width: 100px; height: 100px; display: block; align-items: center; margin-top: 40px; margin-bottom: 40px;">
   <script type="text/javascript" id="clstr_globe" src="//clustrmaps.com/globe.js?d=76q_kvp9C9IdUxxL6culGaZYcQGVaYsIH-LMQGUf1uU =10x10"></script>

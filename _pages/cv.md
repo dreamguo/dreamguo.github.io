@@ -11,7 +11,7 @@ redirect_from:
 
 Education
 ======
-* Ph.D in Computer Science, National University of Singapore, 2025 (expected)
+* Ph.D in Computer Science, National University of Singapore, 2025
 * B.S. in Computer Science and Technology, Beihang University, 2021
 
 <!-- Work experience

@@ -30,7 +30,7 @@ News
 </style>
 
 <div class="news-container">
-  <p>🚀 <span style="color: red;">[07.2024] Three papers <a href="projects/UNIKD/">UNIKD</a> <a href="projects/TreeSBA/">TreeSBA</a> <a href="https://boxuLibrary.github.io/projects/URS-NeRF/">URS-NeRF</a> are accepted at ECCV 2024!!</span></p>
+  <p>🚀 [07.2024] Three papers <a href="projects/UNIKD/">UNIKD</a> <a href="projects/TreeSBA/">TreeSBA</a> <a href="https://boxuLibrary.github.io/projects/URS-NeRF/">URS-NeRF</a> are accepted at ECCV 2024!!</p>
   <p>🚀 [03.2024] One paper <a href="https://arxiv.org/pdf/2310.15712.pdf">GNeSF</a> is accepted at NeurIPS 2023!</p>
   <p>🚀 [06.2023] One paper <a href="https://www.sciencedirect.com/science/article/pii/S1361841523000312">HeiChole</a> is accepted at Medical Image Analysis 2023!</p>
   <p>🚀 [06.2022] One paper <a href="https://arxiv.org/pdf/2103.14098">CGPart</a> is accepted at CVPR 2022 (oral)!</p>
@@ -81,7 +81,8 @@ Featured Works
       <a href="https://hlinchen.github.io/">Hanlin Chen</a>,
       <a href="https://www.comp.nus.edu.sg/~leegh/">Gim Hee Lee</a>
       <br>
-      <span style="color: red;">ECCV, 2024</span>
+      ECCV, 2024
+      <!-- <span style="color: red;">ECCV, 2024</span> -->
       <br>
       <a href="projects/UNIKD/" style="text-decoration: none;">[Project Page]</a>
       <a href="https://arxiv.org/pdf/2212.10950" style="text-decoration: none;">[PDF]</a>
@@ -101,7 +102,8 @@ Featured Works
       <a href="https://yuyangzhao.com/">Yuyang Zhao</a>,
       <a href="https://www.comp.nus.edu.sg/~leegh/">Gim Hee Lee</a>
       <br>
-      <span style="color: red;">ECCV, 2024</span>
+      ECCV, 2024
+      <!-- <span style="color: red;">ECCV, 2024</span> -->
       <br>
       <a href="projects/TreeSBA/" style="text-decoration: none;">[Project Page]</a>
       <a href="https://arxiv.org/pdf/2407.15648" style="text-decoration: none;">[PDF]</a>
@@ -122,7 +124,8 @@ Featured Works
       <a href="">Jiancheng Li</a>,
       <a href="https://www.comp.nus.edu.sg/~leegh/">Gim Hee Lee</a>
       <br>
-      <span style="color: red;">ECCV, 2024</span>
+      ECCV, 2024
+      <!-- <span style="color: red;">ECCV, 2024</span> -->
       <br>
       <a href="https://boxuLibrary.github.io/projects/URS-NeRF/" style="text-decoration: none;">[Project Page]</a>
       <a href="https://arxiv.org/pdf/2403.10119" style="text-decoration: none;">[PDF]</a>

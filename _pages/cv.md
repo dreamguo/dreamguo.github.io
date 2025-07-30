@@ -11,8 +11,8 @@ redirect_from:
 
 Education
 ======
-* Ph.D in Computer Science, National University of Singapore, 2025
-* B.S. in Computer Science and Technology, Beihang University, 2021
+* Ph.D in Computer Science, National University of Singapore, 2021 - 2025
+* B.S. in Computer Science and Technology, Beihang University, 2017 - 2021
 
 <!-- Work experience
 ======
@@ -32,7 +32,8 @@ Skills
 * Programming Languages:
   * Python
   * C/C++
-  * matlab
+  * Java
+  * MATLAB
 
 * Technologies and Frameworks:
   * Pytorch

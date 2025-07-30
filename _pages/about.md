@@ -193,9 +193,11 @@ Conference Reviewer: CVPR, ICCV, NeurIPS, ACM MM
 
 Awards
 ------
-Research Achievement Award, National University of Singapore, 2024
-Research Scholarship, National University of Singapore, 2021
-Awarded Outstanding Graduate, Beihang University, 2021
+- Research Achievement Award, National University of Singapore, 2024
+
+- Research Scholarship, National University of Singapore, 2021
+
+- Awarded Outstanding Graduate, Beihang University, 2021
 
 <div style="width: 100px; height: 100px; display: block; align-items: center; margin-top: 40px; margin-bottom: 40px;">
   <script type="text/javascript" id="clstr_globe" src="//clustrmaps.com/globe.js?d=76q_kvp9C9IdUxxL6culGaZYcQGVaYsIH-LMQGUf1uU =10x10"></script>

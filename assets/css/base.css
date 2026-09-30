@@ -257,34 +257,19 @@ main:focus {
   }
 }
 
-/* pulsing "live" dot */
+/* status dot: static (no ping ring) in both themes; soft glow in light, the single accent hue in dark */
 .dot-live {
-  position: relative;
   display: inline-block;
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: var(--ok);
+}
+:root[data-theme="light"] .dot-live {
   box-shadow: 0 0 10px var(--ok);
 }
-.dot-live::after {
-  content: "";
-  position: absolute;
-  inset: -4px;
-  border-radius: 50%;
-  border: 1px solid var(--ok);
-  opacity: 0;
-  animation: dot-ping 2.2s var(--ease-out) infinite;
-}
-@keyframes dot-ping {
-  0% {
-    transform: scale(0.4);
-    opacity: 0.9;
-  }
-  100% {
-    transform: scale(1.6);
-    opacity: 0;
-  }
+:root:not([data-theme="light"]) .dot-live {
+  background: var(--accent);
 }
 
 /* --------------------------------------------------------------------------
@@ -368,6 +353,11 @@ main:focus {
   .btn--primary:hover {
     box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.18) inset, 0 16px 42px -10px rgba(var(--accent-rgb), 0.85);
   }
+}
+/* dark: flat accent fill, dark text, no halo (light keeps its soft shadow) */
+:root:not([data-theme="light"]) .btn--primary,
+:root:not([data-theme="light"]) .btn--primary:hover {
+  box-shadow: none;
 }
 
 .btn--ghost {
@@ -500,6 +490,10 @@ main:focus {
 .badge--award {
   --badge: var(--accent-3-rgb);
 }
+/* dark: softer outline (text stays the full venue hue: >= 4.5:1 on its 12% tint, also under the hover spotlight) */
+:root:not([data-theme="light"]) .badge {
+  border-color: rgba(var(--badge), 0.36);
+}
 /* light theme: pull the text ink toward --text so any hue clears 4.5:1 on its own 12% tint (fills/borders keep the hue) */
 @supports (color: color-mix(in srgb, red, blue)) {
   :root[data-theme="light"] .badge {
@@ -560,6 +554,10 @@ main:focus {
   background: radial-gradient(460px circle at var(--mx, 50%) var(--my, 0%), rgba(var(--accent-rgb), 0.11), transparent 62%);
   transition: opacity var(--dur-2);
 }
+/* dark: the hover spotlight is a whisper, not a coloured glow */
+:root:not([data-theme="light"]) .panel::before {
+  background: radial-gradient(460px circle at var(--mx, 50%) var(--my, 0%), rgba(var(--accent-rgb), 0.055), transparent 62%);
+}
 @media (hover: hover) and (pointer: fine) {
   .panel:hover {
     border-color: var(--line-strong);
@@ -591,6 +589,15 @@ main:focus {
   .ticks:hover::after {
     opacity: 0.95;
     inset: 6px;
+  }
+}
+/* dark: quieter viewfinder marks */
+:root:not([data-theme="light"]) .ticks::after {
+  opacity: 0.32;
+}
+@media (hover: hover) and (pointer: fine) {
+  :root:not([data-theme="light"]) .ticks:hover::after {
+    opacity: 0.6;
   }
 }
 
@@ -643,10 +650,10 @@ main:focus {
    -------------------------------------------------------------------------- */
 html.js.fx-ready .reveal {
   opacity: 0;
-  transform: translate3d(0, 22px, 0);
-  transition: opacity 0.8s var(--ease-out), transform 0.9s var(--ease-out);
+  transform: translate3d(0, 12px, 0);
+  transition: opacity var(--dur-3) var(--ease-out), transform var(--dur-3) var(--ease-out);
   transition-delay: calc(var(--i, 0) * 70ms); /* fallback: engines without min() */
-  transition-delay: calc(min(var(--i, 0), 6) * 70ms); /* a wave, not a queue: the late items of a long list start at most ~0.4 s late */
+  transition-delay: calc(min(var(--i, 0), 4) * 70ms); /* a wave, not a queue: the late items of a long list start at most ~0.28 s late */
   will-change: opacity, transform;
 }
 html.js.fx-ready .reveal.is-in {
@@ -719,8 +726,7 @@ html.motion-off.js.fx-ready .reveal {
   transform: none !important;
   filter: none !important;
 }
-html.motion-off .caret,
-html.motion-off .dot-live::after {
+html.motion-off .caret {
   animation: none !important;
 }
 

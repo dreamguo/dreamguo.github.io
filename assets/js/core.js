@@ -347,7 +347,7 @@
   var phrasing = (function () {
     var ROOTS = '#about-body, #news-body, #research-body, #journey-body, #recognition-body, #contact-body, #site-footer, .section-head, .hero__hiring-text';
     var PROSE = 'p, li, dd, figcaption, .section-head__kicker';
-    var SKIP = 'code, pre, textarea, [data-scramble], [data-nophrase], .hero__lede';
+    var SKIP = 'code, pre, textarea, [data-nophrase], .hero__lede';
     var CJK = /[\u3400-\u9fff\uf900-\ufaff]{2}/;
     var OPENER = /[（「『“‘《〈【〔［(]+$/;
     var SINGLE = /[\u3400-\u9fff\uf900-\ufaff]/;

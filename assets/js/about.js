@@ -1,6 +1,6 @@
 /* ==========================================================================
    about.js — ABOUT section (#about-body).
-   Left : viewfinder portrait + terminal-style "spec sheet".
+   Left : framed portrait + "Profile" spec sheet.
    Right: bio paragraphs + the four research-thrust cards (with paper chips).
    The portrait element is built once and re-used across language switches so
    the image never re-downloads or flickers.
@@ -14,7 +14,7 @@
   var h = S.h;
 
   S.addStrings({
-    'about.spec': { en: 'profile.spec', zh: '个人档案' },
+    'about.spec': { en: 'Profile', zh: '个人档案' },
     'about.thrusts': { en: 'Research thrusts', zh: '研究方向' },
     'about.now': { en: 'Current', zh: '现在' },
     'about.papers': { en: 'Papers', zh: '相关论文' },
@@ -23,7 +23,7 @@
   });
 
   var root = null;
-  var portrait = null; // cached { wrap, photo, img, tagLoc, tagCoords }
+  var portrait = null; // cached { wrap, photo, img, cap }
 
   /* ------------------------------------------------------------- helpers */
   function goPaper(id) {
@@ -93,16 +93,17 @@
       frame.classList.add('is-fallback');
     }
 
+    // dark: one quiet caption. light: the viewfinder chrome (REC badge, place + coordinates tags, scan sweep); CSS picks per theme
+    var cap = h('span', { class: 'about__cap', 'aria-hidden': 'true' });
     var tagLoc = h('span', { class: 'about__tag about__tag--tr' });
     var tagCoords = h('span', { class: 'about__tag about__tag--bl' });
     frame.appendChild(h('div', { class: 'about__tone', 'aria-hidden': 'true' }));
     frame.appendChild(h('div', { class: 'about__scan', 'aria-hidden': 'true' }));
     frame.appendChild(h('div', { class: 'about__focus', 'aria-hidden': 'true' }));
-    frame.appendChild(
-      h('span', { class: 'about__tag about__tag--tl', 'aria-hidden': 'true' }, h('i', { class: 'about__rec' }), 'REC')
-    );
+    frame.appendChild(h('span', { class: 'about__tag about__tag--tl', 'aria-hidden': 'true' }, h('i', { class: 'about__rec' }), 'REC'));
     frame.appendChild(tagLoc);
     frame.appendChild(tagCoords);
+    frame.appendChild(cap);
 
     box.appendChild(frame);
     wrap.appendChild(box);
@@ -121,15 +122,17 @@
       wrap.classList.add('is-live');
     }
 
-    portrait = { wrap: wrap, photo: frame, img: img, tagLoc: tagLoc, tagCoords: tagCoords };
+    portrait = { wrap: wrap, photo: frame, img: img, cap: cap, tagLoc: tagLoc, tagCoords: tagCoords };
   }
 
   function refreshPortrait(about) {
     if (!portrait) return;
-    var meta = D.meta || {};
     var photo = about.photo || {};
     if (portrait.img) portrait.img.setAttribute('alt', S.t(photo.alt));
-    // the caption describes where the PHOTO was taken (Athens), not the home city
+    // one quiet caption: where the PHOTO was taken (Athens) + its coordinates, never the home city
+    var text = [S.t(photo.place), photo.coords].filter(Boolean).join(' · ');
+    portrait.cap.textContent = text;
+    portrait.cap.hidden = !text;
     portrait.tagLoc.textContent = S.t(photo.place);
     portrait.tagLoc.hidden = !photo.place;
     portrait.tagCoords.textContent = photo.coords || '';
@@ -156,12 +159,7 @@
       h(
         'div',
         { class: 'about__specs panel' },
-        h(
-          'div',
-          { class: 'about__specs-head' },
-          h('span', { class: 'about__lights', 'aria-hidden': 'true' }, h('i'), h('i'), h('i')),
-          h('span', { class: 'about__specs-title mono' }, h('span', { class: 'about__prompt', 'aria-hidden': 'true' }, '›'), S.ui('about.spec'))
-        ),
+        h('div', { class: 'about__specs-head' }, h('h3', { class: 'about__specs-title' }, S.ui('about.spec'))),
         h('dl', { class: 'about__specs-list' }, rows)
       )
     );
@@ -256,8 +254,7 @@
           'div',
           { class: 'about__thrust-since' },
           h('span', { class: 'about__thrust-label about__since-label mono' }, S.ui('about.since')),
-          h('span', { class: 'about__since-period mono' }, period),
-          h('span', { class: 'caret', 'aria-hidden': 'true' })
+          h('span', { class: 'about__since-period mono' }, period)
         );
       }
     }

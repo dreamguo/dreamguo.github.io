@@ -9,7 +9,8 @@
    • One shared requestAnimationFrame loop for every mounted canvas, throttled to
      ~30 fps, and only ticking canvases that are on screen (IntersectionObserver).
    • Reduced motion → a single static frame; colors are re-read on theme change.
-   • Colors come from the CSS tokens (--accent, --accent-2, --accent-3, --bg-*).
+   • Colors come from the CSS tokens (--accent, --accent-2, --accent-3, --text, --bg-*). Dark theme is calm: the soft
+     accent plus neutral near-white only (no violet / amber) at about 78 % brightness; light keeps its token hues.
    ========================================================================== */
 (function () {
   'use strict';
@@ -58,7 +59,9 @@
   function mix(a, b, t) {
     return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t];
   }
-  function rgba(c, a) {
+  var dim = 1; // overall brightness of the drawing (< 1 in the calm dark theme); set by readPalette()
+  function rgba(c, a, full) {
+    if (!full) a *= dim;
     return 'rgba(' + (c[0] | 0) + ',' + (c[1] | 0) + ',' + (c[2] | 0) + ',' + (a < 0 ? 0 : a > 1 ? 1 : a).toFixed(3) + ')';
   }
   function rgb(c) {
@@ -101,12 +104,23 @@
     var bg = parseColor(g('--bg')) || [6, 8, 12];
     var lum = (0.2126 * bg[0] + 0.7152 * bg[1] + 0.0722 * bg[2]) / 255;
     var mono = String(g('--font-mono') || '').trim();
+    var dark = lum < 0.5;
+    var a = triplet(g('--accent-rgb'), [117, 188, 209]);
+    var b = triplet(g('--accent-2-rgb'), [173, 162, 226]);
+    var c = triplet(g('--accent-3-rgb'), [207, 168, 110]);
+    if (dark) {
+      /* calm dark: accent + neutral only. The second gradient stop and the moving object become cool near-white. */
+      var ink = parseColor(g('--text')) || [233, 239, 248];
+      b = mix(ink, a, 0.22);
+      c = mix(ink, a, 0.08);
+    }
+    dim = dark ? 0.78 : 1;
     return {
       ver: ++palVer,
-      dark: lum < 0.5,
-      a: triplet(g('--accent-rgb'), [84, 230, 255]),
-      b: triplet(g('--accent-2-rgb'), [143, 123, 255]),
-      c: triplet(g('--accent-3-rgb'), [255, 180, 84]),
+      dark: dark,
+      a: a,
+      b: b,
+      c: c,
       bg0: parseColor(g('--bg-elev')) || bg,
       bg1: parseColor(g('--bg-sunk')) || bg,
       line: parseColor(g('--line-strong')) || [150, 185, 230],
@@ -143,7 +157,7 @@
     if (!sprites || sprites.ver !== p.ver) {
       var list = [];
       for (var i = 0; i < SN; i++) list.push(makeSprite(mix(p.a, p.b, i / (SN - 1))));
-      sprites = { ver: p.ver, list: list, amber: makeSprite(p.c) };
+      sprites = { ver: p.ver, list: list, hot: makeSprite(p.c) };
     }
     return sprites;
   }
@@ -162,7 +176,7 @@
     ctx.fillStyle = r;
     ctx.fillRect(0, 0, w, h);
     var r2 = ctx.createRadialGradient(w * 0.88, h * 0.12, 0, w * 0.88, h * 0.12, rad * 0.8);
-    r2.addColorStop(0, rgba(p.b, p.dark ? 0.12 : 0.08));
+    r2.addColorStop(0, rgba(p.b, p.dark ? 0.05 : 0.08));
     r2.addColorStop(1, rgba(p.b, 0));
     ctx.fillStyle = r2;
     ctx.fillRect(0, 0, w, h);
@@ -174,13 +188,13 @@
     ctx.globalAlpha = 1;
     ctx.font = '500 10px ' + p.mono;
     ctx.textBaseline = 'alphabetic';
-    ctx.fillStyle = rgba(p.text3, 0.95);
+    ctx.fillStyle = rgba(p.text3, 0.95, true);
     ctx.fillText(text, 26, 28);
   }
 
   /* ========================================================================
      Scene: spacetime — a dynamic scene, drawn as time-colored point tracks
-     over a perspective ground grid, with an amber object moving through it.
+     over a perspective ground grid, with a highlighted object moving through it.
      ======================================================================== */
   var scenes = {};
 
@@ -383,7 +397,7 @@
       }
       ctx.globalAlpha = 1;
 
-      /* the amber moving object: trail, ground shadow, drop line, wireframe cube */
+      /* the moving object (--accent-3 in light, near-white in dark): trail, ground shadow, drop line, wireframe cube */
       var ppx = 0,
         ppy = 0,
         o2 = { x: 0, y: 0, z: 0 };
@@ -412,7 +426,7 @@
       ctx.translate(shx, shy);
       ctx.scale(1, 0.34);
       ctx.globalAlpha = dark ? 0.55 : 0.4;
-      ctx.drawImage(spr.amber, -sr, -sr, sr * 2, sr * 2);
+      ctx.drawImage(spr.hot, -sr, -sr, sr * 2, sr * 2);
       ctx.restore();
       ctx.globalAlpha = 1;
 
@@ -450,7 +464,7 @@
       ctx.globalCompositeOperation = dark ? 'lighter' : 'source-over';
       var gr = ok * 0.95;
       ctx.globalAlpha = dark ? 0.9 : 0.55;
-      ctx.drawImage(spr.amber, ocx - gr, ocy - gr, gr * 2, gr * 2);
+      ctx.drawImage(spr.hot, ocx - gr, ocy - gr, gr * 2, gr * 2);
       ctx.globalAlpha = 1;
       ctx.globalCompositeOperation = 'source-over';
       ctx.strokeStyle = rgba(p.c, 0.95);
@@ -673,7 +687,7 @@
           r2 = 3 * eb[i];
         ctx.setTransform(r1 * ca2 * dpr, r1 * sa2 * dpr, -r2 * sa2 * dpr, r2 * ca2 * dpr, sx * dpr, sy * dpr);
         ctx.globalAlpha = al > 1 ? 1 : al;
-        ctx.drawImage(amb[i] ? spr.amber : spr.list[Math.round(col[i] * (SN - 1))], -1, -1, 2, 2);
+        ctx.drawImage(amb[i] ? spr.hot : spr.list[Math.round(col[i] * (SN - 1))], -1, -1, 2, 2);
       }
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.globalAlpha = 1;

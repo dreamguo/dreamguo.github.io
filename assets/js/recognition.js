@@ -209,7 +209,7 @@
           return h('li', { class: 'badge recog__venue ' + venueClass(name) }, name);
         })
       ),
-      h('p', { class: 'recog__foot mono' }, h('span', { 'aria-hidden': 'true' }, '› '), S.fmt(S.ui('recog.service.n'), { n: sv0.items.length })),
+      h('p', { class: 'recog__foot' }, S.fmt(S.ui('recog.service.n'), { n: sv0.items.length })),
     ];
     return block('service', 'eye', S.t(sv0.title), null, body);
   }
@@ -219,23 +219,22 @@
     var groups = Array.isArray(D.skills) ? D.skills : [];
     if (!groups.length) return null;
     var body = [
-      h('p', { class: 'recog__prompt mono', 'aria-hidden': 'true' }, h('span', null, '$'), ' ls ~/skills', h('span', { class: 'caret' })),
       groups.map(function (g) {
         return h(
           'div',
           { class: 'recog__skillgroup' },
-          h('h4', { class: 'recog__skill-label eyebrow' }, S.t(g.group)),
+          h('h4', { class: 'recog__skill-label' }, S.t(g.group)),
           h(
             'ul',
             { class: 'recog__pills list-reset', role: 'list' },
             (g.items || []).map(function (it) {
-              return h('li', { class: 'recog__pill mono' }, it);
+              return h('li', { class: 'recog__pill' }, it);
             })
           )
         );
       }),
     ];
-    return block('skills', 'terminal', S.ui('recog.skills'), null, body);
+    return block('skills', 'code', S.ui('recog.skills'), null, body);
   }
 
   /* ------------------------------------------------------------------- pubs */
@@ -309,7 +308,7 @@
     var foot = h(
       'div',
       { class: 'recog__chart-foot' },
-      h('p', { class: 'recog__hint mono' }, h('span', { 'aria-hidden': 'true' }, '› '), S.ui(S.coarse ? 'recog.pubs.hint.tap' : 'recog.pubs.hint')),
+      h('p', { class: 'recog__hint' }, S.ui(S.coarse ? 'recog.pubs.hint.tap' : 'recog.pubs.hint')),
       h(
         'a',
         { class: 'btn btn--ghost btn--sm', href: '#research' },

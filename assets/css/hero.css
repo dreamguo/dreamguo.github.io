@@ -43,16 +43,17 @@
   z-index: 0;
   pointer-events: none;
   inset: calc(var(--nav-h) + 14px) clamp(10px, 1.6vw, 22px) clamp(10px, 1.6vw, 22px);
+  --vf: var(--accent);
   opacity: 0.4;
   background:
-    linear-gradient(var(--accent), var(--accent)) top left / 22px 1px no-repeat,
-    linear-gradient(var(--accent), var(--accent)) top left / 1px 22px no-repeat,
-    linear-gradient(var(--accent), var(--accent)) top right / 22px 1px no-repeat,
-    linear-gradient(var(--accent), var(--accent)) top right / 1px 22px no-repeat,
-    linear-gradient(var(--accent), var(--accent)) bottom left / 22px 1px no-repeat,
-    linear-gradient(var(--accent), var(--accent)) bottom left / 1px 22px no-repeat,
-    linear-gradient(var(--accent), var(--accent)) bottom right / 22px 1px no-repeat,
-    linear-gradient(var(--accent), var(--accent)) bottom right / 1px 22px no-repeat;
+    linear-gradient(var(--vf), var(--vf)) top left / 22px 1px no-repeat,
+    linear-gradient(var(--vf), var(--vf)) top left / 1px 22px no-repeat,
+    linear-gradient(var(--vf), var(--vf)) top right / 22px 1px no-repeat,
+    linear-gradient(var(--vf), var(--vf)) top right / 1px 22px no-repeat,
+    linear-gradient(var(--vf), var(--vf)) bottom left / 22px 1px no-repeat,
+    linear-gradient(var(--vf), var(--vf)) bottom left / 1px 22px no-repeat,
+    linear-gradient(var(--vf), var(--vf)) bottom right / 22px 1px no-repeat,
+    linear-gradient(var(--vf), var(--vf)) bottom right / 1px 22px no-repeat;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -280,6 +281,9 @@ html.is-orbiting * {
   color: var(--accent-3);
   font-family: var(--font-mono);
 }
+:root:not([data-theme="light"]) .hero__at {
+  color: var(--text-3);
+}
 .hero__org {
   color: var(--text-2);
   text-wrap: balance; /* the long company name: two even lines, never a stranded "(Singapore)" */
@@ -294,12 +298,8 @@ html.is-orbiting * {
   font-size: var(--fs-md);
   white-space: nowrap;
 }
-.hero__prompt {
-  margin-right: 0.6em;
-  color: var(--accent);
-}
 .hero__phrase {
-  color: var(--text);
+  color: var(--text-2);
 }
 
 .hero__lede {
@@ -387,7 +387,7 @@ html.is-orbiting * {
 }
 
 /* ------------------------------------------------------------ hiring notice
-   A quiet announcement under the CTA row: hairline glass note, amber "signal" tag with a live dot, then the sentence
+   A quiet announcement under the CTA row: hairline glass note, amber "signal" tag with a static dot, then the sentence
    flowing on from the tag (so phones get a compact 4-line note instead of tag + paragraph). */
 .hero__hiring {
   position: relative;
@@ -439,17 +439,6 @@ html.is-orbiting * {
   height: 6px;
   border-radius: 50%;
   background: currentColor;
-  box-shadow: 0 0 0 0 rgba(var(--accent-3-rgb), 0.55);
-  animation: hero-hiring-pulse 2.4s var(--ease-out) infinite;
-}
-@keyframes hero-hiring-pulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(var(--accent-3-rgb), 0.55);
-  }
-  70%,
-  100% {
-    box-shadow: 0 0 0 7px rgba(var(--accent-3-rgb), 0);
-  }
 }
 .hero__hiring-text {
   display: inline; /* flows on from the tag */
@@ -476,11 +465,6 @@ html.is-orbiting * {
 @media (hover: hover) and (pointer: fine) {
   .hero__hiring-text .link:hover {
     color: var(--accent);
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .hero__hiring-tag::before {
-    animation: none;
   }
 }
 
@@ -889,7 +873,7 @@ html.is-orbiting * {
 @keyframes hero-rise {
   from {
     opacity: 0;
-    transform: translate3d(0, 18px, 0);
+    transform: translate3d(0, 12px, 0);
   }
   to {
     opacity: 1;
@@ -898,8 +882,8 @@ html.is-orbiting * {
 }
 html.js .hero__copy > *,
 html.js .hero__hud {
-  animation: hero-rise 0.9s var(--ease-out) backwards;
-  animation-delay: calc(var(--hd, 0) * 80ms + 60ms);
+  animation: hero-rise 0.6s var(--ease-out) backwards;
+  animation-delay: calc(var(--hd, 0) * 60ms + 60ms);
 }
 .hero__copy > :nth-child(2) { --hd: 1; }
 .hero__copy > :nth-child(3) { --hd: 2; }
@@ -908,7 +892,7 @@ html.js .hero__hud {
 .hero__copy > :nth-child(6) { --hd: 5; }
 .hero__copy > :nth-child(7) { --hd: 6; }
 html.js .hero__hud {
-  animation-delay: 0.55s;
+  animation-delay: 0.4s;
 }
 
 /* The H1 is sized from the copy column (container query), not the viewport, so "Mengqi Guo" never wraps
@@ -1287,6 +1271,79 @@ html.no-webgl .hero::before {
     linear-gradient(90deg, var(--line) 1px, transparent 1px) 0 0 / 56px 56px;
   -webkit-mask-image: radial-gradient(ellipse 90% 85% at 70% 45%, #000 20%, transparent 78%);
   mask-image: radial-gradient(ellipse 90% 85% at 70% 45%, #000 20%, transparent 78%);
+}
+
+/* ------------------------------------------------------------ calm dark
+   Dark theme: neutrals plus the one soft accent (active chip, primary button). No coloured glows or halos; amber stays
+   on the tiny Hiring tag and the "@" only. The light theme keeps the rules above unchanged. */
+:root:not([data-theme="light"]) .hero::after {
+  --vf: var(--text-3);
+  opacity: 0.3;
+}
+:root:not([data-theme="light"]) .hero__name-a {
+  background: none;
+  color: var(--text);
+  -webkit-text-fill-color: currentColor;
+  animation: none; /* no accent sheen */
+}
+:root:not([data-theme="light"]) .hero__name::after {
+  display: none; /* no scan line */
+}
+:root:not([data-theme="light"]) .hero__eyebrow .dot-live,
+:root:not([data-theme="light"]) .hud__title .dot-live {
+  background: var(--accent);
+}
+:root:not([data-theme="light"]) .hud__sim {
+  border-color: var(--line-strong);
+  color: var(--text-2);
+}
+:root:not([data-theme="light"]) .hud__sim[aria-expanded="true"] {
+  background: var(--line);
+}
+:root:not([data-theme="light"]) .hud__note {
+  border-color: var(--line-strong);
+}
+:root:not([data-theme="light"]) .hud__motion[aria-pressed="true"] {
+  color: var(--text);
+  border-color: var(--line-strong);
+  background: var(--line);
+}
+@media (hover: hover) and (pointer: fine) {
+  :root:not([data-theme="light"]) .hud__motion[aria-pressed="true"]:hover {
+    color: var(--text);
+    border-color: var(--line-strong);
+    background: var(--line);
+  }
+}
+:root:not([data-theme="light"]) .hud__cell:nth-child(2) dd,
+:root:not([data-theme="light"]) .hud__cell:nth-child(3) dd {
+  color: var(--text); /* telemetry values are neutral */
+}
+:root:not([data-theme="light"]) .hud__bar > span {
+  background: var(--accent);
+}
+:root:not([data-theme="light"]) .hud__state,
+:root:not([data-theme="light"]) .hud.is-training .hud__state {
+  color: var(--text-2);
+}
+:root:not([data-theme="light"]) .hud__foot-icon {
+  color: var(--text-2);
+}
+:root:not([data-theme="light"]) .hero__scroll-line::after {
+  background: var(--text-2);
+  box-shadow: none;
+}
+:root:not([data-theme="light"]) .hero__reticle {
+  color: var(--text-3);
+}
+:root:not([data-theme="light"]) .hero__reticle-label {
+  color: var(--text-2);
+}
+html.no-webgl:not([data-theme="light"]) .hero::before {
+  background:
+    radial-gradient(ellipse 46% 52% at 74% 40%, rgba(var(--accent-rgb), 0.1), transparent 70%),
+    linear-gradient(var(--line) 1px, transparent 1px) 0 0 / 56px 56px,
+    linear-gradient(90deg, var(--line) 1px, transparent 1px) 0 0 / 56px 56px;
 }
 
 /* ------------------------------------------------------------ reduced motion */

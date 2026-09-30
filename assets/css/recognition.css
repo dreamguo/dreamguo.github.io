@@ -217,24 +217,10 @@
 .recog__foot {
   margin: auto 0 0;
   color: var(--text-3);
-  font-size: var(--fs-xs);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-}
-.recog__foot span {
-  color: var(--accent);
+  font-size: var(--fs-sm);
 }
 
 /* ------------------------------------------------------------------ skills */
-.recog__prompt {
-  margin: 0;
-  color: var(--text-3);
-  font-size: var(--fs-sm);
-}
-.recog__prompt span:first-child {
-  margin-right: 0.4em;
-  color: var(--accent);
-}
 .recog__skillgroup {
   display: flex;
   flex-direction: column;
@@ -245,12 +231,9 @@
 }
 .recog__skill-label {
   margin: 0;
-  font-weight: 400;
-}
-.recog__skill-label::before {
-  content: "// ";
-  color: var(--accent);
-  opacity: 0.75;
+  color: var(--text-3);
+  font-size: var(--fs-sm);
+  font-weight: 500;
 }
 .recog__pills {
   display: flex;
@@ -265,14 +248,9 @@
   border-radius: var(--r-pill);
   background: rgba(var(--accent-rgb), 0.05);
   color: var(--text);
-  font-size: 0.8rem;
+  font-size: var(--fs-sm);
   line-height: 1.2;
   transition: border-color var(--dur-2), background var(--dur-2), box-shadow var(--dur-2), transform var(--dur-3) var(--ease);
-}
-.recog__pill::before {
-  content: "›";
-  margin-right: 0.55em;
-  color: var(--accent);
 }
 @media (hover: hover) and (pointer: fine) {
   /* non-interactive pill: a border tint only */
@@ -551,11 +529,7 @@
 .recog__hint {
   margin: 0;
   color: var(--text-3);
-  font-size: var(--fs-xs);
-  letter-spacing: 0.04em;
-}
-.recog__hint span {
-  color: var(--accent);
+  font-size: var(--fs-sm);
 }
 .recog__chart-foot .btn {
   min-height: 44px;
@@ -569,4 +543,67 @@
   .recog__chart.is-armed .recog__cnt {
     opacity: 1;
   }
+}
+
+/* --------------------------------------------------------------------------
+   Calm dark: one accent hue for the block icons, no glows, softer venue colours.
+   Venue hues survive only in the chart, its legend and the reviewer chips.
+   -------------------------------------------------------------------------- */
+:root:not([data-theme="light"]) .recog__block--awards,
+:root:not([data-theme="light"]) .recog__block--pubs {
+  --tone: var(--accent-rgb);
+}
+:root:not([data-theme="light"]) .recog__plate.is-latest .recog__year {
+  color: var(--accent);
+}
+:root:not([data-theme="light"]) .recog__plate-ico {
+  color: var(--text-3);
+  opacity: 0.6;
+}
+:root:not([data-theme="light"]) .recog__plate.is-latest .recog__plate-ico {
+  opacity: 1;
+}
+@media (hover: hover) and (pointer: fine) {
+  :root:not([data-theme="light"]) .recog__plate:hover {
+    background: rgba(var(--accent-rgb), 0.05);
+  }
+  :root:not([data-theme="light"]) .recog__plate:hover .recog__year {
+    color: var(--accent);
+  }
+  :root:not([data-theme="light"]) .recog__plate:hover .recog__plate-ico {
+    color: var(--text-2);
+  }
+  :root:not([data-theme="light"]) .recog__bar:hover .recog__bar-fill {
+    filter: none;
+  }
+}
+:root:not([data-theme="light"]) .recog__total.grad-text {
+  background: none;
+  color: var(--accent);
+  -webkit-text-fill-color: var(--accent);
+}
+:root:not([data-theme="light"]) .recog__venue {
+  border-color: rgba(var(--badge), 0.42);
+  background: rgba(var(--badge), 0.13);
+}
+:root:not([data-theme="light"]) .recog__venue::before {
+  box-shadow: none;
+}
+:root:not([data-theme="light"]) .recog__stop:first-child {
+  stop-opacity: 0.72;
+}
+:root:not([data-theme="light"]) .recog__stop:last-child {
+  stop-opacity: 0.36;
+}
+:root:not([data-theme="light"]) .recog__seg--neurips { stroke: rgba(var(--venue-neurips), 0.5); }
+:root:not([data-theme="light"]) .recog__seg--eccv { stroke: rgba(var(--venue-eccv), 0.5); }
+:root:not([data-theme="light"]) .recog__seg--cvpr { stroke: rgba(var(--venue-cvpr), 0.5); }
+:root:not([data-theme="light"]) .recog__seg--other,
+:root:not([data-theme="light"]) .recog__seg--preprint { stroke: rgba(var(--venue-preprint), 0.5); }
+:root:not([data-theme="light"]) .recog__seg--journal { stroke: rgba(var(--venue-journal), 0.5); }
+:root:not([data-theme="light"]) .recog__sw {
+  box-shadow: none;
+}
+:root:not([data-theme="light"]) .recog__bar:focus-visible .recog__bar-fill {
+  filter: none;
 }

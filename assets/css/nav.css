@@ -757,3 +757,25 @@ html.theme-vt::view-transition-new(root) {
   z-index: 2;
 }
 
+
+/* --------------------------------------------------------------------------
+   Calm dark — dark theme only (the light theme keeps the rules above untouched):
+   one soft accent, no glow on the progress line, the active underline or the G mark.
+   -------------------------------------------------------------------------- */
+:root:not([data-theme="light"]) .nav__progress-bar {
+  background: var(--accent);
+  box-shadow: none;
+}
+:root:not([data-theme="light"]) .nav__pill::after {
+  background: var(--accent);
+  box-shadow: none;
+}
+:root:not([data-theme="light"]) .nav__mark-txt {
+  filter: none;
+}
+:root:not([data-theme="light"]) .nav__menu::before {
+  background: linear-gradient(var(--line), var(--line)) 0 0 / 1px 100% no-repeat;
+}
+:root:not([data-theme="light"]) .nav__menu .nav__arrow::before {
+  box-shadow: none;
+}

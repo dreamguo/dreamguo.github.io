@@ -961,7 +961,7 @@
     V.search = h(
       'label',
       { class: 'pubs__search' },
-      h('span', { class: 'pubs__prompt mono', 'aria-hidden': 'true' }, h('span', { class: 'pubs__ps' }, '$'), h('span', { class: 'pubs__cmd' }, ' grep')),
+      ico('search', 18, 'pubs__mag'),
       V.input,
       h('kbd', { class: 'kbd pubs__kbd', 'aria-hidden': 'true' }, '/'),
       clearBtn

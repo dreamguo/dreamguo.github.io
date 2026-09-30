@@ -531,3 +531,20 @@
     margin-left: auto;
   }
 }
+
+/* --------------------------------------------------------------------------
+   Calm dark: a faint neutral wash instead of a coloured orb; no coloured glows or shadows
+   -------------------------------------------------------------------------- */
+:root:not([data-theme="light"]) .contact__orb {
+  background: radial-gradient(circle at 35% 35%, rgba(var(--venue-preprint), 0.09), transparent 66%);
+  opacity: 0.9;
+}
+:root:not([data-theme="light"]) .contact__email::after {
+  background: var(--accent);
+  box-shadow: none;
+}
+@media (hover: hover) and (pointer: fine) {
+  :root:not([data-theme="light"]) .contact__link:hover .contact__link-icon {
+    box-shadow: none;
+  }
+}

@@ -744,6 +744,13 @@
       var ink = [0.16, 0.22, 0.34];
       var f = function (c) { return [c[0] * 0.78 + ink[0] * 0.22, c[1] * 0.78 + ink[1] * 0.22, c[2] * 0.78 + ink[2] * 0.22]; };
       c0 = f(c0); c1 = f(c1); c2 = f(c2);
+    } else {
+      // calm dark: one accent hue plus neutrals. The ramp runs accent -> pale accent -> muted grey (from --text / --text-2), so
+      // the height gradient and the SfM frusta (top of the ramp) stay readable without a second or third hue.
+      var tx = parseRGB(cssVar('--text'), [0.91, 0.94, 0.97]), t2 = parseRGB(cssVar('--text-2'), [0.67, 0.72, 0.79]);
+      var mixc = function (a, b, k) { return [a[0] + (b[0] - a[0]) * k, a[1] + (b[1] - a[1]) * k, a[2] + (b[2] - a[2]) * k]; };
+      c1 = mixc(c0, tx, 0.5);
+      c2 = mixc(t2, bg, 0.42);
     }
     pal = { c0: c0, c1: c1, c2: c2, bg: bg, light: light };
     wake();
@@ -1142,7 +1149,7 @@
     gl.uniform1f(loc.uPx, proj[5] * H * 0.5);
     gl.uniform1f(loc.uAspect, aspect);
     gl.uniform1f(loc.uSizeK, (pal.light ? 0.0195 : 0.0225) * sizeK);
-    gl.uniform1f(loc.uAlphaK, (pal.light ? 1.5 : 1.05) * (narrow && !stage ? 0.6 : 1));
+    gl.uniform1f(loc.uAlphaK, (pal.light ? 1.5 : 0.8) * (narrow && !stage ? 0.6 : 1)); // dark: ~25% less luminous than before (calm dark)
     gl.uniform1f(loc.uScanA, rm ? 0 : SCAN[fromIdx]);
     gl.uniform1f(loc.uScanB, rm ? 0 : SCAN[toIdx]);
     gl.uniform1f(loc.uMouseS, mouseS);

@@ -48,7 +48,7 @@
     /* ==================================================================== */
     nav: ['about', 'news', 'research', 'journey', 'recognition', 'contact'],
 
-    /* hero rotator ("$ spatial intelligence▍") */
+    /* hero rotator (typed phrases) */
     hero: {
       phrases: [
         { en: 'multimodal foundation models', zh: '多模态基础模型' },
@@ -101,11 +101,11 @@
       ],
       /* small "spec sheet" next to the portrait */
       specs: [
-        { k: { en: 'name', zh: '姓名' }, v: { en: 'Mengqi Guo · 郭梦琦', zh: '郭梦琦 · Mengqi Guo' } },
-        { k: { en: 'now', zh: '现在' }, v: { en: 'Huawei Norbert Wiener Research Center (Singapore)', zh: '华为维纳研究所（新加坡）' }, accent: true },
-        { k: { en: 'focus', zh: '方向' }, v: { en: 'Spatial foundation models · Embodied AI', zh: '空间基础模型 · 具身智能' } },
-        { k: { en: 'ph.d.', zh: '博士' }, v: { en: 'NUS ’26 · CVRP Lab', zh: 'NUS 2026 · CVRP 实验室' } },
-        { k: { en: 'base', zh: '所在地' }, v: { en: 'Singapore', zh: '新加坡' } },
+        { k: { en: 'Name', zh: '姓名' }, v: { en: 'Mengqi Guo · 郭梦琦', zh: '郭梦琦 · Mengqi Guo' } },
+        { k: { en: 'Now', zh: '现在' }, v: { en: 'Huawei Norbert Wiener Research Center (Singapore)', zh: '华为维纳研究所（新加坡）' }, accent: true },
+        { k: { en: 'Focus', zh: '方向' }, v: { en: 'Spatial foundation models · Embodied AI', zh: '空间基础模型 · 具身智能' } },
+        { k: { en: 'Ph.D.', zh: '博士' }, v: { en: 'NUS ’26 · CVRP Lab', zh: 'NUS 2026 · CVRP 实验室' } },
+        { k: { en: 'Base', zh: '所在地' }, v: { en: 'Singapore', zh: '新加坡' } },
       ],
       /* research thrusts (cards). `papers` are ids from the list below */
       thrusts: [

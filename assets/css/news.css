@@ -1,5 +1,5 @@
 /* ==========================================================================
-   news.css — NEWS section: terminal window, filter chips, rail + rows, fold.
+   news.css — NEWS section: list card, filter chips, rail + rows, fold.
    ========================================================================== */
 
 .news {
@@ -14,73 +14,13 @@
 }
 
 /* --------------------------------------------------------------------------
-   Terminal window
+   Card + filter chips
    -------------------------------------------------------------------------- */
-.news__term {
+.news__card {
   border-radius: var(--r-lg);
 }
-.news__chrome {
-  display: flex;
-  align-items: center;
-  gap: var(--s-3);
-  padding: 12px 18px;
-  border-bottom: 1px solid var(--line);
-  background: rgba(var(--accent-rgb), 0.025);
-  color: var(--text-3);
-  font-size: var(--fs-xs);
-}
-.news__lights {
-  display: inline-flex;
-  gap: 6px;
-}
-.news__lights i {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: var(--line-strong);
-}
-.news__lights i:first-child {
-  background: rgba(var(--accent-3-rgb), 0.7);
-}
-.news__lights i:nth-child(2) {
-  background: rgba(var(--accent-2-rgb), 0.7);
-}
-.news__lights i:nth-child(3) {
-  background: rgba(var(--accent-rgb), 0.7);
-}
-.news__file {
-  letter-spacing: 0.03em;
-}
-.news__lines {
-  margin-left: auto;
-  font-family: var(--font-mono);
-  letter-spacing: 0.04em;
-  font-variant-numeric: tabular-nums;
-}
-
-/* prompt line + filter chips */
 .news__toolbar {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--s-3) var(--s-5);
   padding: 18px 18px 14px;
-}
-.news__prompt {
-  margin: 0;
-  min-height: 1.6em;
-  color: var(--text);
-  font-size: 0.875rem;
-  letter-spacing: 0.01em;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 100%;
-}
-.news__ps1 {
-  margin-right: 0.7em;
-  color: var(--accent);
 }
 .news__filters {
   display: flex;
@@ -406,15 +346,33 @@
   transform: rotate(180deg);
 }
 
-/* small screens: tighter window */
+/* small screens: tighter card */
 @media (max-width: 479.98px) {
   .news__toolbar {
     padding-inline: 14px;
   }
-  .news__chrome {
-    padding-inline: 14px;
-  }
   .news__log {
     padding-right: 8px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Calm dark: neutral rail, nodes and tags; accent only for the newest node and the "New" cue.
+   The light theme keeps its per-type hues.
+   -------------------------------------------------------------------------- */
+:root:not([data-theme="light"]) .news__item {
+  --t: var(--venue-preprint);
+}
+:root:not([data-theme="light"]) .news__log > .news__list:first-child > .news__item:first-child .news__node::after {
+  border-color: var(--accent);
+  background: var(--accent);
+  box-shadow: none;
+}
+:root:not([data-theme="light"]) .news__new {
+  --badge: var(--accent-rgb);
+}
+@media (hover: hover) and (pointer: fine) {
+  :root:not([data-theme="light"]) .news__item:hover .news__node::after {
+    box-shadow: none;
   }
 }

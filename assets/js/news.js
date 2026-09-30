@@ -1,9 +1,8 @@
 /* ==========================================================================
-   news.js — NEWS section (#news-body): a terminal-style log.
-   The shell (window chrome, prompt line, chips, list containers, more button)
-   is built once; only the filter chips / rows / labels are re-rendered, so the
-   typed prompt never replays and filter + expanded state survive a language
-   switch.
+   news.js — NEWS section (#news-body): a clean timeline list in one card.
+   The shell (filter chips, list containers, more button) is built once; only
+   the filter chips / rows / labels are re-rendered, so filter + expanded state
+   survive a language switch.
    ========================================================================== */
 (function () {
   'use strict';
@@ -24,7 +23,6 @@
     'news.tag.award': { en: 'Award', zh: '荣誉' },
     'news.new': { en: 'New', zh: '最新' },
     'news.view': { en: 'view paper', zh: '查看论文' },
-    'news.lines': { en: '{n} entries', zh: '共 {n} 条' },
     'news.showing': { en: 'Showing {n} entries', zh: '当前显示 {n} 条' },
   });
 
@@ -32,7 +30,6 @@
   var state = { filter: 'all', expanded: false };
   var els = {};
   var hasFold = false;
-  var typing = null; // timer id while the prompt is being typed
 
   /* ------------------------------------------------------------- helpers */
   function goPaper(id) {
@@ -70,44 +67,6 @@
 
   function clear(el) {
     while (el.firstChild) el.removeChild(el.firstChild);
-  }
-
-  /* ------------------------------------------------------- prompt / typing */
-  function cmdString() {
-    var s = state.expanded && hasFold ? 'cat news.log' : 'head -n ' + visibleCount() + ' news.log';
-    if (state.filter !== 'all') s += ' | grep -i ' + state.filter;
-    return s;
-  }
-
-  function setCmd() {
-    if (typing) {
-      clearTimeout(typing);
-      typing = null;
-    }
-    els.cmd.textContent = cmdString();
-  }
-
-  // reserve the prompt's final width so the toolbar never re-wraps (layout shift) while it types
-  function reservePrompt(full) {
-    els.cmd.textContent = full;
-    var w = els.prompt.offsetWidth;
-    els.prompt.style.minWidth = Math.min(w, els.term.clientWidth - 36) + 'px';
-  }
-
-  function typeCmd() {
-    var full = cmdString();
-    var i = 0;
-    reservePrompt(full);
-    els.cmd.textContent = '';
-    (function step() {
-      i++;
-      els.cmd.textContent = full.slice(0, i);
-      if (i < full.length) typing = setTimeout(step, 34 + Math.random() * 42);
-      else {
-        typing = null;
-        els.prompt.style.minWidth = '';
-      }
-    })();
   }
 
   /* ---------------------------------------------------------------- rows */
@@ -176,9 +135,7 @@
     els.fold.hidden = !hasFold;
     els.moreWrap.hidden = !hasFold;
     els.moreCount.textContent = String(tail.length);
-    els.lines.textContent = S.fmt(S.ui('news.lines'), { n: items.length });
     syncFold();
-    setCmd();
     return items.length;
   }
 
@@ -245,18 +202,15 @@
   function toggleMore() {
     state.expanded = !state.expanded;
     syncFold();
-    setCmd();
-    if (!state.expanded && els.term.getBoundingClientRect().top < 0) {
-      // collapsing from far down: bring the terminal back into view instead of stranding the reader
-      els.term.scrollIntoView({ block: 'start', behavior: S.reducedMotion ? 'auto' : 'smooth' });
+    if (!state.expanded && els.card.getBoundingClientRect().top < 0) {
+      // collapsing from far down: bring the card back into view instead of stranding the reader
+      els.card.scrollIntoView({ block: 'start', behavior: S.reducedMotion ? 'auto' : 'smooth' });
     }
   }
 
   /* --------------------------------------------------------------- shell */
   function buildShell(root) {
-    els.cmd = h('span', { class: 'news__cmd-text' });
     els.filters = h('div', { class: 'news__filters', role: 'group', 'aria-label': S.ui('news.filter') });
-    els.lines = h('span', { class: 'news__lines' });
     els.live = h('p', { class: 'sr-only', 'aria-live': 'polite' });
     els.head = h('ol', { class: 'news__list list-reset', role: 'list' });
     els.tail = h('ol', { class: 'news__list list-reset', role: 'list' });
@@ -280,25 +234,16 @@
     );
     els.moreWrap = h('div', { class: 'news__more-wrap' }, els.more);
 
-    els.prompt = h('p', { class: 'news__prompt mono', 'aria-hidden': 'true' }, h('span', { class: 'news__ps1' }, '$'), els.cmd, h('span', { class: 'caret' }));
-
-    els.term = h(
+    els.card = h(
       'div',
-      { class: 'news__term panel' },
-      h(
-        'div',
-        { class: 'news__chrome', 'aria-hidden': 'true' },
-        h('span', { class: 'news__lights' }, h('i'), h('i'), h('i')),
-        h('span', { class: 'news__file mono' }, 'news.log'),
-        els.lines
-      ),
-      h('div', { class: 'news__toolbar' }, els.prompt, els.filters),
+      { class: 'news__card panel' },
+      h('div', { class: 'news__toolbar' }, els.filters),
       h('div', { class: 'news__log' }, els.head, els.fold),
       els.moreWrap,
       els.live
     );
 
-    root.appendChild(els.term);
+    root.appendChild(els.card);
   }
 
   function init() {
@@ -312,21 +257,6 @@
     buildShell(root);
     renderFilters();
     renderList('first');
-
-    // type the prompt once, the first time the terminal scrolls into view
-    if (!S.reducedMotion && 'IntersectionObserver' in window) {
-      reservePrompt(cmdString());
-      els.cmd.textContent = '';
-      var io = new IntersectionObserver(
-        function (entries) {
-          if (!entries.some(function (e) { return e.isIntersecting; })) return;
-          io.disconnect();
-          typeCmd();
-        },
-        { threshold: 0.35 }
-      );
-      io.observe(els.term);
-    }
 
     if (S.fx && typeof S.fx.refresh === 'function') S.fx.refresh(root);
 

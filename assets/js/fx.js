@@ -9,7 +9,6 @@
    Site.fx && Site.fx.refresh(container) after injecting DOM):
      .reveal                  fade/slide in when scrolled into view  (--i = stagger)
      [data-count="8"]         count-up 0 → 8  (data-count-suffix / -prefix / -decimals)
-     [data-scramble]          text decode effect, once, text nodes only
      [data-magnetic="8"]      pointer-follow translate (max px, default 8), fine pointers only;
                               active within ~48px of the box, never closes more than half the gap to a sibling
    Delegated (no registration needed):
@@ -53,7 +52,6 @@
   /* ================================================================ REVEAL */
   var revealIO = null;
   var countIO = null;
-  var scrambleIO = null;
 
   function onReveal(entries) {
     entries.forEach(function (en) {
@@ -74,23 +72,14 @@
       startCount(en.target);
     });
   }
-  function onScramble(entries) {
-    entries.forEach(function (en) {
-      if (!en.isIntersecting) return;
-      scrambleIO.unobserve(en.target);
-      var el = en.target;
-      setTimeout(function () { runScramble(el); }, 140);
-    });
-  }
 
   function ensureIO() {
     if (!hasIO || revealIO) return;
     try {
       revealIO = new IntersectionObserver(onReveal, { threshold: [0, 0.12, 0.3], rootMargin: '0px 0px -8% 0px' });
       countIO = new IntersectionObserver(onCount, { threshold: 0.35, rootMargin: '0px 0px -6% 0px' });
-      scrambleIO = new IntersectionObserver(onScramble, { threshold: 0.5, rootMargin: '0px 0px -6% 0px' });
     } catch (e) {
-      revealIO = countIO = scrambleIO = null;
+      revealIO = countIO = null;
     }
   }
 
@@ -106,10 +95,6 @@
       f.count = 1;
       if (countIO) countIO.observe(el);
     }
-    if (el.hasAttribute('data-scramble') && !f.scramble) {
-      f.scramble = 1;
-      if (scrambleIO) scrambleIO.observe(el);
-    }
     if (el.hasAttribute('data-magnetic') && !f.magnet) {
       f.magnet = 1;
       f.mag = { el: el, x: 0, y: 0, tx: 0, ty: 0 };
@@ -122,7 +107,7 @@
     ensureIO();
     if (scope.nodeType === 1) register(scope);
     if (!scope.querySelectorAll) return;
-    var list = scope.querySelectorAll('.reveal, [data-count], [data-scramble], [data-magnetic]');
+    var list = scope.querySelectorAll('.reveal, [data-count], [data-magnetic]');
     for (var i = 0; i < list.length; i++) register(list[i]);
   }
 
@@ -166,121 +151,6 @@
       raf(step);
     }
     raf(step);
-  }
-
-  /* ================================================================ SCRAMBLE */
-  // narrow, roughly letter-width glyphs only: wide ones (W % @ # & { }) make headings wrap while they decode
-  var GLYPHS = '01<>/\\_-=+|:.';
-  var SCRAMBLE_MIN_W = 600; // below this the decode is skipped: on phones a wrap flip shifts the whole page
-  var KEEP = /[\s.,;:!?'"’“”()\[\]\-–—·…，。、：；！？（）]/;
-  var scrambleRuns = [];
-
-  function runScramble(el) {
-    if (S.reducedMotion || doc.hidden || !el.isConnected) return;
-    if ((window.innerWidth || doc.documentElement.clientWidth) < SCRAMBLE_MIN_W) return;
-
-    var nodes = [];
-    var orig = [];
-    var walker = doc.createTreeWalker(el, NodeFilter.SHOW_TEXT, null);
-    var n;
-    while ((n = walker.nextNode())) {
-      if (/\S/.test(n.nodeValue) && !(n.parentNode && n.parentNode.closest && n.parentNode.closest('.serif-em'))) {
-        nodes.push(n);
-        orig.push(n.nodeValue);
-      }
-    }
-    if (!nodes.length) return;
-
-    // settle time (0..1 of the duration) for every scramble-able character
-    var total = 0;
-    orig.forEach(function (s) {
-      for (var i = 0; i < s.length; i++) if (!KEEP.test(s.charAt(i))) total++;
-    });
-    if (!total) return;
-    var idx = 0;
-    var settle = orig.map(function (s) {
-      var arr = [];
-      for (var i = 0; i < s.length; i++) {
-        if (KEEP.test(s.charAt(i))) arr.push(-1);
-        else {
-          arr.push((idx / total) * 0.72 + Math.random() * 0.28);
-          idx++;
-        }
-      }
-      return arr;
-    });
-    var glyph = orig.map(function (s) { return new Array(s.length); });
-    var written = orig.slice();
-
-    var DUR = clamp(total * 24, 520, 900);
-    var prevH = el.style.height;
-    var prevO = el.style.overflow;
-    var prevOM = el.style.overflowClipMargin;
-    var locked = false;
-    try {
-      if (getComputedStyle(el).display !== 'inline') {
-        // pin the block to its final height (not just a minimum) so a glyph-width wrap can never push the page around
-        var hpx = el.getBoundingClientRect().height;
-        el.style.height = hpx + 'px';
-        el.style.overflow = 'clip';
-        el.style.overflowClipMargin = '0.25em';
-        locked = true;
-      }
-    } catch (e) { /* ignore */ }
-
-    var run = { cancelled: false };
-    var t0 = 0;
-    var lastRoll = 0;
-
-    function restore() {
-      for (var i = 0; i < nodes.length; i++) {
-        if (nodes[i].isConnected && nodes[i].nodeValue === written[i]) nodes[i].nodeValue = orig[i];
-      }
-      if (locked) {
-        el.style.height = prevH;
-        el.style.overflow = prevO;
-        el.style.overflowClipMargin = prevOM;
-      }
-      var at = scrambleRuns.indexOf(run);
-      if (at >= 0) scrambleRuns.splice(at, 1);
-    }
-    run.cancel = function () {
-      run.cancelled = true;
-      restore();
-    };
-    scrambleRuns.push(run);
-
-    function frame(now) {
-      if (run.cancelled) return;
-      if (!t0) t0 = now;
-      if (nodes[0] && !nodes[0].isConnected) return run.cancel();
-      var p = (now - t0) / DUR;
-      if (p >= 1 || doc.hidden) {
-        run.cancelled = true;
-        restore();
-        return;
-      }
-      var reroll = now - lastRoll > 46;
-      if (reroll) lastRoll = now;
-      for (var ni = 0; ni < nodes.length; ni++) {
-        var s = orig[ni];
-        var out = '';
-        for (var i = 0; i < s.length; i++) {
-          var st = settle[ni][i];
-          if (st < 0 || p >= st) out += s.charAt(i);
-          else {
-            if (reroll || !glyph[ni][i]) glyph[ni][i] = GLYPHS.charAt((Math.random() * GLYPHS.length) | 0);
-            out += glyph[ni][i];
-          }
-        }
-        if (out !== written[ni] && nodes[ni].nodeValue === written[ni]) {
-          nodes[ni].nodeValue = out;
-          written[ni] = out;
-        }
-      }
-      raf(frame);
-    }
-    raf(frame);
   }
 
   /* ================================================================ POINTER HUB
@@ -845,13 +715,6 @@
     S.on('motionchange', function () {
       ptr.dirty = true;
       kick();
-      // pausing motion mid-decode: settle every running scramble at once (count-ups settle on their next frame)
-      if (S.reducedMotion) scrambleRuns.slice().forEach(function (r) { r.cancel(); });
-    });
-
-    // a language switch rewrites text nodes: stop any running decode and never re-decode
-    S.on('langchange', function () {
-      scrambleRuns.slice().forEach(function (r) { r.cancel(); });
     });
 
     // late safety net: pick up anything a module injected without calling refresh()

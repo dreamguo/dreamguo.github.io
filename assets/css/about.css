@@ -1,5 +1,5 @@
 /* ==========================================================================
-   about.css — ABOUT section: viewfinder portrait, spec sheet, bio, thrust cards.
+   about.css — ABOUT section: framed portrait, spec sheet, bio, thrust cards.
    Mobile-first. Only tokens, no hard-coded colors.
    ========================================================================== */
 
@@ -42,7 +42,7 @@
 }
 
 /* --------------------------------------------------------------------------
-   Portrait — "viewfinder"
+   Portrait — framed photo with a single quiet caption
    -------------------------------------------------------------------------- */
 .about__portrait {
   width: 100%;
@@ -138,58 +138,6 @@
   transition: opacity 0.6s var(--ease);
 }
 
-/* faint scan-line sweep — runs only while on screen (.is-live) */
-.about__scan {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  z-index: 1;
-  height: 30%;
-  pointer-events: none;
-  opacity: 0;
-  background: linear-gradient(
-    180deg,
-    transparent 0%,
-    rgba(var(--accent-rgb), 0.1) 82%,
-    rgba(var(--accent-rgb), 0.5) 99%,
-    transparent 100%
-  );
-  animation: about-scan 7.5s linear infinite;
-  animation-play-state: paused;
-}
-.about__portrait.is-live .about__scan {
-  animation-play-state: running;
-}
-/* light theme: the darkened accent would read as a heavy bar, so keep the sweep faint */
-:root[data-theme="light"] .about__scan {
-  background: linear-gradient(
-    180deg,
-    transparent 0%,
-    rgba(var(--accent-rgb), 0.05) 82%,
-    rgba(var(--accent-rgb), 0.18) 99%,
-    transparent 100%
-  );
-}
-@keyframes about-scan {
-  0% {
-    transform: translateY(-100%);
-    opacity: 0;
-  }
-  8% {
-    opacity: 1;
-  }
-  55% {
-    transform: translateY(333%);
-    opacity: 1;
-  }
-  56%,
-  100% {
-    transform: translateY(333%);
-    opacity: 0;
-  }
-}
-
 /* autofocus reticle — appears on hover */
 .about__focus {
   position: absolute;
@@ -229,59 +177,32 @@
   }
 }
 
-/* mono caption tags in the four corners */
-.about__tag {
+/* one quiet caption: place + coordinates */
+.about__cap {
   position: absolute;
+  left: 16px;
+  bottom: 16px;
   z-index: 2;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.55em;
-  padding: 0.42em 0.65em;
+  max-width: calc(100% - 32px);
+  padding: 0.5em 0.75em;
   border: 1px solid var(--line);
   border-radius: var(--r-xs);
   background: var(--veil);
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
-  color: var(--text);
+  color: var(--text-2);
   font-family: var(--font-mono);
   font-size: var(--fs-micro);
-  letter-spacing: 0.08em;
-  line-height: 1;
-  text-transform: uppercase;
-  white-space: nowrap;
+  letter-spacing: 0.04em;
+  line-height: 1.3;
   pointer-events: none;
 }
-.about__tag[hidden] {
+.about__cap[hidden] {
   display: none;
-}
-.about__tag--tl {
-  top: 18px;
-  left: 18px;
-}
-.about__tag--tr {
-  top: 18px;
-  right: 18px;
-}
-.about__tag--bl {
-  bottom: 18px;
-  left: 18px;
-}
-.about__rec {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--danger);
-  box-shadow: 0 0 8px var(--danger);
-  animation: about-rec 1.6s steps(1) infinite;
-}
-@keyframes about-rec {
-  50% {
-    opacity: 0.2;
-  }
 }
 
 /* --------------------------------------------------------------------------
-   Spec sheet — terminal key: value lines
+   Spec sheet — key / value rows
    -------------------------------------------------------------------------- */
 .about__specs-wrap {
   min-width: 0;
@@ -297,37 +218,16 @@
   border-radius: var(--r-md);
 }
 .about__specs-head {
-  display: flex;
-  align-items: center;
-  gap: var(--s-3);
-  padding: 11px 16px;
+  padding: 14px 18px 12px;
   border-bottom: 1px solid var(--line);
-  color: var(--text-3);
-  font-size: var(--fs-xs);
-  letter-spacing: 0.04em;
 }
-.about__lights {
-  display: inline-flex;
-  gap: 6px;
-}
-.about__lights i {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--line-strong);
-}
-.about__lights i:first-child {
-  background: rgba(var(--accent-3-rgb), 0.7);
-}
-.about__lights i:nth-child(2) {
-  background: rgba(var(--accent-2-rgb), 0.7);
-}
-.about__lights i:nth-child(3) {
-  background: rgba(var(--accent-rgb), 0.7);
-}
-.about__prompt {
-  margin-right: 0.6em;
-  color: var(--accent);
+.about__specs-title {
+  margin: 0;
+  color: var(--text);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 1.3;
 }
 .about__specs-list {
   display: grid;
@@ -347,15 +247,9 @@
 }
 .about__spec dt {
   color: var(--text-3);
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  letter-spacing: 0.02em;
-  text-transform: lowercase;
-}
-.about__spec dt::after {
-  content: ":";
-  margin-left: 1px;
-  opacity: 0.7;
+  font-size: var(--fs-micro);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 .about__spec dd {
   display: flex;
@@ -469,8 +363,8 @@
   padding: var(--s-5);
   border-radius: var(--r-md);
 }
-.about__thrust[data-thrust="understand"] {
-  --c: var(--accent-2-rgb);
+:root[data-theme="light"] .about__thrust[data-thrust="understand"] {
+  --c: var(--accent-2-rgb); /* dark keeps a single accent hue for every card */
 }
 .about__thrust-head {
   display: flex;
@@ -609,19 +503,19 @@
   white-space: nowrap;
 }
 
-/* the "now" card gets the amber treatment */
-.about__thrust--now {
+/* light theme: the "now" card gets the amber treatment (dark keeps it neutral; only the tag below is amber) */
+:root[data-theme="light"] .about__thrust--now {
   --c: var(--accent-3-rgb);
   border-color: rgba(var(--accent-3-rgb), 0.42);
   background:
     linear-gradient(155deg, rgba(var(--accent-3-rgb), 0.11), transparent 62%), var(--panel);
 }
 @media (hover: hover) and (pointer: fine) {
-  .about__thrust--now:hover {
+  :root[data-theme="light"] .about__thrust--now:hover {
     border-color: rgba(var(--accent-3-rgb), 0.7);
   }
 }
-.about__thrust--now::before {
+:root[data-theme="light"] .about__thrust--now::before {
   background: radial-gradient(460px circle at var(--mx, 50%) var(--my, 0%), rgba(var(--accent-3-rgb), 0.16), transparent 62%);
 }
 .about__now {
@@ -649,10 +543,7 @@
   background: var(--accent-3);
   box-shadow: 0 0 10px var(--accent-3);
 }
-.about__now .dot-live::after {
-  border-color: var(--accent-3);
-}
-.about__thrust--now .about__paper {
+:root[data-theme="light"] .about__thrust--now .about__paper {
   border-color: rgba(var(--accent-3-rgb), 0.4);
 }
 
@@ -680,10 +571,6 @@
 .about__since-period {
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
-}
-.about__thrust-since .caret {
-  margin-left: -0.35em;
-  background: rgb(var(--accent-3-rgb));
 }
 @media (pointer: coarse) {
   .about__thrust-since {
@@ -766,4 +653,124 @@
     padding-block: 0; /* the chips are already 44px tall on touch */
     margin-block: var(--s-1) 0;
   }
+}
+
+/* --------------------------------------------------------------------------
+   Calm dark: no coloured glows; the amber "Current" tag is the only warm cue
+   -------------------------------------------------------------------------- */
+:root:not([data-theme="light"]) .about__tone {
+  background:
+    linear-gradient(180deg, rgba(var(--accent-rgb), 0.08), transparent 42%),
+    linear-gradient(0deg, var(--veil), transparent 40%);
+}
+:root:not([data-theme="light"]) .about__now .dot-live {
+  box-shadow: none;
+}
+:root:not([data-theme="light"]) .about__thrust-since .about__thrust-label {
+  color: var(--text-3);
+}
+:root:not([data-theme="light"]) @media (hover: hover) and (pointer: fine) {
+  :root:not([data-theme="light"]) .about__thrust:hover .about__thrust-icon {
+    box-shadow: none;
+  }
+}
+
+/* ---- portrait chrome: LIGHT keeps the viewfinder details, DARK shows the single caption above -------------------- */
+/* faint scan-line sweep — runs only while on screen (.is-live) */
+.about__scan {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 1;
+  height: 30%;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(180deg, transparent 0%, rgba(var(--accent-rgb), 0.05) 82%, rgba(var(--accent-rgb), 0.18) 99%, transparent 100%);
+  animation: about-scan 7.5s linear infinite;
+  animation-play-state: paused;
+}
+.about__portrait.is-live .about__scan {
+  animation-play-state: running;
+}
+@keyframes about-scan {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;
+  }
+  55% {
+    transform: translateY(333%);
+    opacity: 1;
+  }
+  56%,
+  100% {
+    transform: translateY(333%);
+    opacity: 0;
+  }
+}
+/* mono caption tags in three corners */
+.about__tag {
+  position: absolute;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55em;
+  padding: 0.42em 0.65em;
+  border: 1px solid var(--line);
+  border-radius: var(--r-xs);
+  background: var(--veil);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.08em;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+  pointer-events: none;
+}
+.about__tag[hidden] {
+  display: none;
+}
+.about__tag--tl {
+  top: 18px;
+  left: 18px;
+}
+.about__tag--tr {
+  top: 18px;
+  right: 18px;
+}
+.about__tag--bl {
+  bottom: 18px;
+  left: 18px;
+}
+.about__rec {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--danger);
+  box-shadow: 0 0 8px var(--danger);
+  animation: about-rec 1.6s steps(1) infinite;
+}
+@keyframes about-rec {
+  50% {
+    opacity: 0.2;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .about__scan,
+  .about__rec {
+    animation: none;
+  }
+}
+:root:not([data-theme="light"]) .about__scan,
+:root:not([data-theme="light"]) .about__tag {
+  display: none;
+}
+:root[data-theme="light"] .about__cap {
+  display: none;
 }

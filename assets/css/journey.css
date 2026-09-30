@@ -10,7 +10,7 @@
   --pcol: 0px;
   --jpad: clamp(26px, 4vw, 42px);
   --rail-x: calc(var(--tile) / 2);
-  --amber: var(--accent-3-rgb);
+  --now: var(--accent-3-rgb); /* the current entry: amber in light, the soft accent in dark */
   position: relative;
   margin-bottom: calc(var(--section-pad) * -0.35); /* trim the dead gap before Recognition */
 }
@@ -70,10 +70,6 @@
   font-size: var(--fs-xs);
   letter-spacing: 0.04em;
   font-variant-numeric: tabular-nums;
-}
-.journey__prompt {
-  color: var(--accent);
-  margin-right: -6px;
 }
 .journey__range {
   color: var(--text-2);
@@ -204,7 +200,7 @@
   white-space: nowrap;
 }
 .jnode.is-current .jnode__period {
-  color: rgb(var(--amber));
+  color: rgb(var(--now));
 }
 
 /* node tile */
@@ -278,23 +274,23 @@
   border-color: var(--line-accent);
 }
 
-/* "now" node: amber, pulsing */
+/* "now" node: amber and pulsing in light, the soft accent and still in dark (calm-dark block below) */
 .jnode.is-current .jnode__node,
 .jnode.is-current.is-lit .jnode__node {
-  color: rgb(var(--amber));
-  border-color: rgba(var(--amber), 0.62);
-  background: linear-gradient(rgba(var(--amber), 0.16), rgba(var(--amber), 0.03)), var(--bg-elev);
-  box-shadow: 0 0 0 1px rgba(var(--amber), 0.22), 0 0 34px rgba(var(--amber), 0.34);
+  color: rgb(var(--now));
+  border-color: rgba(var(--now), 0.62);
+  background: linear-gradient(rgba(var(--now), 0.16), rgba(var(--now), 0.03)), var(--bg-elev);
+  box-shadow: 0 0 0 1px rgba(var(--now), 0.22), 0 0 34px rgba(var(--now), 0.34);
 }
 .jnode.is-current .jnode__kind {
-  color: rgb(var(--amber));
-  border-color: rgba(var(--amber), 0.55);
+  color: rgb(var(--now));
+  border-color: rgba(var(--now), 0.55);
 }
 .jnode.is-current .jnode__node::after {
   content: "";
   position: absolute;
   inset: -6px;
-  border: 1px solid rgb(var(--amber));
+  border: 1px solid rgb(var(--now));
   border-radius: calc(var(--r-md) + 6px);
   opacity: 0;
   animation: jnode-ping 2.6s var(--ease-out) infinite;
@@ -325,27 +321,27 @@
   gap: 12px;
 }
 .jnode.is-current .jnode__card {
-  border-color: rgba(var(--amber), 0.4);
-  box-shadow: 0 0 0 1px rgba(var(--amber), 0.1), 0 0 56px -14px rgba(var(--amber), 0.34);
+  border-color: rgba(var(--now), 0.4);
+  box-shadow: 0 0 0 1px rgba(var(--now), 0.1), 0 0 56px -14px rgba(var(--now), 0.34);
   background:
-    radial-gradient(520px circle at 0% 0%, rgba(var(--amber), 0.08), transparent 62%),
+    radial-gradient(520px circle at 0% 0%, rgba(var(--now), 0.08), transparent 62%),
     var(--panel);
 }
 @media (hover: hover) and (pointer: fine) {
   .jnode.is-current .jnode__card:hover {
-    border-color: rgba(var(--amber), 0.6);
+    border-color: rgba(var(--now), 0.6);
   }
 }
 .jnode.is-current .jnode__card.ticks::after {
   background:
-    linear-gradient(rgb(var(--amber)), rgb(var(--amber))) top left / 11px 1px no-repeat,
-    linear-gradient(rgb(var(--amber)), rgb(var(--amber))) top left / 1px 11px no-repeat,
-    linear-gradient(rgb(var(--amber)), rgb(var(--amber))) top right / 11px 1px no-repeat,
-    linear-gradient(rgb(var(--amber)), rgb(var(--amber))) top right / 1px 11px no-repeat,
-    linear-gradient(rgb(var(--amber)), rgb(var(--amber))) bottom left / 11px 1px no-repeat,
-    linear-gradient(rgb(var(--amber)), rgb(var(--amber))) bottom left / 1px 11px no-repeat,
-    linear-gradient(rgb(var(--amber)), rgb(var(--amber))) bottom right / 11px 1px no-repeat,
-    linear-gradient(rgb(var(--amber)), rgb(var(--amber))) bottom right / 1px 11px no-repeat;
+    linear-gradient(rgb(var(--now)), rgb(var(--now))) top left / 11px 1px no-repeat,
+    linear-gradient(rgb(var(--now)), rgb(var(--now))) top left / 1px 11px no-repeat,
+    linear-gradient(rgb(var(--now)), rgb(var(--now))) top right / 11px 1px no-repeat,
+    linear-gradient(rgb(var(--now)), rgb(var(--now))) top right / 1px 11px no-repeat,
+    linear-gradient(rgb(var(--now)), rgb(var(--now))) bottom left / 11px 1px no-repeat,
+    linear-gradient(rgb(var(--now)), rgb(var(--now))) bottom left / 1px 11px no-repeat,
+    linear-gradient(rgb(var(--now)), rgb(var(--now))) bottom right / 11px 1px no-repeat,
+    linear-gradient(rgb(var(--now)), rgb(var(--now))) bottom right / 1px 11px no-repeat;
 }
 
 .jnode__top {
@@ -362,21 +358,13 @@
   gap: 0.6em;
 }
 .jnode__now-dot {
-  position: relative;
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: rgb(var(--amber));
-  box-shadow: 0 0 8px rgb(var(--amber));
+  background: var(--accent-3);
 }
-.jnode__now-dot::after {
-  content: "";
-  position: absolute;
-  inset: -4px;
-  border-radius: 50%;
-  border: 1px solid rgb(var(--amber));
-  opacity: 0;
-  animation: dot-ping 2.2s var(--ease-out) infinite;
+:root[data-theme="light"] .jnode__now-dot {
+  box-shadow: 0 0 8px rgb(var(--accent-3-rgb));
 }
 
 .jnode__main {
@@ -502,8 +490,8 @@
     box-shadow: 0 0 8px rgba(var(--accent-rgb), 0.5);
   }
   .jnode.is-current .jnode__tie {
-    background: linear-gradient(90deg, rgba(var(--amber), 0.9), rgba(var(--amber), 0.3));
-    box-shadow: 0 0 8px rgba(var(--amber), 0.5);
+    background: linear-gradient(90deg, rgba(var(--now), 0.9), rgba(var(--now), 0.3));
+    box-shadow: 0 0 8px rgba(var(--now), 0.5);
   }
 }
 @media (min-width: 1040px) {
@@ -538,8 +526,8 @@
     color: var(--accent);
   }
   .jnode.is-current:hover .jnode__node {
-    border-color: rgb(var(--amber));
-    color: rgb(var(--amber));
+    border-color: rgb(var(--now));
+    color: rgb(var(--now));
   }
 }
 
@@ -553,5 +541,67 @@
   }
   .jnode.is-current .jnode__node::after {
     display: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Calm dark: neutral rail and nodes, no glows; the current node alone takes the accent
+   -------------------------------------------------------------------------- */
+:root:not([data-theme="light"]) .journey {
+  --now: var(--accent-rgb);
+}
+:root:not([data-theme="light"]) .journey__rail-fill {
+  background: var(--text-3);
+  box-shadow: none;
+}
+:root:not([data-theme="light"]) .journey__rail-head {
+  background: var(--text-2);
+  box-shadow: 0 0 0 4px var(--line);
+}
+:root:not([data-theme="light"]) .jnode.is-lit .jnode__node {
+  border-color: var(--text-3);
+  background: var(--bg-elev);
+  color: var(--text);
+  box-shadow: none;
+}
+:root:not([data-theme="light"]) .jnode.is-lit .jnode__kind {
+  border-color: var(--text-3);
+  color: var(--text-2);
+}
+:root:not([data-theme="light"]) .jnode.is-current .jnode__node,
+:root:not([data-theme="light"]) .jnode.is-current.is-lit .jnode__node {
+  border-color: rgba(var(--now), 0.6);
+  background: linear-gradient(rgba(var(--now), 0.12), rgba(var(--now), 0.03)), var(--bg-elev);
+  box-shadow: none;
+}
+:root:not([data-theme="light"]) .jnode.is-current .jnode__node::after {
+  display: none;
+}
+:root:not([data-theme="light"]) .jnode.is-current .jnode__card {
+  border-color: var(--line-strong);
+  box-shadow: none;
+  background: var(--panel);
+}
+@media (hover: hover) and (pointer: fine) {
+  :root:not([data-theme="light"]) .jnode.is-current .jnode__card:hover {
+    border-color: var(--line-strong);
+  }
+  :root:not([data-theme="light"]) .jnode:hover .jnode__node {
+    border-color: var(--text-3);
+    color: var(--text);
+  }
+  :root:not([data-theme="light"]) .jnode.is-current:hover .jnode__node {
+    border-color: rgb(var(--now));
+    color: rgb(var(--now));
+  }
+}
+@media (min-width: 900px) {
+  :root:not([data-theme="light"]) .jnode.is-lit .jnode__tie {
+    background: var(--text-3);
+    box-shadow: none;
+  }
+  :root:not([data-theme="light"]) .jnode.is-current .jnode__tie {
+    background: rgba(var(--now), 0.6);
+    box-shadow: none;
   }
 }

@@ -61,31 +61,33 @@
   --text-3: #8596b0; /* >= 4.5:1 on the blurred HUD tint (28,40,52) as well as on --bg */
   --text-inverse: #04121a;
 
-  /* accents — cyan is the brand, violet supports, amber = "now / signal" */
-  --accent-rgb: 84, 230, 255;
-  --accent-2-rgb: 143, 123, 255;
-  --accent-3-rgb: 255, 180, 84;
+  /* accents — one soft cyan is the brand; violet only as the muted 2nd stop of the name gradients; amber = "now" only.
+     Dark hues are the light theme's, lifted and softened (no neon). Text on each clears 4.5:1 on --bg, --panel-solid and
+     on its own 12% tint (also under the panel hover spotlight). */
+  --accent-rgb: 117, 188, 209;
+  --accent-2-rgb: 173, 162, 226;
+  --accent-3-rgb: 207, 168, 110;
   --accent: rgb(var(--accent-rgb));
   --accent-2: rgb(var(--accent-2-rgb));
   --accent-3: rgb(var(--accent-3-rgb));
-  --ok: #7dffb0;
-  --danger: #ff6b8b;
+  --ok: #78ba99;
+  --danger: #e58c9c;
   --accent-grad: linear-gradient(100deg, var(--accent) 0%, var(--accent-2) 100%);
 
   /* venue colors (badges) */
-  --venue-neurips: 165, 148, 255;
-  --venue-eccv: 84, 230, 255;
-  --venue-cvpr: 255, 180, 84;
-  --venue-journal: 125, 255, 176;
-  --venue-iccv: 240, 112, 190;
-  --venue-iclr: 96, 165, 250;
-  --venue-aaai: 255, 107, 107;
-  --venue-acmmm: 190, 232, 84;
-  --venue-preprint: 150, 165, 190;
+  --venue-neurips: 173, 162, 226;
+  --venue-eccv: 117, 188, 209;
+  --venue-cvpr: 207, 168, 110;
+  --venue-journal: 120, 186, 153;
+  --venue-iccv: 211, 146, 184;
+  --venue-iclr: 139, 172, 218;
+  --venue-aaai: 216, 139, 131;
+  --venue-acmmm: 165, 188, 118;
+  --venue-preprint: 150, 160, 176;
 
-  /* glow */
-  --glow-sm: 0 0 0 1px rgba(var(--accent-rgb), 0.28), 0 0 22px rgba(var(--accent-rgb), 0.14);
-  --glow-md: 0 0 0 1px rgba(var(--accent-rgb), 0.4), 0 0 44px rgba(var(--accent-rgb), 0.22);
+  /* emphasis ring (dark): a hairline, no coloured halo */
+  --glow-sm: 0 0 0 1px rgba(var(--accent-rgb), 0.08);
+  --glow-md: 0 0 0 1px rgba(var(--accent-rgb), 0.1);
   --shadow-lg: 0 30px 80px -30px rgba(0, 0, 0, 0.7);
 
   /* type */

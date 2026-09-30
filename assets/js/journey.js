@@ -129,7 +129,6 @@
     if (!readout) return;
     var vis = visibleItems();
     readout.textContent = '';
-    readout.appendChild(h('span', { class: 'journey__prompt', 'aria-hidden': 'true' }, '›'));
     readout.appendChild(h('span', null, S.fmt(S.ui('journey.count'), { n: vis.length, total: entries().length })));
     var span = yearSpan(vis);
     if (span) readout.appendChild(h('span', { class: 'journey__range' }, span));

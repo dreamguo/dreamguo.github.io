@@ -129,7 +129,7 @@
     var meta = D.meta || {};
     var photo = about.photo || {};
     if (portrait.img) portrait.img.setAttribute('alt', S.t(photo.alt));
-    // the caption describes where the PHOTO was taken (Athens), not where the owner lives
+    // the caption describes where the PHOTO was taken (Athens), not the home city
     portrait.tagLoc.textContent = S.t(photo.place);
     portrait.tagLoc.hidden = !photo.place;
     portrait.tagCoords.textContent = photo.coords || '';

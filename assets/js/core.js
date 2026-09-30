@@ -2,7 +2,7 @@
    core.js — shared runtime. Exposes window.Site.
    Classic script (no ES modules) so the site also works when opened from file://.
 
-   Public API (see CONTRACT.md):
+   Public API:
      Site.data                    window.SITE_DATA
      Site.lang / Site.theme       'en'|'zh'  /  'dark'|'light'
      Site.t(v)                    resolve a string or {en, zh} for the current language
@@ -204,7 +204,7 @@
     });
   }
 
-  // The owner's name in the current language: "Mengqi Guo" (en) / "郭梦琦" (zh); *Both* = "Mengqi Guo 郭梦琦".
+  // The person's name in the current language: "Mengqi Guo" (en) / "郭梦琦" (zh); *Both* = "Mengqi Guo 郭梦琦".
   function personName(lang) {
     var m = data.meta || {};
     return (lang || Site.lang) === 'zh' && m.nameZh ? m.nameZh : m.name || '';
@@ -288,7 +288,7 @@
   };
 
   /* ---------------------------------------------------------------- motion */
-  // Site.reducedMotion is the effective preference: the OS setting OR the visitor's in-page pause (DECISIONS 21).
+  // Site.reducedMotion is the effective preference: the OS setting OR the visitor's in-page pause.
   // Every module that honors Site.reducedMotion + 'motionchange' therefore obeys the pause control automatically;
   // CSS is covered by html.motion-off (base.css). The inline <head> script sets the class before first paint.
   var motionMq = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;

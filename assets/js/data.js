@@ -1,19 +1,3 @@
-/* ==========================================================================
-   data.js — the single source of truth for site content (bilingual).
-   Edit THIS file to update the site; the HTML is only a skeleton.
-
-   Any user-visible string is either a plain string or { en: '...', zh: '...' }.
-   Inline markup allowed in strings: [text](url)  **bold**  *italic-serif*  `code`
-
-   ── TODO / please double-check (kept here so they are easy to find) ─────────
-   • Huawei start date: only "2025" is stated (user said "about one year").
-   • Internships (JHU CCVL, MEGVII, PKU VIE): only the START year is shown — end dates are unknown.
-   • Company name confirmed by the owner: "Huawei Norbert Wiener Research Center (Singapore)" / "华为维纳研究所（新加坡）".
-   • Chinese name 郭梦琦 (meta.nameZh) is shown in zh mode, footer, title and JSON-LD.
-   • News dates: MM.YYYY where the owner's old site gave a month, YYYY for items added in the rebuild.
-     NeurIPS 2023 (GNeSF) was dated 03.2024 on the old site; shown as "2023". HeiChole: month unverified → "2023".
-   • vie.group (PKU VIE Lab link) did not respond when last checked — confirm the URL.
-   ========================================================================== */
 (function () {
   'use strict';
 
@@ -46,6 +30,8 @@
       name: 'Mengqi Guo',
       nameZh: '郭梦琦',
       handle: 'dreamguo',
+      // visit statistics (GoatCounter: cookie-free, no personal data). Put the site code here to switch it on; empty = off.
+      analytics: { goatcounter: '' },
       url: 'https://dreamguo.github.io/',
       email: 'im.guomengqi@gmail.com',
       location: { en: 'Singapore', zh: '新加坡' },
@@ -97,7 +83,7 @@
         src: 'assets/img/avatar-960.jpg',
         small: 'assets/img/avatar-480.jpg',
         alt: { en: 'Portrait of Mengqi Guo holding a camera, taken in Athens', zh: '郭梦琦在雅典手持相机的肖像照' },
-        place: { en: 'Athens', zh: '雅典' }, // where the photo was taken (Acropolis) — NOT the owner's base city
+        place: { en: 'Athens', zh: '雅典' }, // where the photo was taken
         coords: '37.9838°N 23.7275°E',
       },
       paragraphs: [

@@ -119,7 +119,7 @@
       html: S.icon('refresh', { size: 16 }),
       on: { click: function () { S.hero.replay(); } },
     });
-    // pause / resume all motion (WCAG 2.2.2): the shared switch lives in Site.motion (DECISIONS 21)
+    // pause / resume all motion (WCAG 2.2.2): the shared switch lives in Site.motion
     hudEls.motion = null;
     if (S.motion && typeof S.motion.set === 'function') {
       hudEls.motion = h('button', {
@@ -144,7 +144,7 @@
       var hint = h('span', { class: 'hud__chip-hint mono' });
       var btn = h('button', {
         class: 'chip hud__chip', type: 'button', 'aria-pressed': 'false', dataset: { scene: id },
-        on: { click: function () { S.hero.setScene(id, { pin: true }); revealStage(); } }, // manual choice sticks (DECISIONS 22)
+        on: { click: function () { S.hero.setScene(id, { pin: true }); revealStage(); } }, // manual choice sticks
       }, h('span', { class: 'hud__chip-key mono', 'aria-hidden': 'true' }, String(i + 1)), label, hint);
       hudEls.chips[id] = { btn: btn, label: label, hint: hint };
       chipWrap.appendChild(btn);

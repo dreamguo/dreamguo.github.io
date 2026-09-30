@@ -149,7 +149,7 @@ html.is-orbiting * {
   }
 }
 
-/* English mode: the owner's Chinese name as a small sans tag on the name's baseline. The h1 becomes a wrapping flex row
+/* English mode: the Chinese name as a small sans tag on the name's baseline. The h1 becomes a wrapping flex row
    (name | tag, baseline-aligned): where the tag does not fit beside the name it drops onto its own line by itself (no
    JS, no per-width thresholds, and no line-height strut gap). Chinese mode keeps the inline lockup above. */
 :root:not([data-lang="zh"]) .hero__name {

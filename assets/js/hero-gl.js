@@ -88,7 +88,7 @@
   var stage = null; // framing target measured from the DOM (see measureStage)
   var stageTimer = 0, lostTimer = 0, lastPointerT = 0;
   var brickInfo = { total: 62, levels: 11 };
-  var pinnedSec = null; // section id a manual scene choice is pinned to (DECISIONS 22)
+  var pinnedSec = null; // section id a manual scene choice is pinned to
   var stackK = 1; // stacked layouts: 1 while the stage band is on screen -> 0 as it scrolls away
   var ambK = 0; // stacked layouts: 0 inside the hero -> 1 once the hero has scrolled off (dim ambient cloud)
 

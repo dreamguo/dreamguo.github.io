@@ -30,8 +30,7 @@
       name: 'Mengqi Guo',
       nameZh: '郭梦琦',
       handle: 'dreamguo',
-      // visit statistics (GoatCounter: cookie-free, no personal data). Put the site code here to switch it on; empty = off.
-      analytics: { goatcounter: '' },
+      analytics: { goatcounter: 'dreamguo' },
       url: 'https://dreamguo.github.io/',
       email: 'im.guomengqi@gmail.com',
       location: { en: 'Singapore', zh: '新加坡' },

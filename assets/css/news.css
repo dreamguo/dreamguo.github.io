@@ -1,0 +1,420 @@
+/* ==========================================================================
+   news.css — NEWS section: terminal window, filter chips, rail + rows, fold.
+   ========================================================================== */
+
+.news {
+  --news-lh: calc(0.98rem * var(--lh-body));
+  --news-py: 14px;
+  --news-dot: 9px;
+  --news-dot-y: calc(var(--news-py) + var(--news-lh) / 2);
+}
+
+.news [hidden] {
+  display: none !important;
+}
+
+/* --------------------------------------------------------------------------
+   Terminal window
+   -------------------------------------------------------------------------- */
+.news__term {
+  border-radius: var(--r-lg);
+}
+.news__chrome {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(var(--accent-rgb), 0.025);
+  color: var(--text-3);
+  font-size: var(--fs-xs);
+}
+.news__lights {
+  display: inline-flex;
+  gap: 6px;
+}
+.news__lights i {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--line-strong);
+}
+.news__lights i:first-child {
+  background: rgba(var(--accent-3-rgb), 0.7);
+}
+.news__lights i:nth-child(2) {
+  background: rgba(var(--accent-2-rgb), 0.7);
+}
+.news__lights i:nth-child(3) {
+  background: rgba(var(--accent-rgb), 0.7);
+}
+.news__file {
+  letter-spacing: 0.03em;
+}
+.news__lines {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* prompt line + filter chips */
+.news__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-3) var(--s-5);
+  padding: 18px 18px 14px;
+}
+.news__prompt {
+  margin: 0;
+  min-height: 1.6em;
+  color: var(--text);
+  font-size: 0.875rem;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+.news__ps1 {
+  margin-right: 0.7em;
+  color: var(--accent);
+}
+.news__filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+@media (pointer: fine) {
+  .news__filters .chip {
+    min-height: 34px;
+  }
+}
+/* phones: one masked scroller row (same treatment as the publications toolbar) instead of two wrapped rows */
+@media (max-width: 480px) {
+  .news__filters {
+    flex-wrap: nowrap;
+    flex: 1 1 100%;
+    min-width: 0;
+    overflow-x: auto;
+    padding: 3px 32px 3px 3px; /* room for focus rings; the end padding keeps the last chip clear of the fade */
+    margin: -3px;
+    scrollbar-width: none;
+    scroll-padding-inline: 8px 36px; /* the chosen / focused chip scrolls clear of the fade */
+    -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 32px), transparent);
+    mask-image: linear-gradient(90deg, #000 calc(100% - 32px), transparent);
+  }
+  .news__filters::-webkit-scrollbar {
+    display: none;
+  }
+  .news__filters .chip {
+    flex: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Log: rail + rows
+   -------------------------------------------------------------------------- */
+.news__log {
+  padding: 0 12px 4px 10px;
+}
+.news__list {
+  margin: 0;
+}
+
+.news__item {
+  --t: var(--accent-rgb);
+  position: relative;
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  column-gap: 8px;
+  border-radius: var(--r-xs);
+  transition: background var(--dur-2);
+}
+.news__item[data-type="career"] {
+  --t: var(--accent-2-rgb);
+}
+.news__item[data-type="award"] {
+  --t: var(--accent-3-rgb);
+}
+.news__item::after {
+  /* hairline separator */
+  content: "";
+  position: absolute;
+  left: 30px;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--line);
+}
+.news__item.is-last::after {
+  display: none;
+}
+
+/* rail */
+.news__node {
+  position: relative;
+  grid-column: 1;
+  grid-row: 1 / span 3;
+}
+.news__node::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--line-strong);
+}
+.news__node::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: calc(var(--news-dot-y) - var(--news-dot) / 2);
+  width: var(--news-dot);
+  height: var(--news-dot);
+  margin-left: calc(var(--news-dot) / -2);
+  box-sizing: border-box;
+  border: 1.5px solid rgb(var(--t));
+  border-radius: 50%;
+  background: var(--bg);
+  transition: background var(--dur-2), box-shadow var(--dur-3), transform var(--dur-3) var(--ease-out);
+}
+.news__log > .news__list:first-child > .news__item:first-child .news__node::before {
+  top: var(--news-dot-y);
+}
+.news__item.is-last .news__node::before {
+  bottom: auto;
+  height: var(--news-dot-y);
+}
+.news__item.is-fade .news__node::before {
+  -webkit-mask-image: linear-gradient(180deg, #000 20%, transparent);
+  mask-image: linear-gradient(180deg, #000 20%, transparent);
+}
+
+/* first row of the log is the "newest" — light its node */
+.news__log > .news__list:first-child > .news__item:first-child .news__node::after {
+  background: rgb(var(--t));
+  box-shadow: 0 0 0 4px rgba(var(--t), 0.18), 0 0 14px rgba(var(--t), 0.6);
+}
+
+/* cells */
+.news__meta {
+  grid-column: 2;
+  grid-row: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: calc(var(--news-py) + var(--news-lh));
+  padding-top: var(--news-py);
+}
+.news__date {
+  min-width: 4.4rem;
+  color: var(--text-3);
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums;
+}
+.news__tag {
+  --badge: var(--t);
+  padding: 0.34em 0.62em;
+  font-size: var(--fs-micro);
+}
+:root[data-theme="light"] .news__tag {
+  /* keep amber / cyan tags at AA on a light surface */
+  color: color-mix(in srgb, rgb(var(--badge)) 64%, var(--text));
+}
+
+.news__text {
+  grid-column: 2;
+  grid-row: 2;
+  min-width: 0;
+  padding: 4px 0 var(--news-py);
+  color: var(--text-2);
+  font-size: 0.98rem;
+  line-height: var(--lh-body);
+  text-wrap: pretty;
+}
+.news__text strong {
+  color: var(--text);
+  font-weight: 600;
+}
+.news__new {
+  margin-right: 0.7em;
+  vertical-align: 0.08em;
+  font-size: var(--fs-micro);
+}
+:root[data-theme="light"] .news__new {
+  color: color-mix(in srgb, rgb(var(--badge)) 62%, var(--text));
+}
+
+.news__view {
+  position: relative;
+  grid-column: 2;
+  grid-row: 3;
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  height: var(--news-lh);
+  margin: calc(var(--news-lh) * -0.25) 0 var(--news-py);
+  color: var(--text-2);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.02em;
+  transition: color var(--dur-2);
+}
+.news__view::after {
+  content: "";
+  position: absolute;
+  inset: -10px -8px;
+}
+.news__view-arrow {
+  display: inline-flex;
+  transition: transform var(--dur-3) var(--ease-out);
+}
+.news__view-arrow .icon {
+  width: 13px;
+  height: 13px;
+}
+.news__view:focus-visible {
+  border-radius: var(--r-xs);
+}
+/* touch: real 44px target */
+@media (pointer: coarse) {
+  .news__view {
+    height: var(--tap);
+    margin-top: calc(var(--news-lh) * -0.25 - (var(--tap) - var(--news-lh)) / 2);
+    margin-bottom: calc(var(--news-py) - (var(--tap) - var(--news-lh)) / 2);
+  }
+  .news__view::after {
+    inset: 0 -8px;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .news__item:hover {
+    background: linear-gradient(90deg, rgba(var(--t), 0.07), transparent 72%);
+  }
+  .news__item:hover .news__node::after {
+    background: rgb(var(--t));
+    box-shadow: 0 0 0 4px rgba(var(--t), 0.18), 0 0 14px rgba(var(--t), 0.6);
+    transform: scale(1.15);
+  }
+  .news__view:hover {
+    color: var(--accent);
+  }
+  .news__view:hover .news__view-arrow {
+    transform: translateX(3px);
+  }
+}
+
+/* wide: date · tag | text | action */
+@media (min-width: 720px) {
+  .news__item {
+    grid-template-columns: 26px 188px minmax(0, 1fr) auto;
+    column-gap: 0;
+  }
+  .news__item::after {
+    left: 26px;
+  }
+  .news__meta {
+    grid-column: 2;
+  }
+  .news__text {
+    grid-column: 3;
+    grid-row: 1;
+    max-width: 78ch;
+    padding-top: var(--news-py);
+  }
+  .news__view {
+    grid-column: 4;
+    grid-row: 1;
+    align-self: start;
+    margin: var(--news-py) 12px 0 20px;
+  }
+}
+
+/* entrance for rows created by a filter change */
+.news__item.is-enter {
+  animation: news-in 0.55s var(--ease-out) both;
+  animation-delay: calc(var(--i, 0) * 45ms);
+}
+@keyframes news-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Fold (show more / less) — grid-template-rows 0fr → 1fr
+   -------------------------------------------------------------------------- */
+.news__fold {
+  display: grid;
+  grid-template-rows: 0fr;
+  visibility: hidden;
+  transition: grid-template-rows 0.6s var(--ease-out), visibility 0s linear 0.6s;
+}
+.news__fold.is-open {
+  grid-template-rows: 1fr;
+  visibility: visible;
+  transition-delay: 0s;
+}
+.news__fold-inner {
+  min-height: 0;
+  overflow: hidden;
+}
+@supports (overflow: clip) {
+  /* clip only vertically for the collapse, so text-spacing overrides are not cut off sideways */
+  .news__fold-inner {
+    overflow-x: visible;
+    overflow-y: clip;
+  }
+}
+
+.news__more-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 6px 18px 22px;
+}
+.news__more {
+  min-height: 44px;
+  padding-inline: 1.4em;
+  font-size: var(--fs-xs);
+}
+.news__more-count {
+  color: var(--text-3);
+  letter-spacing: 0.02em;
+}
+.news__more-count::before {
+  content: "+";
+}
+.news__more[aria-expanded="true"] .news__more-count {
+  display: none;
+}
+.news__more-icon {
+  display: inline-flex;
+  transition: transform var(--dur-3) var(--ease-out);
+}
+.news__more-icon.is-flipped {
+  transform: rotate(180deg);
+}
+
+/* small screens: tighter window */
+@media (max-width: 479.98px) {
+  .news__toolbar {
+    padding-inline: 14px;
+  }
+  .news__chrome {
+    padding-inline: 14px;
+  }
+  .news__log {
+    padding-right: 8px;
+  }
+}

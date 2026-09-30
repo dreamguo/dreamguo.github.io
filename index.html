@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en" class="no-js" data-theme="dark" data-lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Mengqi Guo 郭梦琦 — Spatial AI &amp; 3D Vision</title>
+  <meta name="description" content="Mengqi Guo, Researcher at Huawei Norbert Wiener Research Center (Singapore). NUS Ph.D. (2026). Spatial foundation models, embodied AI, 3D/4D vision.">
+  <meta name="author" content="Mengqi Guo">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="theme-color" content="#06080c">
+  <meta name="color-scheme" content="dark light">
+  <link rel="canonical" href="https://dreamguo.github.io/">
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Mengqi Guo">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:title" content="Mengqi Guo 郭梦琦 — Spatial AI &amp; 3D Vision">
+  <meta property="og:description" content="Mengqi Guo, Researcher at Huawei Norbert Wiener Research Center (Singapore). NUS Ph.D. (2026). Spatial foundation models, embodied AI, 3D/4D vision.">
+  <meta property="og:url" content="https://dreamguo.github.io/">
+  <meta property="og:image" content="https://dreamguo.github.io/assets/img/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Mengqi Guo — Spatial AI and 3D Vision: a glowing 3D point cloud beside the name and title.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Mengqi Guo 郭梦琦 — Spatial AI &amp; 3D Vision">
+  <meta name="twitter:description" content="Mengqi Guo, Researcher at Huawei Norbert Wiener Research Center (Singapore). NUS Ph.D. (2026). Spatial foundation models, embodied AI, 3D/4D vision.">
+  <meta name="twitter:image" content="https://dreamguo.github.io/assets/img/og-image.png">
+  <meta name="twitter:image:alt" content="Mengqi Guo — Spatial AI and 3D Vision: a glowing 3D point cloud beside the name and title.">
+
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/img/icon-192.png">
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+
+  <!-- Runs before first paint (and before any stylesheet is requested): mark JS-enabled, apply saved theme /
+       language / paused-motion preference (no flash), and arm the reveal failsafe: if fx.js has not added html.fx-ready within 5 s
+       (blocked, crashed, offline), html.reveal-failsafe forces every .reveal visible so the page is never blank. -->
+  <script>
+    (function () {
+      var d = document.documentElement;
+      d.className = d.className.replace('no-js', 'js');
+      try {
+        var q = new URLSearchParams(location.search);
+        var th = q.get('theme') || localStorage.getItem('mq:theme') || 'dark';
+        var lg = q.get('lang') || localStorage.getItem('mq:lang') || 'en';
+        d.setAttribute('data-theme', th === 'light' ? 'light' : 'dark');
+        d.setAttribute('data-lang', lg === 'zh' ? 'zh' : 'en');
+        d.setAttribute('lang', lg === 'zh' ? 'zh-CN' : 'en');
+        if (localStorage.getItem('mq:motion') === 'paused') d.classList.add('motion-off');
+        var mt = document.querySelector('meta[name="theme-color"]');
+        if (mt && th === 'light') mt.setAttribute('content', '#f4f6f9');
+      } catch (e) {}
+      setTimeout(function () {
+        if (!d.classList.contains('fx-ready')) d.classList.add('reveal-failsafe');
+      }, 5000);
+    })();
+  </script>
+
+  <!-- Fonts: Geist (UI) · Geist Mono (labels) · Instrument Serif (accent). Non-blocking: the stylesheet is preloaded and
+       swapped in on load (display=swap keeps text visible); system fallbacks are in tokens.css. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400..600&family=Instrument+Serif:ital@0;1&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400..600&family=Instrument+Serif:ital@0;1&display=swap"></noscript>
+
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/nav.css">
+  <link rel="stylesheet" href="assets/css/hero.css">
+  <link rel="stylesheet" href="assets/css/about.css">
+  <link rel="stylesheet" href="assets/css/news.css">
+  <link rel="stylesheet" href="assets/css/publications.css">
+  <link rel="stylesheet" href="assets/css/journey.css">
+  <link rel="stylesheet" href="assets/css/recognition.css">
+  <link rel="stylesheet" href="assets/css/contact.css">
+  <link rel="stylesheet" href="assets/css/fx.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Mengqi Guo",
+    "alternateName": "郭梦琦",
+    "url": "https://dreamguo.github.io/",
+    "image": "https://dreamguo.github.io/assets/img/avatar-960.jpg",
+    "jobTitle": "Researcher",
+    "description": "Mengqi Guo, Researcher at Huawei Norbert Wiener Research Center (Singapore). NUS Ph.D. (2026). Spatial foundation models, embodied AI, 3D/4D vision.",
+    "worksFor": { "@type": "Organization", "name": "Huawei Norbert Wiener Research Center (Singapore)" },
+    "alumniOf": [
+      { "@type": "CollegeOrUniversity", "name": "National University of Singapore" },
+      { "@type": "CollegeOrUniversity", "name": "Beihang University" }
+    ],
+    "knowsAbout": ["3D reconstruction", "Gaussian splatting", "neural radiance fields", "spatial foundation models", "embodied AI", "computer vision"],
+    "sameAs": [
+      "https://github.com/dreamguo",
+      "https://scholar.google.com/citations?user=Qa4BlOoAAAAJ&hl=en"
+    ]
+  }
+  </script>
+</head>
+
+<body>
+  <a class="skip-link" href="#main" data-i18n="aria.skip">Skip to content</a>
+
+  <!-- Fixed WebGL backdrop: morphing 3D point cloud / Gaussian splats (hero-gl.js) -->
+  <canvas id="gl" class="gl" aria-hidden="true"></canvas>
+
+  <!-- Top bar: logo · section links · ⌘K · language · theme  (rendered by nav.js) -->
+  <header id="site-nav" class="nav" role="banner"></header>
+
+  <main id="main" tabindex="-1">
+    <!-- 00 · HERO (styled by hero.css, enhanced by hero.js) -->
+    <section id="hero" class="hero" aria-label="Introduction" data-i18n-attr="aria-label:hero.aria.intro" data-section="hero">
+      <div class="container hero__inner">
+        <div class="hero__copy">
+          <p class="hero__eyebrow mono"><span class="dot-live" aria-hidden="true"></span><span data-i18n="hero.eyebrow">Singapore · 1.3521°N 103.8198°E</span></p>
+          <h1 class="hero__name" aria-label="Mengqi Guo (郭梦琦)"><span class="hero__name-line"><span class="hero__name-a">Mengqi</span> <span class="hero__name-b">Guo</span></span> <span class="hero__latin hero__latin--cn" lang="zh-CN">郭梦琦</span></h1>
+          <p class="hero__role">
+            <span class="hero__title" data-i18n="hero.role">Researcher</span>
+            <span class="hero__company"><span class="hero__at" aria-hidden="true">@</span><span class="hero__org" data-i18n="hero.org">Huawei Norbert Wiener Research Center (Singapore)</span></span>
+          </p>
+          <p class="hero__typed mono" aria-hidden="true"><span class="hero__prompt">›</span> <span class="hero__phrase" id="hero-phrase">spatial intelligence</span><span class="caret"></span></p>
+          <p class="hero__lede" data-i18n="hero.lede">I work on multimodal and spatial foundation models and embodied AI. I earned my Ph.D. at NUS in 2026, teaching machines to reconstruct, understand and generate the 3D world.</p>
+          <div class="hero__cta">
+            <a class="btn btn--primary" href="#research"><span data-i18n="hero.cta.research">Explore research</span><span data-icon="arrow-right"></span></a>
+            <a class="btn btn--ghost" href="#contact" data-i18n="hero.cta.contact">Get in touch</a>
+            <a class="btn btn--ghost hero__link" data-link="scholar" href="https://scholar.google.com/citations?user=Qa4BlOoAAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer"><span data-icon="scholar"></span><span>Google Scholar</span><span class="sr-only" data-i18n="common.newtab"> (opens in a new tab)</span></a>
+            <a class="btn btn--ghost hero__link" data-link="github" href="https://github.com/dreamguo" target="_blank" rel="noopener noreferrer"><span data-icon="github"></span><span>GitHub</span><span class="sr-only" data-i18n="common.newtab"> (opens in a new tab)</span></a>
+            <button class="btn btn--ghost btn--sm hero__kbd" type="button" tabindex="-1" aria-hidden="true" data-cmdk-open data-i18n-attr="aria-label:aria.palette"><span data-icon="search"></span><span class="kbd">⌘K</span></button>
+          </div>
+          <div class="hero__hiring" role="note">
+            <span class="hero__hiring-tag mono" data-i18n="hero.hiring.tag">Hiring</span>
+            <p class="hero__hiring-text" data-i18n="hero.hiring.text" data-i18n-rich>I am looking for prospective interns / PhD students to work on 3D / 4D / embodied AI. Feel free to <a class="link" href="mailto:im.guomengqi@gmail.com">drop an email</a> if you are interested in working with me.</p>
+          </div>
+        </div>
+        <aside class="hero__hud" id="hero-hud" aria-label="3D scene controls" data-i18n-attr="aria-label:hero.aria.hud"></aside>
+      </div>
+      <a class="hero__scroll" href="#about" data-i18n-attr="aria-label:hero.scroll.aria"><span class="hero__scroll-line" aria-hidden="true"></span><span class="hero__scroll-label mono" data-i18n="hero.scroll">Scroll</span></a>
+    </section>
+
+    <!-- No-JS summary: directly under the hero (sections are hidden by base.css under html.no-js) -->
+    <noscript>
+      <div class="noscript">
+        <p><strong>Researcher</strong> at Huawei Norbert Wiener Research Center (Singapore) · Ph.D., National University of Singapore (2026).<br>
+        Multimodal &amp; spatial foundation models, embodied AI, 3D reconstruction, understanding and generation.</p>
+        <p><strong>Selected papers:</strong>
+          <a href="https://arxiv.org/abs/2511.05229">4D3R (NeurIPS 2025)</a> ·
+          <a href="projects/TreeSBA/">TreeSBA (ECCV 2024)</a> ·
+          <a href="projects/UNIKD/">UNIKD (ECCV 2024)</a> ·
+          <a href="https://arxiv.org/abs/2403.10119">URS-NeRF (ECCV 2024)</a> ·
+          <a href="https://arxiv.org/abs/2310.15712">GNeSF (NeurIPS 2023)</a> ·
+          <a href="https://arxiv.org/abs/2103.14098">UDA-Part (CVPR 2022 Oral)</a></p>
+        <p><a href="https://scholar.google.com/citations?user=Qa4BlOoAAAAJ&amp;hl=en">Google Scholar</a> ·
+           <a href="https://github.com/dreamguo">GitHub</a> ·
+           <a href="mailto:im.guomengqi@gmail.com">im.guomengqi@gmail.com</a></p>
+        <p class="noscript__note">This site is enhanced with JavaScript (interactive 3D hero, bilingual content, filters). Please enable it for the full experience.</p>
+      </div>
+    </noscript>
+
+    <!-- 01 · ABOUT (about.js renders into #about-body) -->
+    <section id="about" class="section" aria-labelledby="about-title" data-section="about">
+      <div class="container">
+        <header class="section-head reveal">
+          <span class="section-head__idx mono">01</span><span class="section-head__rule"></span>
+          <h2 class="section-head__title" id="about-title" data-i18n="sec.about.title" data-i18n-rich data-scramble>Seeing the world in 3D</h2>
+          <p class="section-head__kicker" data-i18n="sec.about.kicker">From 3D vision research to spatial foundation models.</p>
+        </header>
+        <div id="about-body" class="about"></div>
+      </div>
+    </section>
+
+    <!-- 02 · NEWS (news.js renders into #news-body) -->
+    <section id="news" class="section" aria-labelledby="news-title" data-section="news">
+      <div class="container">
+        <header class="section-head reveal">
+          <span class="section-head__idx mono">02</span><span class="section-head__rule"></span>
+          <h2 class="section-head__title" id="news-title" data-i18n="sec.news.title" data-i18n-rich data-scramble>Latest signals</h2>
+          <p class="section-head__kicker" data-i18n="sec.news.kicker">Papers, career and awards, newest first.</p>
+        </header>
+        <div id="news-body" class="news"></div>
+      </div>
+    </section>
+
+    <!-- 03 · RESEARCH / PUBLICATIONS (publications.js renders into #research-body) -->
+    <section id="research" class="section" aria-labelledby="research-title" data-section="research">
+      <div class="container">
+        <header class="section-head reveal">
+          <span class="section-head__idx mono">03</span><span class="section-head__rule"></span>
+          <h2 class="section-head__title" id="research-title" data-i18n="sec.research.title" data-i18n-rich data-scramble>Selected research</h2>
+          <p class="section-head__kicker" data-i18n="sec.research.kicker">Reconstruction, understanding and generation of the 3D world — from NeRF to Gaussian splatting to 4D.</p>
+        </header>
+        <div id="research-body" class="pubs"></div>
+      </div>
+    </section>
+
+    <!-- 04 · JOURNEY / EDUCATION & EXPERIENCE (journey.js renders into #journey-body) -->
+    <section id="journey" class="section" aria-labelledby="journey-title" data-section="journey">
+      <div class="container">
+        <header class="section-head reveal">
+          <span class="section-head__idx mono">04</span><span class="section-head__rule"></span>
+          <h2 class="section-head__title" id="journey-title" data-i18n="sec.journey.title" data-i18n-rich data-scramble>The path so far</h2>
+          <p class="section-head__kicker" data-i18n="sec.journey.kicker">Where I’ve studied and worked.</p>
+        </header>
+        <div id="journey-body" class="journey"></div>
+      </div>
+    </section>
+
+    <!-- 05 · RECOGNITION (recognition.js renders into #recognition-body) -->
+    <section id="recognition" class="section" aria-labelledby="recognition-title" data-section="recognition">
+      <div class="container">
+        <header class="section-head reveal">
+          <span class="section-head__idx mono">05</span><span class="section-head__rule"></span>
+          <h2 class="section-head__title" id="recognition-title" data-i18n="sec.recognition.title" data-i18n-rich data-scramble>Recognition &amp; service</h2>
+          <p class="section-head__kicker" data-i18n="sec.recognition.kicker">Awards, scholarships and academic service.</p>
+        </header>
+        <div id="recognition-body" class="recog"></div>
+      </div>
+    </section>
+
+    <!-- 06 · CONTACT (contact.js renders into #contact-body) -->
+    <section id="contact" class="section" aria-labelledby="contact-title" data-section="contact">
+      <div class="container">
+        <header class="section-head reveal">
+          <span class="section-head__idx mono">06</span><span class="section-head__rule"></span>
+          <h2 class="section-head__title" id="contact-title" data-i18n="sec.contact.title" data-i18n-rich data-scramble>Let’s talk</h2>
+          <p class="section-head__kicker" data-i18n="sec.contact.kicker">Always happy to chat about 3D vision, spatial foundation models and embodied AI.</p>
+        </header>
+        <div id="contact-body" class="contact"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="site-footer" class="footer" role="contentinfo"></footer>
+
+  <!-- Overlays (populated by fx.js / palette.js) -->
+  <div id="cmdk-root"></div>
+  <div id="toast-root" class="toast-root" role="status" aria-live="polite"></div>
+  <div id="cursor-root" aria-hidden="true"></div>
+
+
+  <!-- Scripts (classic, deferred, order matters). Each module registers with Site and is init-ed by main.js. -->
+  <script src="assets/js/data.js" defer></script>
+  <script src="assets/js/core.js" defer></script>
+  <script src="assets/js/icons.js" defer></script>
+  <script src="assets/js/fx.js" defer></script>
+  <script src="assets/js/nav.js" defer></script>
+  <script src="assets/js/palette.js" defer></script>
+  <script src="assets/js/hero-gl.js" defer></script>
+  <script src="assets/js/hero.js" defer></script>
+  <script src="assets/js/about.js" defer></script>
+  <script src="assets/js/news.js" defer></script>
+  <script src="assets/js/teasers.js" defer></script>
+  <script src="assets/js/publications.js" defer></script>
+  <script src="assets/js/journey.js" defer></script>
+  <script src="assets/js/recognition.js" defer></script>
+  <script src="assets/js/contact.js" defer></script>
+  <script src="assets/js/main.js" defer></script>
+</body>
+</html>

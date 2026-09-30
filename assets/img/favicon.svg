@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <title>Mengqi Guo</title>
+  <defs>
+    <linearGradient id="g" x1="8" y1="8" x2="56" y2="56" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#54e6ff"/>
+      <stop offset="1" stop-color="#8f7bff"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="38%" r="70%">
+      <stop offset="0" stop-color="#54e6ff" stop-opacity=".16"/>
+      <stop offset="1" stop-color="#54e6ff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="64" height="64" rx="15" fill="#06080c"/>
+  <rect width="64" height="64" rx="15" fill="url(#glow)"/>
+  <rect x=".75" y=".75" width="62.5" height="62.5" rx="14.25" fill="none" stroke="#96b9e6" stroke-opacity=".22" stroke-width="1.5"/>
+  <!-- viewfinder ticks -->
+  <path d="M10 19V10h9M45 10h9v9M54 45v9h-9M19 54h-9v-9" fill="none" stroke="url(#g)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity=".85"/>
+  <!-- G glyph (for Guo): an open ring with the crossbar, centred on the tile -->
+  <path d="M43.15 21.96 A15 15 0 1 0 47.00 32.00 H33.5" fill="none" stroke="url(#g)" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- point-cloud sparks, clear of the ring -->
+  <circle cx="51" cy="47" r="1.5" fill="#54e6ff" opacity=".7"/>
+  <circle cx="8.5" cy="32" r="1.2" fill="#8f7bff" opacity=".7"/>
+  <circle cx="32" cy="8.5" r="1.6" fill="#ffb454"/>
+</svg>

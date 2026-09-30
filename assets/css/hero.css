@@ -1,0 +1,1321 @@
+/* ==========================================================================
+   hero.css — hero layout, name treatment, HUD, viewfinder decorations,
+   CSS-only fallback when WebGL is unavailable (html.no-webgl).
+   Uses tokens only; verified for both themes and 390 / 768 / 1024 / 1440.
+   ========================================================================== */
+
+.hero {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding-top: calc(var(--nav-h) + clamp(20px, 5vh, 56px));
+  padding-bottom: clamp(126px, 13vh, 148px); /* the scroll cue (centered, ~100px tall) sits clear of the hiring note */
+  touch-action: pan-y; /* vertical scroll stays native; horizontal drags orbit the scene */
+}
+
+/* Legibility veil (second line of defense; the first is the camera framing + shader mask in hero-gl.js).
+   Two-column hero: a left-to-right wash that ends where the widest text line ends (--hero-copy-r is
+   measured by hero-gl.js; 56vw until then). Stacked hero: only the strip under the nav, because the
+   cloud lives in its own band there. */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      90deg,
+      var(--veil) 0,
+      var(--veil) calc(var(--hero-copy-r, 56vw) * 0.6),
+      transparent calc(var(--hero-copy-r, 56vw) + 7vw)
+    ),
+    radial-gradient(ellipse 80% 40% at 50% 0%, var(--veil) 0%, transparent 70%);
+}
+
+/* viewfinder frame: corner ticks */
+.hero::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  inset: calc(var(--nav-h) + 14px) clamp(10px, 1.6vw, 22px) clamp(10px, 1.6vw, 22px);
+  opacity: 0.4;
+  background:
+    linear-gradient(var(--accent), var(--accent)) top left / 22px 1px no-repeat,
+    linear-gradient(var(--accent), var(--accent)) top left / 1px 22px no-repeat,
+    linear-gradient(var(--accent), var(--accent)) top right / 22px 1px no-repeat,
+    linear-gradient(var(--accent), var(--accent)) top right / 1px 22px no-repeat,
+    linear-gradient(var(--accent), var(--accent)) bottom left / 22px 1px no-repeat,
+    linear-gradient(var(--accent), var(--accent)) bottom left / 1px 22px no-repeat,
+    linear-gradient(var(--accent), var(--accent)) bottom right / 22px 1px no-repeat,
+    linear-gradient(var(--accent), var(--accent)) bottom right / 1px 22px no-repeat;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html:not(.no-webgl) .hero {
+    cursor: grab;
+  }
+  /* with the custom cursor active (html.has-cursor) the ring shows the pressed state instead; two pointers would fight */
+  html:not(.has-cursor).is-orbiting .hero,
+  html:not(.has-cursor).is-orbiting .hero * {
+    cursor: grabbing !important;
+  }
+  .hero a,
+  .hero button {
+    cursor: pointer;
+  }
+  .hero .hero__hud {
+    cursor: default;
+  }
+}
+html.is-orbiting,
+html.is-orbiting * {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.hero__inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(min-content, 350px); /* the HUD may grow under enlarged text */
+  align-items: end;
+  gap: clamp(24px, 4vw, 64px);
+}
+
+.hero__copy {
+  align-self: center;
+  min-width: 0;
+  text-shadow: 0 0 14px var(--bg), 0 1px 24px var(--bg);
+}
+
+/* ---------------------------------------------------------------- copy */
+.hero__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 clamp(14px, 2.4vh, 24px);
+  color: var(--text-2);
+  font-size: var(--fs-xs);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}
+
+.hero__name {
+  position: relative;
+  margin: 0 0 clamp(14px, 2.4vh, 26px);
+  --name-fs: clamp(3.3rem, 0.6rem + 9.4vw, 8.75rem);
+  font-size: var(--name-fs);
+  font-weight: 600;
+  line-height: 0.94;
+  letter-spacing: -0.045em;
+  color: var(--text);
+  text-shadow: none; /* would paint over the clipped gradient text */
+}
+:root[data-lang="zh"] .hero__name {
+  letter-spacing: 0.01em;
+}
+/* optical alignment: the "M" of the big English name has ~0.07em of side-bearing; pull its stem onto the
+   eyebrow / role / lede edge */
+:root:not([data-lang="zh"]) .hero__name {
+  margin-left: -0.07em;
+}
+/* Chinese mode: the Latin name as a small tag on the name's baseline */
+.hero__latin {
+  display: inline-block;
+  margin-left: 0.3em;
+  font-family: var(--font-mono);
+  font-size: max(var(--fs-micro), 0.11em);
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--text-3);
+  background: none;
+  -webkit-text-fill-color: currentColor;
+  animation: none;
+  vertical-align: baseline;
+}
+@media (max-width: 640px) {
+  .hero__latin {
+    display: block;
+    margin: 10px 0 0;
+    font-size: var(--fs-xs);
+  }
+}
+
+/* English mode: the owner's Chinese name as a small sans tag on the name's baseline. The h1 becomes a wrapping flex row
+   (name | tag, baseline-aligned): where the tag does not fit beside the name it drops onto its own line by itself (no
+   JS, no per-width thresholds, and no line-height strut gap). Chinese mode keeps the inline lockup above. */
+:root:not([data-lang="zh"]) .hero__name {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 0.2em;
+  row-gap: clamp(6px, 0.05em, 10px);
+}
+.hero__name-line {
+  min-width: 0;
+}
+.hero__latin--cn {
+  margin: 0 0 0 calc(var(--name-fs) * 0.07); /* cancels the name's -0.07em optical outdent so a wrapped tag lines up with the column */
+  font-family: var(--font-sans);
+  font-size: clamp(14px, 0.16em, 22px);
+  font-weight: 400;
+  letter-spacing: 0.3em;
+  text-transform: none;
+  color: var(--text-3);
+}
+@media (max-width: 640px) {
+  .hero__latin--cn {
+    flex-basis: 100%; /* phones: always a small tag under the name */
+    margin: 4px 0 0 calc(var(--name-fs) * 0.07);
+    font-size: var(--fs-sm);
+    letter-spacing: 0.26em;
+  }
+}
+
+/* "Mengqi": solid text with a one-off accent sheen sweeping through on load */
+.hero__name-a {
+  background: linear-gradient(
+    100deg,
+    var(--text) 0%,
+    var(--text) 41%,
+    rgba(var(--accent-rgb), 1) 50%,
+    var(--text) 59%,
+    var(--text) 100%
+  );
+  background-size: 300% 100%;
+  background-position: 100% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: hero-sheen 2.4s var(--ease-out) 0.55s 1 both;
+}
+@keyframes hero-sheen {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: 0 0;
+  }
+}
+
+/* "Guo": brand gradient that slowly drifts */
+.hero__name-b {
+  padding-right: 0.06em;
+  background: linear-gradient(100deg, var(--accent) 0%, var(--accent-2) 50%, var(--accent) 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: hero-drift 9s linear infinite;
+}
+@keyframes hero-drift {
+  to {
+    background-position: -200% 0;
+  }
+}
+
+/* one scan line down the name */
+.hero__name::after {
+  content: "";
+  position: absolute;
+  left: -1%;
+  right: -1%;
+  top: 0;
+  height: 2px;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  box-shadow: 0 0 18px 2px rgba(var(--accent-rgb), 0.55);
+  animation: hero-scan 1.6s var(--ease-in-out) 0.3s 1 both;
+}
+@keyframes hero-scan {
+  0% {
+    top: 4%;
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  88% {
+    opacity: 1;
+  }
+  100% {
+    top: 96%;
+    opacity: 0;
+  }
+}
+
+.hero__role {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.15em 0.55em;
+  margin: 0 0 12px;
+  font-size: var(--fs-xl);
+  font-weight: 500;
+  line-height: var(--lh-snug);
+  color: var(--text);
+}
+.hero__company {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.4em;
+  min-width: 0;
+  max-width: 100%;
+}
+.hero__role > .hero__company {
+  grid-column: 1 / -1; /* inside the stacked lockups (grid) the company is its own row */
+}
+.hero__at {
+  color: var(--accent-3);
+  font-family: var(--font-mono);
+}
+.hero__org {
+  color: var(--text-2);
+  text-wrap: balance; /* the long company name: two even lines, never a stranded "(Singapore)" */
+}
+
+.hero__typed {
+  display: flex;
+  align-items: center;
+  min-height: 1.7em;
+  margin: 0;
+  color: var(--text-2);
+  font-size: var(--fs-md);
+  white-space: nowrap;
+}
+.hero__prompt {
+  margin-right: 0.6em;
+  color: var(--accent);
+}
+.hero__phrase {
+  color: var(--text);
+}
+
+.hero__lede {
+  max-width: 56ch;
+  margin: 18px 0 clamp(22px, 3.4vh, 32px);
+  color: var(--text-2);
+  font-size: var(--fs-lg);
+  line-height: var(--lh-body);
+  text-wrap: pretty;
+}
+
+.hero__cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+.hero__cta .btn {
+  min-height: 44px;
+}
+/* the copy's legibility halo (name / role / lede) must not smudge the button labels */
+.hero__cta .btn,
+.hero__cta .btn *,
+.hero__kbd {
+  text-shadow: none;
+}
+@media (hover: none), (pointer: coarse) {
+  .hero__kbd {
+    display: none;
+  }
+}
+/* Narrow copy column (two-column hero at about 900-1100px): the row is sized from the column, not the viewport, so
+   it never ends with a lone button. The nav search duplicates the hero shortcut pill, so the pill goes first;
+   below ~560px the four links form an even 2 x 2. */
+@supports (width: 1cqw) {
+  @container (max-width: 619px) {
+    .hero__kbd {
+      display: none;
+    }
+    .hero__cta {
+      gap: 8px;
+    }
+    .hero__cta .btn {
+      padding-inline: 14px;
+      font-size: var(--fs-sm);
+    }
+  }
+  @media (min-height: 501px) {
+    @container (max-width: 559px) {
+      .hero__cta {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+  }
+}
+/* Phones: the container above only exists in the two-column layouts, so the even 2 x 2 needs a plain media rule.
+   Landscape phones (max-height 500) keep their one-line icon-only row. */
+@media (max-width: 559px) and (min-height: 501px) {
+  .hero__cta {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+  .hero__cta .btn {
+    justify-content: center;
+    padding-inline: 14px;
+    font-size: var(--fs-sm);
+  }
+  .hero__kbd {
+    display: none; /* would become a fifth grid cell on a narrow desktop window */
+  }
+}
+@media (max-width: 389px) and (min-height: 501px) {
+  .hero__cta .btn--primary > :last-child {
+    display: none; /* the arrow: the label already says it, and 360px needs the room */
+  }
+}
+:root[data-lang="zh"] .hero__lede {
+  text-wrap: balance; /* no orphaned last character of a word */
+  word-break: auto-phrase; /* Chrome 119+: break between phrases, never inside a word (研|究); ignored elsewhere */
+}
+:root[data-lang="zh"] .hero__lede.is-phrased {
+  word-break: keep-all; /* hero.js put a <wbr> before every word: break only there */
+}
+
+/* ------------------------------------------------------------ hiring notice
+   A quiet announcement under the CTA row: hairline glass note, amber "signal" tag with a live dot, then the sentence
+   flowing on from the tag (so phones get a compact 4-line note instead of tag + paragraph). */
+.hero__hiring {
+  position: relative;
+  max-width: 36rem;
+  margin-top: clamp(16px, 2.6vh, 24px);
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  background: var(--panel);
+  color: var(--text-2);
+  font-size: var(--fs-sm);
+  line-height: 1.6;
+  text-shadow: none; /* the copy's halo would smear the small type */
+  text-wrap: pretty;
+}
+@supports (background: color-mix(in srgb, red 50%, transparent)) {
+  .hero__hiring {
+    background: color-mix(in srgb, var(--panel-solid) 78%, transparent); /* readable over the brightest points */
+  }
+}
+@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  .hero__hiring {
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+  }
+}
+.hero__hiring-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55em;
+  margin-right: 0.7em;
+  padding: 0.3em 0.6em;
+  border: 1px solid rgba(var(--accent-3-rgb), 0.5);
+  border-radius: var(--r-xs);
+  background: rgba(var(--accent-3-rgb), 0.1);
+  color: var(--accent-3);
+  font-size: var(--fs-micro);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  text-transform: uppercase;
+  vertical-align: 0.08em;
+  white-space: nowrap;
+}
+.hero__hiring-tag::before {
+  content: "";
+  flex: none;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 0 0 rgba(var(--accent-3-rgb), 0.55);
+  animation: hero-hiring-pulse 2.4s var(--ease-out) infinite;
+}
+@keyframes hero-hiring-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(var(--accent-3-rgb), 0.55);
+  }
+  70%,
+  100% {
+    box-shadow: 0 0 0 7px rgba(var(--accent-3-rgb), 0);
+  }
+}
+.hero__hiring-text {
+  display: inline; /* flows on from the tag */
+  margin: 0;
+}
+.hero__hiring-text .link {
+  color: var(--text);
+  font-weight: 500;
+  white-space: nowrap; /* the mailto link never splits across two lines */
+}
+.hero__hiring-text.is-phrased {
+  word-break: keep-all;
+}
+:root[data-lang="zh"] .hero__hiring-text {
+  text-wrap: pretty;
+}
+@media (pointer: coarse) {
+  .hero__hiring-text .link::after {
+    content: "";
+    position: absolute;
+    inset: -14px -6px; /* a 44px tap zone around the link without changing the line */
+  }
+}
+@media (hover: hover) and (pointer: fine) {
+  .hero__hiring-text .link:hover {
+    color: var(--accent);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero__hiring-tag::before {
+    animation: none;
+  }
+}
+
+/* ------------------------------------------------------------------ HUD */
+.hero__hud {
+  align-self: end;
+  width: 100%;
+  min-width: 280px;
+}
+.hud {
+  display: grid;
+  gap: 12px;
+  padding: 14px 14px 12px;
+  border-radius: var(--r-md);
+  text-shadow: none;
+  overflow: visible; /* .panel clips; with enlarged text the HUD must grow, never cut controls off */
+}
+.hud::before {
+  border-radius: inherit; /* the spotlight is no longer clipped by the panel edge */
+}
+@supports (background: color-mix(in srgb, red 50%, transparent)) {
+  .hud {
+    background: color-mix(in srgb, var(--panel-solid) 86%, transparent); /* readable over the brightest points */
+  }
+}
+.hud__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.hud__title {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-2);
+  font-size: var(--fs-xs);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}
+.hud__sim {
+  position: relative;
+  padding: 0.32em 0.6em;
+  border: 1px dashed rgba(var(--accent-3-rgb), 0.65);
+  border-radius: var(--r-xs);
+  background: transparent;
+  color: var(--accent-3);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1;
+  cursor: help;
+}
+.hud__sim[aria-expanded="true"] {
+  background: rgba(var(--accent-3-rgb), 0.12);
+}
+.hud__sim::after {
+  content: "";
+  position: absolute;
+  inset: -12px -4px; /* ~44px tall hit area (the box is measured from the padding edge) without a larger pill */
+}
+.hud__note {
+  margin: 0;
+  padding: 8px 10px;
+  border: 1px dashed rgba(var(--accent-3-rgb), 0.45);
+  border-radius: var(--r-xs);
+  color: var(--text-2);
+  font-size: var(--fs-xs);
+  line-height: 1.45;
+}
+.hud__note[hidden] {
+  display: none;
+}
+.hud__replay,
+.hud__motion {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  color: var(--text-2);
+  transition: color var(--dur-2), border-color var(--dur-2), background var(--dur-2);
+}
+.hud__replay::after,
+.hud__motion::after {
+  content: "";
+  position: absolute;
+  inset: -6px; /* 44px hit area */
+}
+.hud__motion[aria-pressed="true"] {
+  color: var(--accent-3);
+  border-color: rgba(var(--accent-3-rgb), 0.65);
+  background: rgba(var(--accent-3-rgb), 0.1);
+}
+.hud__replay .icon {
+  transition: transform var(--dur-4) var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .hud__replay:hover,
+  .hud__motion:hover {
+    color: var(--accent);
+    border-color: var(--line-accent);
+    background: rgba(var(--accent-rgb), 0.08);
+  }
+  .hud__replay:hover .icon {
+    transform: rotate(-180deg);
+  }
+  .hud__motion[aria-pressed="true"]:hover {
+    color: var(--accent-3);
+    border-color: rgba(var(--accent-3-rgb), 0.9);
+    background: rgba(var(--accent-3-rgb), 0.16);
+  }
+}
+
+.hud__scenes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.hud__chip {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto;
+  align-items: center;
+  column-gap: 9px;
+  row-gap: 3px;
+  min-height: 46px;
+  padding: 8px 10px;
+  border-radius: var(--r-sm);
+  text-align: left;
+  font-family: var(--font-sans);
+  letter-spacing: 0;
+}
+.hud__chip-key {
+  grid-row: 1 / span 2;
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--line-strong);
+  border-radius: 5px;
+  color: var(--text-2);
+  font-size: var(--fs-micro);
+  line-height: 1;
+  transition: color var(--dur-2), border-color var(--dur-2);
+}
+.hud__chip-label {
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  line-height: 1.1;
+  color: var(--text);
+}
+.hud__chip-hint {
+  color: var(--text-2);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+.hud__chip[aria-pressed="true"] .hud__chip-label,
+.hud__chip[aria-pressed="true"] .hud__chip-key,
+.hud__chip[aria-pressed="true"] .hud__chip-hint {
+  color: var(--accent);
+}
+.hud__chip[aria-pressed="true"] .hud__chip-key {
+  border-color: var(--line-accent);
+}
+
+.hud__tel {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px 8px;
+  margin: 0;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+.hud__cell {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+.hud__cell dt {
+  color: var(--text-2);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1;
+  white-space: nowrap;
+}
+.hud__cell dd {
+  margin: 0;
+  color: var(--text);
+  font-size: 0.95rem;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+.hud__cell:nth-child(2) dd {
+  color: var(--accent);
+}
+.hud__cell:nth-child(3) dd {
+  color: var(--accent-2);
+}
+
+.hud__bar {
+  height: 2px;
+  border-radius: 2px;
+  overflow: hidden;
+  background: var(--line);
+  opacity: 0.45;
+  transition: opacity var(--dur-3);
+}
+.hud.is-training .hud__bar {
+  opacity: 1;
+}
+.hud__bar > span {
+  display: block;
+  height: 100%;
+  transform-origin: left center;
+  transform: scaleX(0);
+  background: var(--accent-grad);
+  transition: transform 0.14s linear;
+}
+
+.hud__foot,
+.hud__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 12px;
+  margin: 0;
+  color: var(--text-2);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.02em;
+  line-height: 1.3;
+}
+.hud__keys[hidden] {
+  display: none;
+}
+.hud__foot {
+  gap: 4px 8px;
+}
+.hud__foot-icon {
+  display: inline-flex;
+  color: var(--accent);
+}
+.hud__meta {
+  margin-top: -4px;
+}
+.hud__aux {
+  display: inline-flex;
+  gap: 4px 6px;
+  flex-wrap: wrap;
+  font-variant-numeric: tabular-nums;
+}
+.hud__aux-k {
+  color: var(--text-2);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: var(--fs-micro);
+}
+.hud__aux-k:not(:first-child) {
+  margin-left: 6px;
+}
+.hud__aux-v {
+  display: inline-block;
+  min-width: 3.2ch;
+  color: var(--text-2);
+}
+.hud__state-wrap {
+  margin-left: auto;
+}
+.hud__state {
+  color: var(--ok);
+}
+.hud.is-training .hud__state {
+  color: var(--accent-3);
+}
+@media (hover: none) {
+  .hud__chip-key,
+  .hud__keys {
+    display: none;
+  }
+  .hud__chip {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+  }
+}
+
+/* ------------------------------------------------------- scroll cue, reticle */
+.hero__scroll {
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  gap: 10px;
+  min-width: var(--tap);
+  min-height: var(--tap);
+  padding: 8px 14px;
+  color: var(--text-2);
+  transition: color var(--dur-2);
+}
+@media (hover: hover) and (pointer: fine) {
+  .hero__scroll:hover {
+    color: var(--accent);
+  }
+}
+.hero__scroll-label {
+  font-size: var(--fs-micro);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}
+.hero__scroll-line {
+  position: relative;
+  display: block;
+  width: 1px;
+  height: 44px;
+  overflow: hidden;
+  background: var(--line-strong);
+}
+.hero__scroll-line::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: -45%;
+  width: 1px;
+  height: 45%;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
+  animation: hero-scroll 2.2s var(--ease-in-out) infinite;
+}
+@keyframes hero-scroll {
+  0% {
+    top: -45%;
+  }
+  100% {
+    top: 100%;
+  }
+}
+
+/* origin crosshair: sits on the scene's center; hidden on small / touch screens */
+.hero__reticle {
+  position: fixed;
+  z-index: 0;
+  left: var(--stage-x, 70%); /* both set by hero-gl.js: the projected scene origin */
+  top: var(--stage-y, 40%);
+  width: 0;
+  height: 0;
+  display: none;
+  pointer-events: none;
+  color: var(--accent);
+}
+@media (min-width: 1100px) and (pointer: fine) {
+  html:not(.no-webgl) .hero__reticle {
+    display: block;
+  }
+}
+.hero__reticle-h,
+.hero__reticle-v {
+  position: absolute;
+  background: currentColor;
+  opacity: 0.4;
+}
+.hero__reticle-h {
+  left: -20px;
+  top: 0;
+  width: 40px;
+  height: 1px;
+}
+.hero__reticle-v {
+  left: 0;
+  top: -20px;
+  width: 1px;
+  height: 40px;
+}
+.hero__reticle::before {
+  content: "";
+  position: absolute;
+  left: -9px;
+  top: -9px;
+  width: 18px;
+  height: 18px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  opacity: 0.5;
+}
+/* the readout is docked to the viewfinder frame's top-right corner (outside the model): no slab over the points */
+.hero__reticle-label {
+  position: fixed;
+  top: calc(var(--nav-h) + 28px);
+  right: clamp(24px, 2.6vw, 36px);
+  color: var(--text);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  text-shadow: 0 0 6px var(--bg), 0 0 14px var(--bg), 0 1px 2px var(--bg);
+}
+
+/* ------------------------------------------------------- entrance choreography */
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+html.js .hero__copy > *,
+html.js .hero__hud {
+  animation: hero-rise 0.9s var(--ease-out) backwards;
+  animation-delay: calc(var(--hd, 0) * 80ms + 60ms);
+}
+.hero__copy > :nth-child(2) { --hd: 1; }
+.hero__copy > :nth-child(3) { --hd: 2; }
+.hero__copy > :nth-child(4) { --hd: 3; }
+.hero__copy > :nth-child(5) { --hd: 4; }
+.hero__copy > :nth-child(6) { --hd: 5; }
+.hero__copy > :nth-child(7) { --hd: 6; }
+html.js .hero__hud {
+  animation-delay: 0.55s;
+}
+
+/* The H1 is sized from the copy column (container query), not the viewport, so "Mengqi Guo" never wraps
+   next to the HUD column. 5.65 = the name's advance width in em (en 5.37 / zh 5.52) plus a little air. */
+@supports (width: 1cqw) {
+  @media (min-width: 900px), (max-width: 899px) and (max-height: 500px) and (orientation: landscape) and (min-width: 640px) {
+    .hero__copy {
+      container-type: inline-size;
+    }
+    .hero__name {
+      font-size: min(var(--name-fs), calc(100cqw / 5.65));
+    }
+  }
+}
+
+/* Two-column hero (default, >= 900px, and short landscape phones/tablets): the 3D scene lives to the
+   right of the copy and above the HUD; hero-gl.js measures the copy and frames the camera to fit. */
+@media (max-height: 820px) and (min-width: 900px) {
+  .hero {
+    padding-top: calc(var(--nav-h) + clamp(12px, 3vh, 32px));
+    padding-bottom: clamp(100px, 13vh, 110px); /* short cue (28px line) + the hiring note above it */
+  }
+  .hero__name {
+    --name-fs: clamp(3.3rem, 0.4rem + 12.5vh, 7rem);
+  }
+  .hero__lede {
+    margin-top: 12px;
+    margin-bottom: 18px;
+  }
+  .hero__eyebrow {
+    margin-bottom: 10px;
+  }
+  .hud {
+    gap: 10px;
+    padding: 12px 12px 10px;
+  }
+  .hud__foot {
+    display: none;
+  }
+  .hero__scroll-line {
+    height: 28px;
+  }
+}
+/* narrow two-column hero (900-1099px): the CTA row may take two lines, so the scroll cue gets one row of extra room */
+@media (max-height: 820px) and (min-width: 900px) and (max-width: 1099px) {
+  .hero {
+    padding-bottom: clamp(128px, 19vh, 166px);
+  }
+}
+
+/* short landscape (phones on their side): the copy is pinned to the bottom edge, the 3D scene owns the free
+   strip above the HUD on the right, and the HUD shrinks to a switcher (2 x 2 scene chips + pause / replay).
+   hero-gl.js measures the HUD as an occluder, so the scene lands in that strip and stays fully visible. */
+@media (max-height: 500px) and (orientation: landscape) and (min-width: 640px) {
+  .hero {
+    align-items: flex-end;
+    padding-top: calc(var(--nav-h) + 12px); /* clears the viewfinder tick */
+    padding-bottom: 26px;
+  }
+  .hero__inner {
+    grid-template-columns: minmax(0, 1fr) clamp(220px, 34%, 276px);
+    gap: 20px;
+  }
+  .hero__copy {
+    align-self: end;
+  }
+  .hero__typed {
+    display: none; /* decorative, aria-hidden: buys ~30px so the CTAs land inside the first screen */
+  }
+  .hero__name {
+    --name-fs: clamp(2.4rem, 12vh, 3rem);
+    margin-bottom: 6px;
+  }
+  .hero__eyebrow {
+    margin-bottom: 6px;
+  }
+  .hero__role {
+    font-size: var(--fs-sm);
+    margin-bottom: 4px;
+  }
+  .hero__lede {
+    margin: 6px 0 12px;
+    font-size: var(--fs-sm);
+    line-height: 1.42;
+  }
+  .hero__cta {
+    gap: 8px;
+  }
+  .hero__cta .btn {
+    padding-inline: 14px;
+    font-size: var(--fs-sm);
+  }
+  .hero__scroll {
+    display: none;
+  }
+  .hero__hiring {
+    margin-top: 10px;
+    padding: 7px 12px;
+    font-size: 0.8125rem;
+    line-height: 1.5;
+  }
+
+  /* HUD: no telemetry, progress bar or captions (nothing simulated is shown, so the sim tag goes too) */
+  .hero__hud {
+    min-width: 0;
+  }
+  .hud {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+    grid-template-rows: repeat(2, auto);
+    gap: 6px;
+    padding: 8px;
+    align-items: center;
+  }
+  .hud__head {
+    display: contents; /* pause / replay become grid items next to the chips */
+  }
+  .hud__title,
+  .hud__sim,
+  .hud__note,
+  .hud__tel,
+  .hud__bar,
+  .hud__foot,
+  .hud__meta,
+  .hud__chip-hint,
+  .hud__chip-key {
+    display: none !important;
+  }
+  .hud__scenes {
+    grid-column: 1 / 3;
+    grid-row: 1 / 3;
+    gap: 6px;
+  }
+  .hud__motion,
+  .hud__replay {
+    grid-column: 3;
+    justify-self: center;
+  }
+  .hud__motion {
+    grid-row: 1;
+  }
+  .hud__replay {
+    grid-row: 2;
+  }
+  .hud__chip {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto;
+    min-height: var(--tap);
+    padding: 4px 6px;
+    justify-items: center;
+    text-align: center;
+  }
+  .hud__chip-label {
+    font-size: var(--fs-xs);
+    white-space: nowrap;
+  }
+  /* the panel's corner ticks would land on the chips' corners: pull them into the padding */
+  .hud.ticks::after,
+  .hud.ticks:hover::after {
+    inset: 3px;
+  }
+}
+/* the CTA row stays on one line: Google Scholar / GitHub shrink to their icons (accessible names stay) */
+@supports (width: 1cqw) {
+  @media (max-height: 500px) and (orientation: landscape) and (min-width: 640px) {
+    @container (max-width: 559px) {
+      .hero__link {
+        width: var(--tap);
+        padding-inline: 0;
+      }
+      .hero__link > span:nth-child(2) {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
+      }
+    }
+    @container (max-width: 389px) {
+      .hero__cta {
+        gap: 6px;
+      }
+      .hero__cta .btn {
+        padding-inline: 12px;
+        font-size: 0.8125rem;
+      }
+      .hero__cta .btn--primary > :last-child {
+        display: none; /* the arrow: the label already says it */
+      }
+    }
+  }
+}
+
+/* Stacked hero (< 900px, or narrow): title block, then a dedicated stage band for the 3D scene,
+   then lede / CTAs / HUD. .hero__copy dissolves (display: contents) so its children can
+   be ordered around the band; hero-gl.js frames the camera into the band between the typed line
+   and the lede and scrolls it away together with the copy. */
+@media (max-width: 899px) and (min-height: 501px), (max-width: 639px) {
+  .hero {
+    align-items: flex-start;
+    padding-bottom: 48px;
+  }
+  .hero__scroll {
+    display: none; /* the HUD is the last thing here: no 150px void for the cue */
+  }
+  .hero::before {
+    background: radial-gradient(ellipse 90% 26% at 50% 0%, var(--veil) 0%, transparent 72%);
+  }
+  .hero__inner {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+    gap: 0;
+  }
+  .hero__copy {
+    display: contents;
+  }
+  .hero__eyebrow { order: 1; justify-self: start; }
+  .hero__name { order: 2; }
+  .hero__role { order: 3; }
+  .hero__typed { order: 4; }
+  .hero__inner::before {
+    content: "";
+    order: 5;
+    display: block;
+    height: clamp(210px, min(58vw, 34svh), 420px); /* the stage */
+    pointer-events: none;
+  }
+  .hero__lede { order: 6; color: var(--text); }
+  .hero__cta { order: 7; }
+  .hero__hiring { order: 8; }
+  .hero__hud {
+    order: 9;
+    max-width: 520px;
+    margin-top: 32px;
+  }
+  .hero__lede{
+    text-shadow: 0 0 10px var(--bg), 0 0 22px var(--bg);
+  }
+}
+html.no-webgl .hero__inner::before,
+.hero.hero--static .hero__inner::before {
+  display: none !important;
+}
+
+@media (max-width: 560px) {
+  .hero {
+    padding-top: calc(var(--nav-h) + 20px);
+    padding-bottom: 48px;
+  }
+  .hero__typed {
+    font-size: var(--fs-sm);
+  }
+  .hero__lede {
+    font-size: var(--fs-md);
+  }
+  .hero__cta .btn:not(.btn--sm) {
+    flex: 1 1 auto;
+  }
+  .hud {
+    padding: 12px 12px 10px;
+    gap: 10px;
+  }
+  .hud__chip-hint,
+  .hud__aux,
+  .hud__foot,
+  .hero__scroll-label {
+    display: none;
+  }
+  .hud__meta {
+    margin-top: 0;
+  }
+}
+
+/* phones: the viewfinder brackets keep clear of the eyebrow's live dot (the gutter is only 18px) */
+@media (max-width: 640px) {
+  .hero::after {
+    left: max(6px, calc(var(--gutter) - 14px));
+    right: max(6px, calc(var(--gutter) - 14px));
+  }
+}
+
+/* phones: "@ Huawei Norbert Wiener Research Center (Singapore)" is its own clean line under the title (no dangling "@") */
+@media (max-width: 480px) {
+  .hero__role {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: 0.4em;
+    row-gap: 0.15em;
+    align-items: baseline;
+  }
+  .hero__title {
+    grid-column: 1 / -1;
+  }
+  .hero__org {
+    min-width: 0;
+    font-size: clamp(1rem, 4.6vw, 1.25rem);
+  }
+}
+/* English only (the Chinese company name always fits on one line): the same lockup wherever the row would
+   otherwise wrap and leave the "@" dangling at the end of the title line (481-720px viewports, 900-1199px columns) */
+@media (min-width: 481px) and (max-width: 720px) and (min-height: 501px) {
+  :root:not([data-lang="zh"]) .hero__role {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: 0.4em;
+    row-gap: 0.15em;
+    align-items: baseline;
+  }
+  :root:not([data-lang="zh"]) .hero__title {
+    grid-column: 1 / -1;
+  }
+}
+@supports (width: 1cqw) {
+  @media (min-width: 900px) {
+    @container (max-width: 709px) {
+      :root:not([data-lang="zh"]) .hero__role {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr);
+        column-gap: 0.4em;
+        row-gap: 0.15em;
+        align-items: baseline;
+      }
+      :root:not([data-lang="zh"]) .hero__title {
+        grid-column: 1 / -1;
+      }
+    }
+  }
+}
+
+/* touch: 44px targets, no keyboard-only affordances */
+@media (pointer: coarse) {
+  .hud__replay,
+  .hud__motion {
+    width: var(--tap);
+    height: var(--tap);
+  }
+  .hud__sim::after {
+    inset: -12px -8px;
+  }
+  .hero__kbd,
+  .hero__kbd .kbd {
+    display: none;
+  }
+}
+
+/* forced colors: the check mark base.css adds to pressed chips must not become a grid item of the HUD chip
+   (it made the sub-label wrap) */
+@media (forced-colors: active) {
+  .hud__chip {
+    position: relative;
+  }
+  .hud__chip[aria-pressed="true"]::before {
+    position: absolute;
+    top: 3px;
+    right: 6px;
+    font-size: var(--fs-micro);
+    line-height: 1;
+  }
+}
+
+/* ------------------------------------------------------ CSS-only fallback */
+html.no-webgl .gl {
+  display: none;
+}
+html.no-webgl .hero__hud,
+html.no-webgl .hero__reticle {
+  display: none;
+}
+html.no-webgl .hero::before {
+  background:
+    radial-gradient(ellipse 46% 52% at 74% 40%, rgba(var(--accent-rgb), 0.16), transparent 70%),
+    radial-gradient(ellipse 38% 46% at 90% 82%, rgba(var(--accent-2-rgb), 0.15), transparent 70%),
+    radial-gradient(ellipse 22% 28% at 58% 78%, rgba(var(--accent-3-rgb), 0.09), transparent 70%),
+    linear-gradient(var(--line) 1px, transparent 1px) 0 0 / 56px 56px,
+    linear-gradient(90deg, var(--line) 1px, transparent 1px) 0 0 / 56px 56px;
+  -webkit-mask-image: radial-gradient(ellipse 90% 85% at 70% 45%, #000 20%, transparent 78%);
+  mask-image: radial-gradient(ellipse 90% 85% at 70% 45%, #000 20%, transparent 78%);
+}
+
+/* ------------------------------------------------------------ reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .hero__name::after {
+    display: none;
+  }
+  .hero__scroll-line::after {
+    animation: none;
+    top: 20%;
+  }
+  html.js .hero__copy > *,
+  html.js .hero__hud {
+    animation: none;
+  }
+}
+
+/* polish: HUD note wraps in balanced lines; phone tweaks (status text clear of the corner tick, chip label centered) */
+.hud__note {
+  text-wrap: pretty;
+}
+@media (max-width: 560px) {
+  .hud__note {
+    text-wrap: balance;
+  }
+  .hud__state-wrap {
+    padding-right: 8px;
+  }
+  .hud__chip {
+    align-content: center;
+  }
+}

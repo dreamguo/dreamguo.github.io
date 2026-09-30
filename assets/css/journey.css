@@ -1,0 +1,557 @@
+/* ==========================================================================
+   journey.css — education & experience timeline  (.journey*, .jnode*)
+   Layout (desktop):  [ period ] [ node tile ] [ card ]   with a glowing rail
+   through the tiles. Mobile: rail-left, period above each card.
+   ========================================================================== */
+
+.journey {
+  --tile: 48px;
+  --jgap: 16px;
+  --pcol: 0px;
+  --jpad: clamp(26px, 4vw, 42px);
+  --rail-x: calc(var(--tile) / 2);
+  --amber: var(--accent-3-rgb);
+  position: relative;
+  margin-bottom: calc(var(--section-pad) * -0.35); /* trim the dead gap before Recognition */
+}
+
+@media (max-width: 480px) {
+  .journey {
+    --tile: 44px; /* slimmer rail on phones: about 10px more line width */
+    --jgap: 10px;
+  }
+}
+@media (min-width: 720px) {
+  .journey {
+    --tile: 56px;
+    --jgap: 22px;
+  }
+}
+@media (min-width: 900px) {
+  .journey {
+    --pcol: 156px;
+    --jgap: 24px;
+    --rail-x: calc(var(--pcol) + var(--jgap) + var(--tile) / 2);
+  }
+}
+
+/* ------------------------------------------------------------------ toolbar */
+.journey__bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 24px;
+  margin-bottom: clamp(26px, 4vw, 42px);
+}
+.journey__filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.journey__chip {
+  min-height: 36px;
+  padding-inline: 1.05em;
+}
+.journey__chip-ico {
+  display: inline-flex;
+}
+.journey__chip-ico .icon {
+  width: 14px;
+  height: 14px;
+}
+.journey__readout {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 14px;
+  margin: 0;
+  color: var(--text-3);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
+}
+.journey__prompt {
+  color: var(--accent);
+  margin-right: -6px;
+}
+.journey__range {
+  color: var(--text-2);
+  padding-left: 14px;
+  border-left: 1px solid var(--line-strong);
+}
+@media (pointer: coarse) {
+  .journey__chip {
+    min-height: 44px;
+  }
+}
+/* phones: one masked scroller row (same treatment as the publications toolbar) instead of two wrapped rows */
+@media (max-width: 480px) {
+  .journey__filters {
+    flex-wrap: nowrap;
+    flex: 1 1 100%;
+    min-width: 0;
+    overflow-x: auto;
+    padding: 3px 32px 3px 3px; /* room for focus rings; the end padding keeps the last chip clear of the fade */
+    margin: -3px;
+    scrollbar-width: none;
+    scroll-padding-inline: 8px 36px; /* the chosen / focused chip scrolls clear of the fade */
+    -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 32px), transparent);
+    mask-image: linear-gradient(90deg, #000 calc(100% - 32px), transparent);
+  }
+  .journey__filters::-webkit-scrollbar {
+    display: none;
+  }
+  .journey__chip {
+    flex: none;
+  }
+  .jnode__card {
+    padding: 16px;
+  }
+}
+
+/* -------------------------------------------------------------------- track */
+.journey__track {
+  position: relative;
+  --p: 0;
+  --rail-top: 0px;
+  --rail-h: 0px;
+}
+.journey__list {
+  display: flex;
+  flex-direction: column;
+}
+
+/* rail: hairline track + glowing fill scaled by --p (0..1) */
+.journey__rail {
+  position: absolute;
+  z-index: 0;
+  left: calc(var(--rail-x) - 1px);
+  top: var(--rail-top);
+  width: 2px;
+  height: var(--rail-h);
+  border-radius: 2px;
+  background: linear-gradient(var(--line-strong), var(--line-strong)) center / 1px 100% no-repeat;
+  pointer-events: none;
+}
+.journey__rail-fill {
+  position: absolute;
+  inset: 0;
+  border-radius: 2px;
+  background: linear-gradient(180deg, var(--accent), var(--accent-2));
+  box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.65), 0 0 26px rgba(var(--accent-rgb), 0.3);
+  transform-origin: 50% 0;
+  transform: scaleY(var(--p));
+  will-change: transform;
+}
+.journey__rail-head {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 10px;
+  height: 10px;
+  margin: -5px 0 0 -5px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 4px rgba(var(--accent-rgb), 0.18), 0 0 18px 4px rgba(var(--accent-rgb), 0.65);
+  opacity: 0;
+  transform: translate3d(0, calc(var(--rail-h) * var(--p)), 0);
+  transition: opacity var(--dur-2);
+  will-change: transform;
+}
+.journey__track.is-started .journey__rail-head {
+  opacity: 1;
+}
+
+/* ------------------------------------------------------------------- items */
+.jnode {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: var(--tile) minmax(0, 1fr);
+  grid-template-areas:
+    "node period"
+    "node card";
+  column-gap: var(--jgap);
+  row-gap: 10px;
+  padding-bottom: var(--jpad);
+}
+.jnode:last-child {
+  padding-bottom: 0;
+}
+.jnode.is-enter {
+  animation: jnode-enter 0.6s var(--ease-out) both;
+  animation-delay: calc(var(--i, 0) * 60ms);
+}
+@keyframes jnode-enter {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 14px, 0);
+  }
+}
+
+/* period */
+.jnode__period {
+  grid-area: period;
+  display: flex;
+  align-items: center;
+  min-height: var(--tile);
+  margin: 0;
+  color: var(--text-2);
+  font-size: var(--fs-sm);
+  letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.jnode.is-current .jnode__period {
+  color: rgb(var(--amber));
+}
+
+/* node tile */
+.jnode__node {
+  position: relative;
+  z-index: 1;
+  grid-area: node;
+  align-self: start;
+  display: grid;
+  place-items: center;
+  width: var(--tile);
+  height: var(--tile);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-md);
+  background: var(--bg-elev);
+  color: var(--text-3);
+  transition: color var(--dur-3) var(--ease), border-color var(--dur-3) var(--ease), box-shadow var(--dur-3) var(--ease),
+    background var(--dur-3) var(--ease);
+}
+.jnode__mono {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 0.82rem;
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+.jnode__mono[data-len="1"] {
+  font-size: 1.4rem;
+}
+.jnode__mono[data-len="2"] {
+  font-size: 1.05rem;
+}
+.jnode__mono[data-len="4"] {
+  font-size: var(--fs-micro);
+  letter-spacing: 0;
+}
+:root[data-lang="zh"] .jnode__note {
+  text-wrap: pretty;
+}
+.jnode__kind {
+  position: absolute;
+  right: -7px;
+  bottom: -7px;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border: 1px solid var(--line-strong);
+  border-radius: 50%;
+  background: var(--bg-elev);
+  color: var(--text-3);
+  transition: color var(--dur-3) var(--ease), border-color var(--dur-3) var(--ease);
+}
+.jnode__kind .icon {
+  width: 12px;
+  height: 12px;
+}
+.jnode__tie {
+  display: none;
+}
+
+/* lit by the progress line */
+.jnode.is-lit .jnode__node {
+  color: var(--accent);
+  border-color: var(--line-accent);
+  background: linear-gradient(rgba(var(--accent-rgb), 0.12), rgba(var(--accent-rgb), 0.02)), var(--bg-elev);
+  box-shadow: var(--glow-sm);
+}
+.jnode.is-lit .jnode__kind {
+  color: var(--accent);
+  border-color: var(--line-accent);
+}
+
+/* "now" node: amber, pulsing */
+.jnode.is-current .jnode__node,
+.jnode.is-current.is-lit .jnode__node {
+  color: rgb(var(--amber));
+  border-color: rgba(var(--amber), 0.62);
+  background: linear-gradient(rgba(var(--amber), 0.16), rgba(var(--amber), 0.03)), var(--bg-elev);
+  box-shadow: 0 0 0 1px rgba(var(--amber), 0.22), 0 0 34px rgba(var(--amber), 0.34);
+}
+.jnode.is-current .jnode__kind {
+  color: rgb(var(--amber));
+  border-color: rgba(var(--amber), 0.55);
+}
+.jnode.is-current .jnode__node::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border: 1px solid rgb(var(--amber));
+  border-radius: calc(var(--r-md) + 6px);
+  opacity: 0;
+  animation: jnode-ping 2.6s var(--ease-out) infinite;
+}
+@keyframes jnode-ping {
+  0% {
+    transform: scale(0.86);
+    opacity: 0.85;
+  }
+  100% {
+    transform: scale(1.22);
+    opacity: 0;
+  }
+}
+.journey__track.is-settling .jnode__node,
+.journey__track.is-settling .jnode__kind,
+.journey__track.is-settling .jnode__tie {
+  transition: none;
+}
+
+/* ------------------------------------------------------------------- card */
+.jnode__card {
+  grid-area: card;
+  min-width: 0;
+  padding: clamp(18px, 2.4vw, 28px);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.jnode.is-current .jnode__card {
+  border-color: rgba(var(--amber), 0.4);
+  box-shadow: 0 0 0 1px rgba(var(--amber), 0.1), 0 0 56px -14px rgba(var(--amber), 0.34);
+  background:
+    radial-gradient(520px circle at 0% 0%, rgba(var(--amber), 0.08), transparent 62%),
+    var(--panel);
+}
+@media (hover: hover) and (pointer: fine) {
+  .jnode.is-current .jnode__card:hover {
+    border-color: rgba(var(--amber), 0.6);
+  }
+}
+.jnode.is-current .jnode__card.ticks::after {
+  background:
+    linear-gradient(rgb(var(--amber)), rgb(var(--amber))) top left / 11px 1px no-repeat,
+    linear-gradient(rgb(var(--amber)), rgb(var(--amber))) top left / 1px 11px no-repeat,
+    linear-gradient(rgb(var(--amber)), rgb(var(--amber))) top right / 11px 1px no-repeat,
+    linear-gradient(rgb(var(--amber)), rgb(var(--amber))) top right / 1px 11px no-repeat,
+    linear-gradient(rgb(var(--amber)), rgb(var(--amber))) bottom left / 11px 1px no-repeat,
+    linear-gradient(rgb(var(--amber)), rgb(var(--amber))) bottom left / 1px 11px no-repeat,
+    linear-gradient(rgb(var(--amber)), rgb(var(--amber))) bottom right / 11px 1px no-repeat,
+    linear-gradient(rgb(var(--amber)), rgb(var(--amber))) bottom right / 1px 11px no-repeat;
+}
+
+.jnode__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 22px;
+}
+.jnode__kindlabel {
+  margin: 0;
+}
+.jnode__now {
+  gap: 0.6em;
+}
+.jnode__now-dot {
+  position: relative;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgb(var(--amber));
+  box-shadow: 0 0 8px rgb(var(--amber));
+}
+.jnode__now-dot::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 1px solid rgb(var(--amber));
+  opacity: 0;
+  animation: dot-ping 2.2s var(--ease-out) infinite;
+}
+
+.jnode__main {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+.jnode__org {
+  font-size: var(--fs-xl);
+  font-weight: 600;
+  line-height: var(--lh-snug);
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+.jnode__role {
+  text-wrap: balance; /* no orphan word on the second line ('Ph.D. in Computer / Science') */
+}
+.jnode__seg {
+  white-space: nowrap;
+}
+.jnode__orglink {
+  display: inline;
+  color: inherit;
+  transition: color var(--dur-2) var(--ease);
+}
+.jnode__ext {
+  display: inline-flex;
+  vertical-align: -0.12em;
+  margin-left: 0.35em;
+  color: var(--text-3);
+  transition: transform var(--dur-3) var(--ease-out), color var(--dur-2);
+}
+.jnode__ext .icon {
+  width: 0.72em;
+  height: 0.72em;
+}
+.jnode__orglink:focus-visible {
+  color: var(--accent);
+}
+.jnode__orglink:focus-visible .jnode__ext {
+  color: var(--accent);
+  transform: translate(2px, -2px);
+}
+@media (hover: hover) and (pointer: fine) {
+  .jnode__orglink:hover {
+    color: var(--accent);
+  }
+  .jnode__orglink:hover .jnode__ext {
+    color: var(--accent);
+    transform: translate(2px, -2px);
+  }
+}
+.jnode__role {
+  margin: 0;
+  color: var(--text);
+  font-size: var(--fs-md);
+  font-weight: 500;
+}
+.jnode__place {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  margin: 2px 0 0;
+  color: var(--text-3);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.jnode__place .icon {
+  width: 14px;
+  height: 14px;
+}
+.jnode__note {
+  min-width: 0;
+  color: var(--text-2);
+  font-size: 0.9375rem;
+  line-height: var(--lh-body);
+}
+.jnode__note p {
+  margin: 0;
+  max-width: 64ch;
+}
+.jnode__note strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+/* touch: the org link is a 44px-tall hit area (inline padding grows the hit box, not the line) */
+@media (pointer: coarse) {
+  .jnode__orglink {
+    padding-block: 9px;
+    margin-block: -9px;
+  }
+}
+
+/* --------------------------------------------------------------- desktop */
+@media (min-width: 900px) {
+  .jnode {
+    grid-template-columns: var(--pcol) var(--tile) minmax(0, 1fr);
+    grid-template-areas: "period node card";
+    row-gap: 0;
+  }
+  .jnode__period {
+    justify-content: flex-end;
+    align-self: start;
+    font-size: var(--fs-sm);
+  }
+  /* short connector from the tile to the card, lights up with the rail */
+  .jnode__tie {
+    display: block;
+    position: absolute;
+    z-index: 0;
+    left: calc(var(--pcol) + var(--jgap) + var(--tile));
+    top: calc(var(--tile) / 2);
+    width: var(--jgap);
+    height: 1px;
+    background: var(--line-strong);
+    transition: background var(--dur-3) var(--ease), box-shadow var(--dur-3) var(--ease);
+  }
+  .jnode.is-lit .jnode__tie {
+    background: linear-gradient(90deg, rgba(var(--accent-rgb), 0.9), rgba(var(--accent-rgb), 0.25));
+    box-shadow: 0 0 8px rgba(var(--accent-rgb), 0.5);
+  }
+  .jnode.is-current .jnode__tie {
+    background: linear-gradient(90deg, rgba(var(--amber), 0.9), rgba(var(--amber), 0.3));
+    box-shadow: 0 0 8px rgba(var(--amber), 0.5);
+  }
+}
+@media (min-width: 1040px) {
+  .jnode__card.has-note {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 4fr);
+    grid-template-areas:
+      "top top"
+      "main note";
+    column-gap: 0;
+    row-gap: 14px;
+  }
+  .jnode__card.has-note .jnode__top {
+    grid-area: top;
+  }
+  .jnode__card.has-note .jnode__main {
+    grid-area: main;
+    padding-right: 28px;
+  }
+  .jnode__card.has-note .jnode__note {
+    grid-area: note;
+    align-self: start;
+    padding-left: 28px;
+    border-left: 1px solid var(--line);
+  }
+}
+
+/* hover polish only where hover exists */
+@media (hover: hover) and (pointer: fine) {
+  .jnode:hover .jnode__node {
+    border-color: var(--line-accent);
+    color: var(--accent);
+  }
+  .jnode.is-current:hover .jnode__node {
+    border-color: rgb(var(--amber));
+    color: rgb(var(--amber));
+  }
+}
+
+/* ----------------------------------------------------- reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .journey__track {
+    --p: 1;
+  }
+  .journey__rail-head {
+    opacity: 1;
+  }
+  .jnode.is-current .jnode__node::after {
+    display: none;
+  }
+}

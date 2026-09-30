@@ -1,0 +1,769 @@
+/* ==========================================================================
+   about.css — ABOUT section: viewfinder portrait, spec sheet, bio, thrust cards.
+   Mobile-first. Only tokens, no hard-coded colors.
+   ========================================================================== */
+
+.about {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(36px, 7vw, 56px);
+  align-items: start;
+}
+
+.about__aside {
+  display: grid;
+  gap: var(--s-5);
+  min-width: 0;
+}
+.about__main {
+  min-width: 0;
+}
+
+/* tablet: portrait and spec sheet sit side by side */
+@media (min-width: 640px) and (max-width: 959.98px) {
+  .about__aside {
+    grid-template-columns: minmax(0, 300px) minmax(0, 1fr);
+    align-items: end;
+    gap: var(--s-6);
+  }
+}
+
+@media (min-width: 960px) {
+  .about {
+    grid-template-columns: minmax(300px, 0.78fr) minmax(0, 1.22fr);
+    gap: clamp(40px, 5.5vw, 88px);
+  }
+}
+@media (min-width: 960px) and (min-height: 820px) {
+  .about__aside {
+    position: sticky;
+    top: calc(var(--nav-h) + 24px);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Portrait — "viewfinder"
+   -------------------------------------------------------------------------- */
+.about__portrait {
+  width: 100%;
+  max-width: 420px;
+}
+.about__tilt {
+  margin: 0;
+  border-radius: var(--r-lg);
+  will-change: transform;
+}
+.about__photo {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-lg);
+  background: var(--bg-elev);
+  box-shadow: var(--shadow-lg);
+}
+
+/* monogram tile: placeholder while loading, and the graceful fallback */
+.about__mono {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(var(--accent-rgb), 0.18), transparent 55%),
+    radial-gradient(circle at 75% 80%, rgba(var(--accent-2-rgb), 0.2), transparent 55%), var(--bg-elev);
+  transition: opacity 0.7s var(--ease-out);
+}
+.about__mono span {
+  font-family: var(--font-mono);
+  font-size: clamp(3.4rem, 14vw, 6rem);
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  background: var(--accent-grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  opacity: 0.85;
+}
+.about__photo.is-loaded .about__mono {
+  opacity: 0;
+}
+
+.about__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  object-position: 50% 25%;
+  opacity: 0;
+  transform: scale(1.05);
+  /* tone-match: pull a bright blue-sky photo into the dark UI */
+  filter: saturate(0.78) contrast(1.06) brightness(0.93);
+  transition: opacity 0.9s var(--ease-out), transform 1.4s var(--ease-out), filter 0.6s var(--ease);
+}
+.about__img[hidden] {
+  display: none;
+}
+.about__photo.is-loaded .about__img {
+  opacity: 1;
+  transform: none;
+}
+:root[data-theme="light"] .about__img {
+  filter: saturate(0.95) contrast(1.02);
+}
+
+.about__tone {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(var(--accent-2-rgb), 0.16), transparent 42%),
+    linear-gradient(0deg, var(--veil), transparent 40%);
+  transition: opacity 0.6s var(--ease);
+}
+/* cyan color wash — blends with the photo (the frame is an isolated stacking context) */
+.about__photo::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: rgba(var(--accent-rgb), 0.14);
+  mix-blend-mode: color;
+  transition: opacity 0.6s var(--ease);
+}
+
+/* faint scan-line sweep — runs only while on screen (.is-live) */
+.about__scan {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 1;
+  height: 30%;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(var(--accent-rgb), 0.1) 82%,
+    rgba(var(--accent-rgb), 0.5) 99%,
+    transparent 100%
+  );
+  animation: about-scan 7.5s linear infinite;
+  animation-play-state: paused;
+}
+.about__portrait.is-live .about__scan {
+  animation-play-state: running;
+}
+/* light theme: the darkened accent would read as a heavy bar, so keep the sweep faint */
+:root[data-theme="light"] .about__scan {
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(var(--accent-rgb), 0.05) 82%,
+    rgba(var(--accent-rgb), 0.18) 99%,
+    transparent 100%
+  );
+}
+@keyframes about-scan {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;
+  }
+  55% {
+    transform: translateY(333%);
+    opacity: 1;
+  }
+  56%,
+  100% {
+    transform: translateY(333%);
+    opacity: 0;
+  }
+}
+
+/* autofocus reticle — appears on hover */
+.about__focus {
+  position: absolute;
+  left: 50%;
+  top: 33%;
+  z-index: 1;
+  width: 36%;
+  aspect-ratio: 1;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(1.5);
+  transition: opacity 0.4s var(--ease), transform 0.7s var(--ease-out);
+  background:
+    linear-gradient(var(--accent), var(--accent)) top left / 14px 2px no-repeat,
+    linear-gradient(var(--accent), var(--accent)) top left / 2px 14px no-repeat,
+    linear-gradient(var(--accent), var(--accent)) top right / 14px 2px no-repeat,
+    linear-gradient(var(--accent), var(--accent)) top right / 2px 14px no-repeat,
+    linear-gradient(var(--accent), var(--accent)) bottom left / 14px 2px no-repeat,
+    linear-gradient(var(--accent), var(--accent)) bottom left / 2px 14px no-repeat,
+    linear-gradient(var(--accent), var(--accent)) bottom right / 14px 2px no-repeat,
+    linear-gradient(var(--accent), var(--accent)) bottom right / 2px 14px no-repeat;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .about__portrait:hover .about__img {
+    filter: none;
+  }
+  .about__portrait:hover .about__tone {
+    opacity: 0.28;
+  }
+  .about__portrait:hover .about__photo::before {
+    opacity: 0;
+  }
+  .about__portrait:hover .about__focus {
+    opacity: 0.95;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+/* mono caption tags in the four corners */
+.about__tag {
+  position: absolute;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55em;
+  padding: 0.42em 0.65em;
+  border: 1px solid var(--line);
+  border-radius: var(--r-xs);
+  background: var(--veil);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.08em;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+  pointer-events: none;
+}
+.about__tag[hidden] {
+  display: none;
+}
+.about__tag--tl {
+  top: 18px;
+  left: 18px;
+}
+.about__tag--tr {
+  top: 18px;
+  right: 18px;
+}
+.about__tag--bl {
+  bottom: 18px;
+  left: 18px;
+}
+.about__rec {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--danger);
+  box-shadow: 0 0 8px var(--danger);
+  animation: about-rec 1.6s steps(1) infinite;
+}
+@keyframes about-rec {
+  50% {
+    opacity: 0.2;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Spec sheet — terminal key: value lines
+   -------------------------------------------------------------------------- */
+.about__specs-wrap {
+  min-width: 0;
+  width: 100%;
+  max-width: 420px;
+}
+@media (min-width: 640px) and (max-width: 959.98px) {
+  .about__specs-wrap {
+    max-width: none;
+  }
+}
+.about__specs {
+  border-radius: var(--r-md);
+}
+.about__specs-head {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  padding: 11px 16px;
+  border-bottom: 1px solid var(--line);
+  color: var(--text-3);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.04em;
+}
+.about__lights {
+  display: inline-flex;
+  gap: 6px;
+}
+.about__lights i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--line-strong);
+}
+.about__lights i:first-child {
+  background: rgba(var(--accent-3-rgb), 0.7);
+}
+.about__lights i:nth-child(2) {
+  background: rgba(var(--accent-2-rgb), 0.7);
+}
+.about__lights i:nth-child(3) {
+  background: rgba(var(--accent-rgb), 0.7);
+}
+.about__prompt {
+  margin-right: 0.6em;
+  color: var(--accent);
+}
+.about__specs-list {
+  display: grid;
+  gap: 2px;
+  margin: 0;
+  padding: 8px;
+}
+.about__spec {
+  display: grid;
+  grid-template-columns: 4.6rem minmax(0, 1fr);
+  column-gap: var(--s-3);
+  align-items: baseline;
+  padding: 9px 10px;
+  border-radius: var(--r-xs);
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+}
+.about__spec dt {
+  color: var(--text-3);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+  text-transform: lowercase;
+}
+.about__spec dt::after {
+  content: ":";
+  margin-left: 1px;
+  opacity: 0.7;
+}
+.about__spec dd {
+  display: flex;
+  align-items: baseline;
+  gap: 0.65em;
+  min-width: 0;
+  margin: 0;
+  color: var(--text);
+}
+.about__spec dd .dot-live {
+  flex: none;
+  /* stays on the first line when the value wraps (phone width), instead of floating between two lines */
+  align-self: flex-start;
+  margin-top: 0.5em;
+  transform: scale(0.85);
+}
+.about__spec dd > span:last-child {
+  text-wrap: balance; /* 'Huawei Singapore / Research Center' */
+}
+.about__spec.is-accent {
+  background: rgba(var(--accent-rgb), 0.08);
+  box-shadow: inset 2px 0 0 var(--accent);
+}
+.about__spec.is-accent dt {
+  color: var(--accent);
+}
+.about__spec.is-accent dd {
+  font-weight: 500;
+}
+
+/* --------------------------------------------------------------------------
+   Bio
+   -------------------------------------------------------------------------- */
+.about__bio {
+  display: grid;
+  gap: 1.35em;
+  max-width: 62ch;
+}
+.about__p {
+  color: var(--text-2);
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  text-wrap: pretty;
+}
+.about__p--lead {
+  color: var(--text);
+  font-size: clamp(1.2rem, 1.02rem + 0.85vw, 1.55rem);
+  line-height: 1.5;
+  letter-spacing: -0.014em;
+  text-wrap: balance;
+}
+.about__p strong {
+  color: var(--text);
+  font-weight: 600;
+}
+.about__p--lead strong {
+  background: linear-gradient(transparent 66%, rgba(var(--accent-rgb), 0.24) 0);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+:root[data-lang="zh"] .about__bio {
+  max-width: 35em;
+}
+:root[data-lang="zh"] .about__p {
+  line-height: 1.85;
+}
+:root[data-lang="zh"] .about__p--lead {
+  line-height: 1.65;
+  letter-spacing: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Research thrusts
+   -------------------------------------------------------------------------- */
+.about__thrusts {
+  margin-top: clamp(40px, 6vw, 64px);
+}
+.about__thrusts-title {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  margin-bottom: var(--s-4);
+  font-weight: 400;
+}
+.about__thrusts-title::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--line-strong), transparent);
+}
+.about__thrust-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--s-4);
+}
+@media (min-width: 560px) {
+  .about__thrust-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+.about__thrust-item {
+  display: grid;
+  min-width: 0;
+}
+
+.about__thrust {
+  --c: var(--accent-rgb);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  padding: var(--s-5);
+  border-radius: var(--r-md);
+}
+.about__thrust[data-thrust="understand"] {
+  --c: var(--accent-2-rgb);
+}
+.about__thrust-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--s-1);
+}
+.about__thrust-icon {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border: 1px solid rgba(var(--c), 0.34);
+  border-radius: 13px;
+  background: rgba(var(--c), 0.1);
+  color: rgb(var(--c));
+  transition: transform var(--dur-3) var(--ease-out), background var(--dur-2), box-shadow var(--dur-3);
+}
+.about__thrust-icon .icon {
+  width: 22px;
+  height: 22px;
+}
+.about__thrust-idx {
+  color: var(--text-3);
+  font-size: var(--fs-xs);
+  letter-spacing: var(--tracking-wide);
+}
+.about__thrust-title {
+  font-size: var(--fs-xl);
+  font-weight: 600;
+  line-height: var(--lh-snug);
+  letter-spacing: var(--tracking-tight);
+}
+.about__thrust-text {
+  color: var(--text-2);
+  font-size: var(--fs-sm);
+  line-height: 1.65;
+  text-wrap: pretty;
+}
+:root[data-lang="zh"] .about__thrust-text {
+  line-height: 1.8;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .about__thrust:hover .about__thrust-icon {
+    transform: translateY(-2px);
+    background: rgba(var(--c), 0.18);
+    box-shadow: 0 0 24px rgba(var(--c), 0.28);
+  }
+}
+
+/* paper chips inside a card */
+.about__thrust-papers {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: var(--s-3);
+}
+.about__thrust-label {
+  margin-right: 2px;
+  color: var(--text-3);
+  font-size: var(--fs-micro);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}
+.about__paper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+  height: 30px;
+  padding: 0 0.7em 0 0.8em;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-pill);
+  background: rgba(var(--c), 0.05);
+  color: var(--text);
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  line-height: 1;
+  transition: color var(--dur-1), border-color var(--dur-2), background var(--dur-2), transform var(--dur-2) var(--ease);
+}
+.about__paper::after {
+  /* invisible 44px tap target */
+  content: "";
+  position: absolute;
+  inset: -7px -3px;
+}
+.about__paper-yr {
+  color: var(--text-2);
+  font-size: var(--fs-micro);
+  font-weight: 400;
+}
+.about__paper-arrow {
+  display: inline-flex;
+  color: var(--text-3);
+  transition: transform var(--dur-2) var(--ease), color var(--dur-2);
+}
+.about__paper-arrow .icon {
+  width: 12px;
+  height: 12px;
+}
+@media (hover: hover) and (pointer: fine) {
+  .about__paper:hover {
+    border-color: rgba(var(--c), 0.6);
+    background: rgba(var(--c), 0.14);
+    color: rgb(var(--c));
+    transform: translateY(-1px);
+  }
+  .about__paper:hover .about__paper-arrow {
+    color: inherit;
+    transform: translate(2px, -2px);
+  }
+  /* light theme: a paler tint and a slightly deeper ink keep the 12px name at AA while hovered */
+  :root[data-theme="light"] .about__paper:hover {
+    background: rgba(var(--c), 0.09);
+    color: color-mix(in srgb, rgb(var(--c)) 72%, var(--text));
+  }
+}
+.about__paper:focus-visible {
+  border-radius: var(--r-pill);
+}
+/* touch: real 44px targets (the ::after hit area does not count for target-size audits) */
+@media (pointer: coarse) {
+  .about__paper {
+    height: var(--tap);
+    padding-inline: 0.95em 0.85em;
+  }
+  .about__paper::after {
+    inset: 0;
+  }
+}
+/* short proper names / titles inside the bio never break across a link boundary */
+.about__nw {
+  white-space: nowrap;
+}
+
+/* the "now" card gets the amber treatment */
+.about__thrust--now {
+  --c: var(--accent-3-rgb);
+  border-color: rgba(var(--accent-3-rgb), 0.42);
+  background:
+    linear-gradient(155deg, rgba(var(--accent-3-rgb), 0.11), transparent 62%), var(--panel);
+}
+@media (hover: hover) and (pointer: fine) {
+  .about__thrust--now:hover {
+    border-color: rgba(var(--accent-3-rgb), 0.7);
+  }
+}
+.about__thrust--now::before {
+  background: radial-gradient(460px circle at var(--mx, 50%) var(--my, 0%), rgba(var(--accent-3-rgb), 0.16), transparent 62%);
+}
+.about__now {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  padding: 0.45em 0.7em;
+  border: 1px solid rgba(var(--accent-3-rgb), 0.5);
+  border-radius: var(--r-xs);
+  background: rgba(var(--accent-3-rgb), 0.12);
+  color: rgb(var(--accent-3-rgb));
+  font-size: var(--fs-micro);
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+:root[data-theme="light"] .about__now {
+  /* amber on white needs a darker ink to reach 4.5:1 */
+  color: color-mix(in srgb, rgb(var(--accent-3-rgb)) 62%, var(--text));
+}
+.about__now .dot-live {
+  width: 7px;
+  height: 7px;
+  background: var(--accent-3);
+  box-shadow: 0 0 10px var(--accent-3);
+}
+.about__now .dot-live::after {
+  border-color: var(--accent-3);
+}
+.about__thrust--now .about__paper {
+  border-color: rgba(var(--accent-3-rgb), 0.4);
+}
+
+/* the Now card's bottom row: same slot as the PAPERS chip row of the other cards */
+.about__thrust-since {
+  display: flex;
+  align-items: center;
+  gap: 0.75em;
+  min-height: 30px;
+  margin-top: auto;
+  padding-top: var(--s-3);
+  box-sizing: content-box;
+  color: var(--text-2);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.04em;
+}
+.about__thrust-since .about__thrust-label {
+  margin-right: 0;
+  color: rgb(var(--accent-3-rgb));
+  font-weight: 500;
+}
+:root[data-theme="light"] .about__thrust-since .about__thrust-label {
+  color: color-mix(in srgb, rgb(var(--accent-3-rgb)) 62%, var(--text)); /* amber on white needs a darker ink for AA */
+}
+.about__since-period {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.about__thrust-since .caret {
+  margin-left: -0.35em;
+  background: rgb(var(--accent-3-rgb));
+}
+@media (pointer: coarse) {
+  .about__thrust-since {
+    min-height: var(--tap);
+  }
+}
+
+/* wide screens: give the cards a little more air */
+@media (min-width: 1200px) {
+  .about__thrust {
+    padding: var(--s-5) 26px 26px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Phones: compact thrust cards (icon + title share a row; paper chips scroll on one line)
+   -------------------------------------------------------------------------- */
+@media (max-width: 480px) {
+  .about__thrust {
+    display: grid;
+    grid-template-columns: 36px minmax(0, 1fr) auto;
+    grid-template-areas:
+      "icon title idx"
+      "text text text"
+      "papers papers papers";
+    align-items: center;
+    gap: var(--s-2) 12px;
+    padding: 18px;
+  }
+  .about__thrust-head {
+    display: contents; /* icon + index/Now pill become grid items of the card */
+  }
+  .about__thrust-icon {
+    grid-area: icon;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+  }
+  .about__thrust-icon .icon {
+    width: 18px;
+    height: 18px;
+  }
+  .about__thrust-idx,
+  .about__now {
+    grid-area: idx;
+  }
+  .about__thrust-title {
+    grid-area: title;
+    font-size: var(--fs-lg);
+    min-width: 0;
+  }
+  .about__thrust-text {
+    grid-area: text;
+  }
+  .about__thrust-papers,
+  .about__thrust-since {
+    grid-area: papers;
+    padding-top: 0;
+    margin-top: var(--s-1);
+  }
+  .about__thrust-papers {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-block: 7px; /* room for the 44px tap target and the focus ring inside the scroller */
+    margin-block: -7px 0;
+    padding-inline-end: 40px;
+    scrollbar-width: none;
+    -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 36px), transparent);
+    mask-image: linear-gradient(90deg, #000 calc(100% - 36px), transparent);
+  }
+  .about__thrust-papers::-webkit-scrollbar {
+    display: none;
+  }
+  .about__thrust-papers > * {
+    flex: none;
+  }
+}
+@media (max-width: 480px) and (pointer: coarse) {
+  .about__thrust-papers {
+    padding-block: 0; /* the chips are already 44px tall on touch */
+    margin-block: var(--s-1) 0;
+  }
+}

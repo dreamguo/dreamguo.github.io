@@ -1,0 +1,230 @@
+/* ==========================================================================
+   tokens.css — design tokens (color, type, space, motion, z-index)
+   Dark "research lab / terminal" is the default. Light is an opt-in theme.
+   Every other stylesheet must consume these variables instead of hard-coding.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Metric-matched local fallbacks. Google Fonts arrive after first paint (non-blocking, display=swap); these faces
+   make the system fallback occupy the same box as Geist / Instrument Serif so the swap does not reflow the hero.
+   Values measured against Arial and Times New Roman: size-adjust matches the average advance width, the ascent /
+   descent overrides (divided by size-adjust) match the line box. No font files are downloaded.
+   -------------------------------------------------------------------------- */
+@font-face {
+  font-family: "Geist Fallback";
+  src: local("Arial"), local("ArialMT"), local("Liberation Sans"), local("Helvetica");
+  font-weight: 100 500;
+  size-adjust: 102.2%;
+  ascent-override: 98.4%;
+  descent-override: 28.9%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Geist Fallback";
+  src: local("Arial Bold"), local("Arial-BoldMT"), local("Liberation Sans Bold"), local("Helvetica Bold");
+  font-weight: 600 900;
+  size-adjust: 100%;
+  ascent-override: 100.5%;
+  descent-override: 29.5%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Instrument Serif Fallback";
+  src: local("Times New Roman Italic"), local("TimesNewRomanPS-ItalicMT"), local("Liberation Serif Italic");
+  font-style: italic;
+  size-adjust: 87.6%;
+  ascent-override: 113%;
+  descent-override: 35.4%;
+  line-gap-override: 0%;
+}
+
+:root {
+  color-scheme: dark;
+
+  /* surfaces */
+  --bg: #06080c;
+  --bg-elev: #0a0f16;
+  --bg-sunk: #04060a;
+  --panel: rgba(14, 20, 30, 0.62);
+  --panel-solid: #0d131c;
+  --panel-hover: rgba(20, 29, 42, 0.72);
+  --veil: rgba(6, 8, 12, 0.72);
+
+  /* lines */
+  --line: rgba(150, 185, 230, 0.13);
+  --line-strong: rgba(150, 185, 230, 0.28);
+  --line-accent: rgba(var(--accent-rgb), 0.45);
+
+  /* text */
+  --text: #e9eff8;
+  --text-2: #aab7ca;
+  --text-3: #8596b0; /* >= 4.5:1 on the blurred HUD tint (28,40,52) as well as on --bg */
+  --text-inverse: #04121a;
+
+  /* accents — cyan is the brand, violet supports, amber = "now / signal" */
+  --accent-rgb: 84, 230, 255;
+  --accent-2-rgb: 143, 123, 255;
+  --accent-3-rgb: 255, 180, 84;
+  --accent: rgb(var(--accent-rgb));
+  --accent-2: rgb(var(--accent-2-rgb));
+  --accent-3: rgb(var(--accent-3-rgb));
+  --ok: #7dffb0;
+  --danger: #ff6b8b;
+  --accent-grad: linear-gradient(100deg, var(--accent) 0%, var(--accent-2) 100%);
+
+  /* venue colors (badges) */
+  --venue-neurips: 165, 148, 255;
+  --venue-eccv: 84, 230, 255;
+  --venue-cvpr: 255, 180, 84;
+  --venue-journal: 125, 255, 176;
+  --venue-iccv: 240, 112, 190;
+  --venue-iclr: 96, 165, 250;
+  --venue-aaai: 255, 107, 107;
+  --venue-acmmm: 190, 232, 84;
+  --venue-preprint: 150, 165, 190;
+
+  /* glow */
+  --glow-sm: 0 0 0 1px rgba(var(--accent-rgb), 0.28), 0 0 22px rgba(var(--accent-rgb), 0.14);
+  --glow-md: 0 0 0 1px rgba(var(--accent-rgb), 0.4), 0 0 44px rgba(var(--accent-rgb), 0.22);
+  --shadow-lg: 0 30px 80px -30px rgba(0, 0, 0, 0.7);
+
+  /* type */
+  --font-sans: "Geist", "Geist Fallback", "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  --font-mono: "Geist Mono", "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, "PingFang SC",
+    "Microsoft YaHei", monospace;
+  --font-serif: "Instrument Serif", "Instrument Serif Fallback", "Iowan Old Style", "Palatino Linotype", Georgia, "Songti SC", "Noto Serif SC",
+    serif;
+
+  --fs-micro: 0.75rem; /* 12px: the floor for mono micro-labels, badges, kbd, hashtags — never go below */
+  --fs-xs: 0.75rem;
+  --fs-sm: 0.875rem;
+  --fs-md: 1rem;
+  --fs-lg: 1.125rem;
+  --fs-xl: clamp(1.25rem, 1.1rem + 0.6vw, 1.6rem);
+  --fs-2xl: clamp(1.6rem, 1.2rem + 1.6vw, 2.4rem);
+  --fs-h2: clamp(2.1rem, 1.3rem + 3.4vw, 4rem);
+  --fs-hero: clamp(3.4rem, 1.2rem + 10vw, 9.5rem);
+  --lh-tight: 1.05;
+  --lh-snug: 1.25;
+  --lh-body: 1.65;
+  --tracking-tight: -0.035em;
+  --tracking-wide: 0.09em;
+
+  /* space */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 24px;
+  --s-6: 32px;
+  --s-7: 48px;
+  --s-8: 64px;
+  --s-9: 96px;
+  --s-10: 140px;
+
+  /* radius */
+  --r-xs: 4px;
+  --r-sm: 8px;
+  --r-md: 14px;
+  --r-lg: 22px;
+  --r-pill: 999px;
+
+  /* layout */
+  --container: 1200px;
+  --container-narrow: 860px;
+  /* side gutter never sits under a notch / rounded corner (viewport-fit=cover) */
+  --gutter: max(clamp(18px, 4.5vw, 44px), env(safe-area-inset-left, 0px), env(safe-area-inset-right, 0px));
+  --nav-h: 68px;
+  --section-pad: clamp(80px, 13vh, 150px);
+  --tap: 44px; /* minimum touch target (WCAG 2.5.5 / 2.5.8) */
+
+  /* motion */
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-1: 0.18s;
+  --dur-2: 0.32s;
+  --dur-3: 0.6s;
+  --dur-4: 0.9s;
+
+  /* z-index ladder */
+  --z-gl: 0;
+  --z-content: 1;
+  --z-nav: 50;
+  --z-palette: 100;
+  --z-toast: 110;
+  --z-cursor: 120;
+  --z-skip: 130; /* the skip link is the top-most thing when focused */
+}
+
+/* --------------------------------------------------------------------------
+   Light theme — same tokens, re-mapped. Toggled via <html data-theme="light">.
+   -------------------------------------------------------------------------- */
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  --bg: #f4f6f9;
+  --bg-elev: #ffffff;
+  --bg-sunk: #eaeef3;
+  --panel: rgba(255, 255, 255, 0.72);
+  --panel-solid: #ffffff;
+  --panel-hover: rgba(255, 255, 255, 0.92);
+  --veil: rgba(244, 246, 249, 0.78);
+
+  --line: rgba(20, 40, 70, 0.12);
+  --line-strong: rgba(20, 40, 70, 0.26);
+
+  --text: #0b1420;
+  --text-2: #3b4a60;
+  --text-3: #4f5f77;
+  --text-inverse: #ffffff;
+
+  /* darkened for AA text on their own tinted fills (badge / chip / label on rgba(x, .12)) */
+  --accent-rgb: 0, 106, 136;
+  --accent-2-rgb: 92, 64, 235;
+  --accent-3-rgb: 152, 88, 0;
+  --ok: #08703c;
+  --danger: #c4203f;
+
+  --venue-neurips: 92, 64, 235;
+  --venue-eccv: 0, 106, 136;
+  --venue-cvpr: 152, 88, 0;
+  --venue-journal: 8, 112, 60;
+  --venue-iccv: 176, 32, 120;
+  --venue-iclr: 29, 84, 200;
+  --venue-aaai: 200, 55, 15;
+  --venue-acmmm: 60, 130, 20;
+  --venue-preprint: 80, 96, 122;
+
+  --glow-sm: 0 0 0 1px rgba(var(--accent-rgb), 0.3), 0 8px 24px rgba(var(--accent-rgb), 0.12);
+  --glow-md: 0 0 0 1px rgba(var(--accent-rgb), 0.4), 0 12px 40px rgba(var(--accent-rgb), 0.18);
+  --shadow-lg: 0 30px 70px -30px rgba(20, 40, 70, 0.3);
+}
+
+/* Chinese typography: slightly looser leading, no negative tracking on CJK */
+:root[data-lang="zh"] {
+  --lh-body: 1.8;
+  --tracking-tight: -0.01em;
+  --tracking-wide: 0.06em;
+}
+
+/* --------------------------------------------------------------------------
+   Higher-contrast preference: stronger hairlines, no dim tertiary text.
+   -------------------------------------------------------------------------- */
+@media (prefers-contrast: more) {
+  :root {
+    --line: rgba(190, 215, 250, 0.42);
+    --line-strong: rgba(205, 225, 255, 0.72);
+    --text-3: var(--text-2);
+    --panel: rgba(10, 15, 22, 0.9);
+    --veil: rgba(6, 8, 12, 0.88);
+  }
+  :root[data-theme="light"] {
+    --line: rgba(20, 40, 70, 0.45);
+    --line-strong: rgba(20, 40, 70, 0.78);
+    --text-3: var(--text-2);
+    --panel: rgba(255, 255, 255, 0.95);
+    --veil: rgba(244, 246, 249, 0.92);
+  }
+}

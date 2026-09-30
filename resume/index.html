@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en" data-theme="dark" data-lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Redirecting… · Mengqi Guo</title>
+  <meta name="robots" content="noindex, follow">
+  <meta name="theme-color" content="#06080c">
+  <meta name="color-scheme" content="dark light">
+  <meta http-equiv="refresh" content="0; url=../#journey">
+  <link rel="canonical" href="https://dreamguo.github.io/#journey">
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../favicon.ico" sizes="any">
+  <script>
+    (function () {
+      var d = document.documentElement;
+      try {
+        d.setAttribute('data-theme', localStorage.getItem('mq:theme') === 'light' ? 'light' : 'dark');
+        var lg = localStorage.getItem('mq:lang') || 'en'; /* same defaults as the home page: English, no language sniffing */
+        d.setAttribute('data-lang', lg === 'zh' ? 'zh' : 'en');
+      } catch (e) {}
+      location.replace('../#journey');
+    })();
+  </script>
+  <link rel="stylesheet" href="../assets/css/tokens.css">
+  <style>
+    :root[data-lang="en"] .zh { display: none; }
+    :root[data-lang="zh"] .en { display: none; }
+    body { margin: 0; min-height: 100vh; display: grid; place-items: center; padding: 24px; background: var(--bg); color: var(--text); font-family: var(--font-sans); line-height: 1.6; text-align: center; }
+    p { margin: 0 0 8px; }
+    .mono { font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 0.09em; text-transform: uppercase; color: var(--text-3); }
+    a { color: var(--accent); }
+    a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="mono">› /resume/ → /#journey</p>
+    <p>
+      <span class="en">This page has moved. Redirecting to the <a href="../#journey">journey section</a>…</span>
+      <span class="zh">此页面已迁移，正在跳转到<a href="../#journey">经历</a>部分……</span>
+    </p>
+  </main>
+</body>
+</html>

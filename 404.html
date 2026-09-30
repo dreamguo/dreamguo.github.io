@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en" data-theme="dark" data-lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>404 — Scene not found · Mengqi Guo</title>
+  <meta name="description" content="404 — this page could not be found.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#06080c">
+  <meta name="color-scheme" content="dark light">
+  <!-- This page is served at ANY URL depth on GitHub Pages, so every asset is resolved against the site root.
+       a <base> (written by the script below, root-aware) does that over http(s); over file:// the next script points it at this file's folder instead
+       (so the page also works when opened directly). -->
+  <script>
+    /* the site root: "/" on dreamguo.github.io, "/AI_website/" when the same files are served as that project site.
+       The stylesheets are written here too (after the base is known) so the browser's preload scanner never guesses
+       their URLs relative to the missing page. */
+    (function () {
+      var r = location.protocol === 'file:'
+        ? location.href.split(/[?#]/)[0].replace(/[^\/]*$/, '') /* opened directly from disk: this file's own folder */
+        : /^\/AI_website(\/|$)/.test(location.pathname) ? '/AI_website/' : '/';
+      document.write('<base href="' + r + '">');
+      document.write('<link rel="stylesheet" href="' + r + 'assets/css/tokens.css">');
+      document.write('<link rel="stylesheet" href="' + r + 'assets/css/base.css">');
+    })();
+  </script>
+  <script>
+    (function () {
+      if (location.protocol !== 'file:') return;
+      var b = document.getElementsByTagName('base')[0];
+      if (b) b.href = location.href.split(/[?#]/)[0].replace(/[^\/]*$/, '');
+    })();
+  </script>
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+
+  <!-- Same fonts as the main site (identical URL, so it is already cached after a visit). Non-blocking: preloaded and
+       swapped in on load; display=swap keeps text visible; system fallbacks live in tokens.css -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400..600&family=Instrument+Serif:ital@0;1&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400..600&family=Instrument+Serif:ital@0;1&display=swap"></noscript>
+
+  <!-- Apply theme / language before first paint. Same rules as the home page: ?theme= / ?lang= win, then the saved
+       choice, then the defaults (dark, English) - no navigator.language sniffing. -->
+  <script>
+    (function () {
+      var d = document.documentElement;
+      try {
+        var q = new URLSearchParams(location.search);
+        var th = q.get('theme') || localStorage.getItem('mq:theme') || 'dark';
+        var lg = q.get('lang') || localStorage.getItem('mq:lang') || 'en';
+        d.setAttribute('data-theme', th === 'light' ? 'light' : 'dark');
+        d.setAttribute('data-lang', lg === 'zh' ? 'zh' : 'en');
+        d.setAttribute('lang', lg === 'zh' ? 'zh-CN' : 'en');
+        var mt = document.querySelector('meta[name="theme-color"]');
+        if (mt && th === 'light') mt.setAttribute('content', '#f4f6f9');
+      } catch (e) {}
+    })();
+  </script>
+
+  <noscript><link rel="stylesheet" href="/assets/css/tokens.css"><link rel="stylesheet" href="/assets/css/base.css"></noscript>
+
+  <style>
+    /* language switch without JS: show only the active language */
+    :root[data-lang="en"] .zh { display: none !important; }
+    :root[data-lang="zh"] .en { display: none !important; }
+
+    body { min-height: 100vh; min-height: 100dvh; }
+    .nf { position: relative; min-height: 100vh; min-height: 100dvh; display: grid; place-items: center; padding: 88px var(--gutter) 64px; overflow: hidden; isolation: isolate; }
+    .nf__field { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+    .nf::before { /* soft vignette so the terminal stays legible over the dots */
+      content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+      background: radial-gradient(ellipse 60% 55% at 50% 48%, var(--veil) 0%, transparent 75%);
+    }
+
+    .nf__bar { position: fixed; top: 0; left: 0; right: 0; height: var(--nav-h); display: flex; align-items: center; justify-content: space-between; padding: 0 var(--gutter); }
+    .nf__brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 600; letter-spacing: -0.02em; }
+    .nf__brand { padding: 4px 6px 4px 2px; border-radius: var(--r-sm); }
+    /* the nav's 'G' viewfinder mark (same rules as nav.css .nav__mark) */
+    .nf__mark { position: relative; display: grid; place-items: center; flex: none; width: 36px; height: 36px; background: rgba(var(--accent-rgb), 0.06); color: var(--accent); }
+    .nf__mark::before { content: ""; position: absolute; inset: 0; pointer-events: none;
+      background:
+        linear-gradient(var(--accent), var(--accent)) top left / 9px 1.5px no-repeat, linear-gradient(var(--accent), var(--accent)) top left / 1.5px 9px no-repeat,
+        linear-gradient(var(--accent), var(--accent)) top right / 9px 1.5px no-repeat, linear-gradient(var(--accent), var(--accent)) top right / 1.5px 9px no-repeat,
+        linear-gradient(var(--accent), var(--accent)) bottom left / 9px 1.5px no-repeat, linear-gradient(var(--accent), var(--accent)) bottom left / 1.5px 9px no-repeat,
+        linear-gradient(var(--accent), var(--accent)) bottom right / 9px 1.5px no-repeat, linear-gradient(var(--accent), var(--accent)) bottom right / 1.5px 9px no-repeat; }
+    .nf__mark-txt { font-family: var(--font-sans); font-size: 1.2rem; font-weight: 700; line-height: 1; letter-spacing: 0; background: var(--accent-grad); -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 8px rgba(var(--accent-rgb), 0.45)); }
+    .nf__word { font-size: 0.95rem; white-space: nowrap; }
+    .nf__tools { display: flex; gap: 8px; }
+    .nf__tools button { min-height: 44px; min-width: 44px; padding: 0 14px; border: 1px solid var(--line); border-radius: var(--r-pill); background: var(--panel); color: var(--text-2); font-family: var(--font-mono); font-size: var(--fs-xs); letter-spacing: 0.06em; transition: color var(--dur-1), border-color var(--dur-2); }
+    @media (hover: hover) and (pointer: fine) { .nf__tools button:hover { color: var(--text); border-color: var(--line-strong); } }
+
+    .nf__win { position: relative; width: min(100%, 680px); border: 1px solid var(--line-strong); border-radius: var(--r-lg); background: var(--panel); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); box-shadow: var(--shadow-lg); overflow: hidden; animation: nf-in var(--dur-4) var(--ease-out) both; }
+    .nf__head { display: flex; align-items: center; gap: 8px; padding: 12px 16px; border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--text-3); letter-spacing: 0.04em; }
+    .nf__lights { display: inline-flex; gap: 6px; margin-right: 6px; }
+    .nf__lights i { width: 10px; height: 10px; border-radius: 50%; background: var(--line-strong); }
+    .nf__lights i:first-child { background: var(--danger); opacity: 0.85; }
+    .nf__lights i:nth-child(2) { background: rgb(var(--accent-3-rgb)); opacity: 0.85; }
+    .nf__lights i:nth-child(3) { background: var(--ok); opacity: 0.85; }
+    .nf__body { padding: clamp(22px, 4vw, 40px); }
+
+    .nf__code { display: block; font-size: clamp(5.5rem, 3rem + 16vw, 10.5rem); font-weight: 600; line-height: 0.9; letter-spacing: var(--tracking-tight); background: var(--accent-grad); -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; font-variant-numeric: tabular-nums; }
+    .nf__title { margin-top: 10px; font-size: var(--fs-2xl); font-weight: 600; letter-spacing: -0.02em; line-height: var(--lh-snug); }
+    .nf__log { margin: 24px 0 0; padding: 0; list-style: none; font-family: var(--font-mono); font-size: var(--fs-sm); line-height: 1.9; color: var(--text-2); word-break: normal; overflow-wrap: anywhere; }
+    .nf__log li { opacity: 0; animation: nf-line 0.01s linear forwards; animation-delay: calc(0.35s + var(--i) * 0.42s); }
+    .nf__log .p { color: var(--accent); margin-right: 0.6em; user-select: none; }
+    .nf__log .err { color: var(--danger); }
+    .nf__log .ok { color: var(--ok); }
+    .nf__log code { color: var(--text); font-family: inherit; }
+    .nf__msg { margin-top: 22px; color: var(--text-2); max-width: 52ch; }
+    :root[data-lang="zh"] p.nf__msg.nf__msg { word-break: keep-all; overflow-wrap: break-word; line-break: strict; } /* breaks only at the <wbr> word boundaries */
+    .nf__cta { margin-top: 26px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+    .nf__hint { color: var(--text-3); font-family: var(--font-mono); font-size: var(--fs-xs); letter-spacing: 0.04em; }
+    .nf .btn { min-height: 44px; }
+
+    @keyframes nf-in { from { opacity: 0; transform: translateY(18px) scale(0.985); } to { opacity: 1; transform: none; } }
+    @keyframes nf-line { to { opacity: 1; } }
+
+    @media (max-width: 520px) { .nf__hint { display: none; } }
+    @media (prefers-reduced-motion: reduce) {
+      .nf__win { animation: none; }
+      .nf__log li { animation: none; opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="nf">
+    <canvas class="nf__field" id="field" aria-hidden="true"></canvas>
+
+    <header class="nf__bar">
+      <a class="nf__brand" id="nf-brand" href="./" data-home aria-label="Mengqi Guo — home"><span class="nf__mark" aria-hidden="true"><span class="nf__mark-txt">G</span></span><span class="nf__word"><span class="en">Mengqi Guo</span><span class="zh">郭梦琦</span></span></a>
+      <div class="nf__tools">
+        <button type="button" id="btn-theme" aria-label="Switch theme / 切换主题"><span class="en" id="theme-en">Light</span><span class="zh" id="theme-zh">浅色</span></button>
+        <button type="button" id="btn-lang" aria-label="Switch language / 切换语言">中 / EN</button>
+      </div>
+    </header>
+
+    <main id="main" class="nf__win ticks">
+      <div class="nf__head" aria-hidden="true">
+        <span class="nf__lights"><i></i><i></i><i></i></span>
+        <span>~/dreamguo.github.io — zsh</span>
+      </div>
+      <div class="nf__body">
+        <span class="nf__code" aria-hidden="true">404</span>
+        <h1 class="nf__title">
+          <span class="en">Scene not found</span>
+          <span class="zh">场景未找到</span>
+        </h1>
+
+        <ul class="nf__log" aria-hidden="true">
+          <li style="--i:0"><span class="p">$</span>locate <code id="nf-path">/this/page</code></li>
+          <li style="--i:1"><span class="p">›</span><span class="err">error:</span> <span class="en">no points registered at these coordinates</span><span class="zh">这个坐标上没有任何点云</span></li>
+          <li style="--i:2"><span class="p">›</span><span class="ok">hint:</span> <span class="en">the page moved, or never existed</span><span class="zh">页面已移动，或从未存在</span></li>
+          <li style="--i:3"><span class="p">$</span><span class="en">cd ~</span><span class="zh">cd ~</span><span class="caret"></span></li>
+        </ul>
+
+        <p class="nf__msg">
+          <span class="en">The page you’re looking for isn’t part of this scene. The home page has everything: research, news and ways to get in touch.</span>
+          <span class="zh">你要找的页面<wbr>不在<wbr>这个场景里。<wbr>主页上<wbr>有全部内容：<wbr>研究成果、<wbr>近期动态<wbr>与联系方式。</span>
+        </p>
+
+        <div class="nf__cta">
+          <a class="btn btn--primary" href="./" data-home><span class="en">Back to home</span><span class="zh">回到主页</span><span aria-hidden="true">→</span></a>
+          <a class="btn btn--ghost" href="./#research" data-home data-hash="#research"><span class="en">See research</span><span class="zh">浏览研究</span></a>
+          <span class="nf__hint"><span class="en">HTTP 404</span><span class="zh">HTTP 404</span></span>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    (function () {
+      'use strict';
+      var root = document.documentElement;
+
+      /* show the missing path */
+      var pathEl = document.getElementById('nf-path');
+      if (pathEl) {
+        var p = location.pathname || '/';
+        pathEl.textContent = p.length > 60 ? p.slice(0, 57) + '…' : p;
+      }
+
+      /* home links: over file:// there is no directory index, so point them at index.html */
+      if (location.protocol === 'file:') {
+        var homes = document.querySelectorAll('a[data-home]');
+        for (var hi = 0; hi < homes.length; hi++) {
+          homes[hi].setAttribute('href', 'index.html' + (homes[hi].getAttribute('data-hash') || ''));
+        }
+      }
+
+      /* language + theme toggles (share localStorage with the main site) */
+      var btn = document.getElementById('btn-lang');
+      var btnTheme = document.getElementById('btn-theme');
+      var themeMeta = document.querySelector('meta[name="theme-color"]');
+      var recolor = function () {};
+      function applyLang(l) {
+        root.setAttribute('data-lang', l);
+        root.setAttribute('lang', l === 'zh' ? 'zh-CN' : 'en');
+        document.title = l === 'zh' ? '404 — 场景未找到 · 郭梦琦' : '404 — Scene not found · Mengqi Guo';
+        var brand = document.getElementById('nf-brand');
+        if (brand) brand.setAttribute('aria-label', l === 'zh' ? '郭梦琦 — 回到主页' : 'Mengqi Guo — home');
+      }
+      function applyTheme(t) {
+        root.setAttribute('data-theme', t);
+        if (themeMeta) themeMeta.setAttribute('content', t === 'light' ? '#f4f6f9' : '#06080c');
+        /* the button names the theme you would switch TO */
+        var en = document.getElementById('theme-en'), zh = document.getElementById('theme-zh');
+        if (en) en.textContent = t === 'light' ? 'Dark' : 'Light';
+        if (zh) zh.textContent = t === 'light' ? '深色' : '浅色';
+        recolor();
+      }
+      applyLang(root.getAttribute('data-lang') === 'zh' ? 'zh' : 'en');
+      applyTheme(root.getAttribute('data-theme') === 'light' ? 'light' : 'dark');
+      if (btn) btn.addEventListener('click', function () {
+        var next = root.getAttribute('data-lang') === 'zh' ? 'en' : 'zh';
+        applyLang(next);
+        try { localStorage.setItem('mq:lang', next); } catch (e) {}
+      });
+      if (btnTheme) btnTheme.addEventListener('click', function () {
+        var next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+        applyTheme(next);
+        try { localStorage.setItem('mq:theme', next); } catch (e) {}
+      });
+
+      /* tiny point-field: drifting 3D dots, rotating slowly, pauses when hidden */
+      var cv = document.getElementById('field');
+      var ctx = cv && cv.getContext && cv.getContext('2d');
+      if (!ctx) return;
+      var mq = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : { matches: false };
+      var W = 0, H = 0, dpr = 1, raf = 0, t0 = 0, mx = 0, my = 0, tx = 0, ty = 0;
+      var N = 260, pts = [];
+      var seed = 11;
+      function rnd() { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }
+      for (var i = 0; i < N; i++) {
+        // gaussian-ish blob with a hole in the middle ("missing" region)
+        var a = rnd() * Math.PI * 2, b = Math.acos(2 * rnd() - 1), r = 0.45 + Math.pow(rnd(), 0.6) * 0.9;
+        pts.push({ x: r * Math.sin(b) * Math.cos(a), y: r * Math.cos(b) * 0.7, z: r * Math.sin(b) * Math.sin(a), s: 0.6 + rnd() * 1.6, k: rnd() });
+      }
+      function rgb(name, fallback) {
+        var v = getComputedStyle(root).getPropertyValue(name).trim();
+        return v ? v.replace(/\s+/g, '') : fallback;
+      }
+      var c1, c2, light;
+      function colors() {
+        c1 = rgb('--accent-rgb', '84,230,255').split(',').map(Number);
+        c2 = rgb('--accent-2-rgb', '143,123,255').split(',').map(Number);
+        light = root.getAttribute('data-theme') === 'light';
+      }
+      function resize() {
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        W = window.innerWidth; H = window.innerHeight;
+        cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        draw(t0);
+      }
+      function draw(t) {
+        ctx.clearRect(0, 0, W, H);
+        var ang = t * 0.00008 + mx * 0.35, tilt = 0.35 + my * 0.2;
+        var ca = Math.cos(ang), sa = Math.sin(ang), ct = Math.cos(tilt), st = Math.sin(tilt);
+        var sc = Math.min(W, H) * 0.62, cx = W / 2, cy = H / 2;
+        for (var i = 0; i < N; i++) {
+          var p = pts[i];
+          var x = p.x * ca + p.z * sa, z = -p.x * sa + p.z * ca;
+          var y = p.y * ct - z * st; z = p.y * st + z * ct;
+          var f = 1 / (2.6 - z);
+          var px = cx + x * sc * f * 1.7, py = cy + y * sc * f * 1.7;
+          var near = Math.min(1, Math.max(0, (z + 1.5) / 3));
+          var tw = 0.75 + 0.25 * Math.sin(t * 0.002 + p.k * 40);
+          var c = [0, 1, 2].map(function (j) { return Math.round(c1[j] + (c2[j] - c1[j]) * p.k); });
+          ctx.fillStyle = 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',' + ((light ? 0.25 : 0.14) + near * (light ? 0.5 : 0.62)) * tw + ')';
+          var s = p.s * (0.7 + near * 1.3);
+          ctx.fillRect(px - s / 2, py - s / 2, s, s);
+        }
+      }
+      function frame(t) {
+        mx += (tx - mx) * 0.04; my += (ty - my) * 0.04;
+        draw(t); t0 = t;
+        raf = requestAnimationFrame(frame);
+      }
+      function start() { if (!raf && !mq.matches && !document.hidden) raf = requestAnimationFrame(frame); }
+      function stop() { if (raf) { cancelAnimationFrame(raf); raf = 0; } }
+      recolor = function () { colors(); draw(t0); };
+      colors(); resize();
+      window.addEventListener('resize', resize, { passive: true });
+      window.addEventListener('pointermove', function (e) { tx = e.clientX / W - 0.5; ty = e.clientY / H - 0.5; }, { passive: true });
+      document.addEventListener('visibilitychange', function () { document.hidden ? stop() : start(); });
+      var onMq = function () { if (mq.matches) { stop(); draw(0); } else start(); };
+      if (mq.addEventListener) mq.addEventListener('change', onMq);
+      start();
+    })();
+  </script>
+</body>
+</html>

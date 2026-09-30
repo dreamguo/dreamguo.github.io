@@ -1,0 +1,888 @@
+/* ==========================================================================
+   fx.css — global effects + command palette
+   Sections: 1 locks & helpers · 2 reveal variants · 3 spotlight / tilt / glare
+             4 selection · 5 custom cursor · 6 toast · 7 command palette (.cmdk*)
+   ========================================================================== */
+
+:root {
+  /* the cursor dot: theme ink with a rim of the page color, so it reads on light and dark surfaces alike (no blend modes) */
+  --cursor-ink: var(--text);
+  --cursor-rim: var(--bg);
+  --cmdk-w: 680px;
+}
+
+/* --------------------------------------------------------------------------
+   1 · Scroll lock (palette / mobile menu) — keep the scrollbar gutter so the
+       layout does not jump when overflow is hidden.
+   -------------------------------------------------------------------------- */
+html.is-locked {
+  overflow: hidden;
+  scrollbar-gutter: stable;
+  overscroll-behavior: none;
+}
+
+/* --------------------------------------------------------------------------
+   2 · Reveal variants (base.css owns the default fade-up).
+       Usage: class="reveal reveal--left". Groups: <ul class="reveal-group"> auto-staggers children.
+   -------------------------------------------------------------------------- */
+html.js .reveal.reveal--fade:not(.is-in) {
+  transform: none;
+}
+html.js .reveal.reveal--left:not(.is-in) {
+  transform: translate3d(-28px, 0, 0);
+}
+html.js .reveal.reveal--right:not(.is-in) {
+  transform: translate3d(28px, 0, 0);
+}
+html.js .reveal.reveal--scale:not(.is-in) {
+  transform: scale(0.94);
+}
+html.js .reveal.reveal--blur:not(.is-in) {
+  filter: blur(10px);
+  transform: translate3d(0, 14px, 0);
+}
+html.js .reveal.reveal--blur {
+  transition-property: opacity, transform, filter;
+}
+
+.reveal-group > :nth-child(1) { --i: 0; }
+.reveal-group > :nth-child(2) { --i: 1; }
+.reveal-group > :nth-child(3) { --i: 2; }
+.reveal-group > :nth-child(4) { --i: 3; }
+.reveal-group > :nth-child(5) { --i: 4; }
+.reveal-group > :nth-child(6) { --i: 5; }
+.reveal-group > :nth-child(7) { --i: 6; }
+.reveal-group > :nth-child(8) { --i: 7; }
+.reveal-group > :nth-child(9) { --i: 8; }
+.reveal-group > :nth-child(10) { --i: 9; }
+.reveal-group > :nth-child(11) { --i: 10; }
+.reveal-group > :nth-child(12) { --i: 11; }
+
+/* one-shot attention pulse (e.g. after a programmatic scroll to a card) */
+.fx-flash {
+  animation: fx-flash 1.6s var(--ease-out) 1;
+}
+@keyframes fx-flash {
+  0% {
+    box-shadow: 0 0 0 0 rgba(var(--accent-rgb), 0.55), 0 0 0 1px rgba(var(--accent-rgb), 0.7);
+  }
+  100% {
+    box-shadow: 0 0 0 22px rgba(var(--accent-rgb), 0), 0 0 0 1px rgba(var(--accent-rgb), 0);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   3 · Spotlight (non-panel) · tilt · glare
+   -------------------------------------------------------------------------- */
+:where([data-spotlight]:not(.panel)) {
+  position: relative;
+  isolation: isolate;
+}
+[data-spotlight]:not(.panel)::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(460px circle at var(--mx, 50%) var(--my, 0%), rgba(var(--accent-rgb), 0.11), transparent 62%);
+  transition: opacity var(--dur-2);
+}
+@media (hover: hover) and (pointer: fine) {
+  [data-spotlight]:not(.panel):hover::before {
+    opacity: 1;
+  }
+}
+
+/* fx.js toggles .is-tilting while the pointer is over a [data-tilt] element; the rotation comes from vars */
+[data-tilt].is-tilting {
+  transform: perspective(900px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)) !important;
+  will-change: transform;
+  /* everything except transform keeps its own transition; JS does the smoothing */
+  transition: border-color var(--dur-2), background var(--dur-2), box-shadow var(--dur-3) var(--ease),
+    opacity 0.8s var(--ease-out) !important;
+}
+.fx-glare {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: var(--gl, 0);
+  background: radial-gradient(360px circle at var(--gx, 50%) var(--gy, 50%), rgba(var(--accent-rgb), 0.13), transparent 62%);
+}
+
+/* --------------------------------------------------------------------------
+   4 · Selection
+   -------------------------------------------------------------------------- */
+::selection {
+  background: rgba(var(--accent-rgb), 0.34);
+  color: var(--text);
+  text-shadow: none;
+}
+.grad-text::selection,
+.grad-text ::selection {
+  -webkit-text-fill-color: var(--text);
+  color: var(--text);
+}
+
+/* --------------------------------------------------------------------------
+   5 · Custom cursor — only where it really renders (fx.js adds html.has-cursor
+       after the first fine-pointer move, removes it on touch / reduced motion).
+   -------------------------------------------------------------------------- */
+html.has-cursor,
+html.has-cursor * {
+  cursor: none !important;
+}
+html.has-cursor input:not([type="button"]):not([type="submit"]):not([type="reset"]):not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+html.has-cursor textarea,
+html.has-cursor [contenteditable="true"] {
+  cursor: text !important;
+}
+
+/* the hero's orbit drag sets a grabbing cursor with a more specific selector: never let it show through while the custom cursor is active */
+html.has-cursor.is-orbiting,
+html.has-cursor.is-orbiting .hero,
+html.has-cursor.is-orbiting .hero * {
+  cursor: none !important;
+}
+
+/* safety net: fx.js does not enable the custom cursor here, but never hide the OS pointer if the class is present */
+@media (forced-colors: active), (prefers-contrast: more) {
+  html.has-cursor,
+  html.has-cursor * {
+    cursor: auto !important;
+  }
+  #cursor-root {
+    display: none !important;
+  }
+}
+
+#cursor-root {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-cursor);
+  pointer-events: none;
+  overflow: hidden;
+}
+.cursor__dot,
+.cursor__ring,
+.cursor__label {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  will-change: translate, transform, scale;
+  transition: opacity 0.25s var(--ease);
+}
+.cursor__dot {
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  border-radius: 50%;
+  background: var(--cursor-ink);
+  box-shadow: 0 0 0 1.5px var(--cursor-rim);
+  transition: opacity 0.25s var(--ease), scale 0.3s var(--ease-out);
+}
+.cursor__ring {
+  width: 36px;
+  height: 36px;
+  margin: -18px 0 0 -18px;
+  border-radius: 50%;
+  border: 1px solid rgba(var(--accent-rgb), 0.55);
+  transition: opacity 0.25s var(--ease), scale 0.4s var(--ease-out), background-color 0.25s, border-color 0.25s;
+}
+.cursor__label {
+  font-size: 9.5px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--accent);
+}
+#cursor-root.is-on .cursor__dot,
+#cursor-root.is-on .cursor__ring {
+  opacity: 1;
+}
+#cursor-root.is-hover .cursor__ring {
+  scale: 1.55;
+  border-color: rgba(var(--accent-rgb), 0.85);
+  background-color: rgba(var(--accent-rgb), 0.09);
+}
+#cursor-root.is-hover .cursor__dot {
+  scale: 0.45;
+}
+#cursor-root.is-down .cursor__ring {
+  scale: 0.8;
+}
+#cursor-root.is-hover.is-down .cursor__ring {
+  scale: 1.25;
+}
+#cursor-root.is-label .cursor__ring {
+  scale: 2.1;
+  border-color: var(--line-accent);
+  background-color: var(--veil);
+}
+#cursor-root.is-label .cursor__dot {
+  scale: 0;
+}
+#cursor-root.is-label .cursor__label {
+  opacity: 1;
+}
+#cursor-root.is-text .cursor__dot,
+#cursor-root.is-text .cursor__ring,
+#cursor-root.is-text .cursor__label,
+#cursor-root.is-away .cursor__dot,
+#cursor-root.is-away .cursor__ring,
+#cursor-root.is-away .cursor__label {
+  opacity: 0;
+}
+
+/* --------------------------------------------------------------------------
+   6 · Toast
+   -------------------------------------------------------------------------- */
+.toast-root {
+  position: fixed;
+  left: 50%;
+  bottom: max(24px, calc(env(safe-area-inset-bottom) + 16px));
+  z-index: var(--z-toast);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: max-content;
+  max-width: calc(100vw - 32px);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+.toast {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 100%;
+  padding: 11px 18px 11px 14px;
+  overflow: hidden;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-pill);
+  background: var(--panel-solid);
+  background: color-mix(in srgb, var(--panel-solid) 82%, transparent);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  backdrop-filter: blur(18px) saturate(150%);
+  box-shadow: var(--shadow-lg), 0 0 0 1px rgba(var(--accent-rgb), 0.06);
+  color: var(--text);
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  line-height: 1.3;
+  pointer-events: auto;
+  opacity: 0;
+  transform: translate3d(0, 14px, 0) scale(0.96);
+  transition: opacity 0.35s var(--ease-out), transform 0.5s var(--ease-out);
+}
+.toast.is-in {
+  opacity: 1;
+  transform: none;
+}
+.toast.is-out {
+  opacity: 0;
+  transform: translate3d(0, -8px, 0) scale(0.98);
+  transition-duration: 0.3s;
+  pointer-events: none;
+}
+.toast__icon {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(var(--accent-rgb), 0.14);
+  color: var(--accent);
+}
+.toast__icon .icon {
+  width: 13px;
+  height: 13px;
+}
+.toast__text {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.toast__bar {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 2px;
+  width: 100%;
+  background: var(--accent-grad);
+  opacity: 0.75;
+  transform-origin: left center;
+  transform: scaleX(1);
+}
+.toast.is-in .toast__bar {
+  animation: toast-timer var(--toast-ms, 2400ms) linear forwards;
+}
+.toast.is-paused .toast__bar {
+  animation-play-state: paused;
+}
+@keyframes toast-timer {
+  to {
+    transform: scaleX(0);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   7 · Command palette  (.cmdk*)
+   -------------------------------------------------------------------------- */
+.cmdk {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-palette);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: clamp(16px, 14vh, 150px) 12px 12px;
+  visibility: hidden;
+  pointer-events: none;
+  transition: visibility 0s linear 0.3s;
+}
+.cmdk.is-open {
+  visibility: visible;
+  pointer-events: auto;
+  transition-delay: 0s;
+}
+
+.cmdk__backdrop {
+  position: absolute;
+  inset: 0;
+  background: var(--veil);
+  background: color-mix(in srgb, var(--bg-sunk) 58%, transparent);
+  -webkit-backdrop-filter: blur(8px) saturate(120%);
+  backdrop-filter: blur(8px) saturate(120%);
+  opacity: 0;
+  transition: opacity 0.3s var(--ease);
+}
+.cmdk.is-open .cmdk__backdrop {
+  opacity: 1;
+}
+
+.cmdk__panel {
+  --mx: 50%;
+  --my: 0%;
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  width: min(var(--cmdk-w), 100%);
+  max-height: min(calc(100vh - clamp(16px, 14vh, 150px) - 16px), 640px);
+  max-height: min(calc(100dvh - clamp(16px, 14vh, 150px) - 16px), 640px);
+  overflow: hidden;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-lg);
+  background: var(--panel-solid);
+  background: color-mix(in srgb, var(--panel-solid) 86%, transparent);
+  -webkit-backdrop-filter: blur(26px) saturate(150%);
+  backdrop-filter: blur(26px) saturate(150%);
+  box-shadow: var(--shadow-lg), 0 0 0 1px rgba(var(--accent-rgb), 0.05), 0 0 80px -20px rgba(var(--accent-rgb), 0.28);
+  opacity: 0;
+  transform: translate3d(0, -14px, 0) scale(0.965);
+  transition: opacity 0.28s var(--ease), transform 0.45s var(--ease-out);
+}
+.cmdk.is-open .cmdk__panel {
+  opacity: 1;
+  transform: none;
+}
+/* accent hairline along the top edge + cursor spotlight */
+.cmdk__panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, transparent, rgba(var(--accent-rgb), 0.7) 30%, rgba(var(--accent-2-rgb), 0.7) 70%, transparent) top / 100% 1px no-repeat,
+    radial-gradient(520px circle at var(--mx) var(--my), rgba(var(--accent-rgb), 0.08), transparent 62%);
+}
+
+/* terminal title bar */
+.cmdk__bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 36px;
+  padding: 0 8px 0 16px;
+  border-bottom: 1px solid var(--line);
+  color: var(--text-3);
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+}
+.cmdk__dots {
+  display: inline-flex;
+  gap: 6px;
+  flex: none;
+}
+.cmdk__dots i {
+  width: 9px;
+  height: 9px;
+  border: 1px solid var(--line-strong);
+  border-radius: 50%;
+}
+.cmdk__dots i:first-child {
+  border-color: rgba(var(--accent-3-rgb), 0.6);
+  background: rgba(var(--accent-3-rgb), 0.25);
+}
+.cmdk__host {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--fs-micro);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.cmdk__host b {
+  color: var(--accent);
+  font-weight: 500;
+}
+.cmdk__esc {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  height: 100%;
+  padding: 0 8px;
+  border-radius: var(--r-xs);
+  color: var(--text-3);
+  transition: color var(--dur-1);
+}
+.cmdk__esc .kbd {
+  pointer-events: none;
+}
+@media (hover: hover) and (pointer: fine) {
+  .cmdk__esc:hover {
+    color: var(--text);
+  }
+}
+
+/* input row */
+.cmdk__head {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 18px 6px 18px;
+  border-bottom: 1px solid var(--line);
+  transition: box-shadow var(--dur-2);
+}
+.cmdk__head:focus-within {
+  box-shadow: inset 0 -1px 0 rgba(var(--accent-rgb), 0.5);
+}
+.cmdk__prompt {
+  flex: none;
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 1.5rem;
+  line-height: 1;
+  text-shadow: 0 0 18px rgba(var(--accent-rgb), 0.7);
+  transform: translateY(-1px);
+}
+.cmdk__field {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+.cmdk__input {
+  display: block;
+  width: 100%;
+  height: 54px;
+  padding: 0 0 0 0.75em;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 1rem; /* 16px: no zoom on iOS */
+  letter-spacing: 0.01em;
+  caret-color: var(--accent);
+  caret-shape: block;
+  border-radius: 0;
+}
+.cmdk__input::placeholder {
+  color: var(--text-3);
+  opacity: 1;
+}
+.cmdk__input::-webkit-search-cancel-button {
+  display: none;
+}
+.cmdk__input:focus-visible {
+  outline: 0;
+}
+/* fake block caret while the field is empty (terminal feel); the native caret takes over once you type */
+.cmdk__caret {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  margin: 0;
+  width: 0.55em;
+  height: 1.2em;
+  transform: translateY(-50%);
+  opacity: 0.9;
+  pointer-events: none;
+  display: none;
+}
+.cmdk__field.is-empty .cmdk__caret {
+  display: block;
+}
+.cmdk__field.is-empty .cmdk__input {
+  caret-color: transparent;
+}
+
+/* results */
+.cmdk__list {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: min(56vh, 440px);
+  max-height: min(56dvh, 440px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0 8px 8px;
+  scroll-padding-block: 36px 8px;
+}
+.cmdk__group {
+  padding-bottom: 4px;
+}
+.cmdk__gl {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 34px;
+  padding: 0 10px;
+  background: var(--panel-solid);
+  background: color-mix(in srgb, var(--panel-solid) 88%, transparent);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  color: var(--text-3);
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}
+.cmdk__gl-mark {
+  color: var(--accent);
+  opacity: 0.8;
+}
+.cmdk__gl-n {
+  margin-left: auto;
+  opacity: 0.7;
+}
+
+.cmdk__item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  min-height: 48px;
+  padding: 8px 10px;
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.cmdk__item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 22%;
+  bottom: 22%;
+  width: 2px;
+  border-radius: 2px;
+  background: var(--accent);
+  box-shadow: 0 0 10px var(--accent);
+  opacity: 0;
+  transform: scaleY(0.4);
+  transition: opacity var(--dur-1), transform var(--dur-2) var(--ease-out);
+}
+.cmdk__item.is-active {
+  background: rgba(var(--accent-rgb), 0.09);
+}
+.cmdk__item.is-active::before {
+  opacity: 1;
+  transform: none;
+}
+.cmdk__ico {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  color: var(--text-2);
+  transition: color var(--dur-1), border-color var(--dur-2), background var(--dur-2);
+}
+.cmdk__ico .icon {
+  width: 15px;
+  height: 15px;
+}
+.cmdk__item.is-active .cmdk__ico {
+  border-color: var(--line-accent);
+  background: rgba(var(--accent-rgb), 0.1);
+  color: var(--accent);
+}
+.cmdk__main {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.cmdk__title {
+  overflow: hidden;
+  color: var(--text);
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  line-height: 1.35;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.cmdk__title--mono {
+  font-family: var(--font-mono);
+  font-weight: 500;
+}
+.cmdk__sub {
+  overflow: hidden;
+  color: var(--text-3);
+  font-size: 0.75rem;
+  line-height: 1.3;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+mark.cmdk__hl {
+  background: none;
+  color: var(--accent);
+  font-weight: 600;
+  text-shadow: 0 0 14px rgba(var(--accent-rgb), 0.45);
+}
+.cmdk__meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex: none;
+  color: var(--text-3);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+}
+.cmdk__via {
+  max-width: 14ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  opacity: 0.85;
+}
+.cmdk__via::before {
+  content: "≈ ";
+  opacity: 0.6;
+}
+.cmdk__state {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--accent);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.cmdk__state::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
+}
+.cmdk__idx {
+  color: var(--text-2);
+  font-size: var(--fs-micro);
+}
+.cmdk__enter {
+  display: inline-flex;
+  gap: 4px;
+  opacity: 0;
+  transition: opacity var(--dur-1);
+}
+.cmdk__item.is-active .cmdk__enter {
+  opacity: 1;
+}
+.cmdk__enter .kbd {
+  padding: 0.22em 0.42em;
+}
+.cmdk .badge {
+  padding: 0.3em 0.55em;
+  font-size: var(--fs-micro);
+}
+/* the highlighted row is tinted brighter than the panel, so the violet (and other cool) badge inks lose contrast there:
+   pull the ink toward --text (fills and borders keep the hue) to stay >= 4.5:1 */
+@supports (color: color-mix(in srgb, red, blue)) {
+  .cmdk__item.is-active .badge {
+    color: color-mix(in srgb, rgb(var(--badge)) 62%, var(--text));
+  }
+}
+
+/* terminal output block (help / whoami / ls / sudo …) */
+.cmdk__out {
+  margin: 8px 2px 6px;
+  padding: 10px 14px 11px;
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--r-sm);
+  background: rgba(var(--accent-rgb), 0.04);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  line-height: 1.6;
+  color: var(--text-2);
+}
+.cmdk__out-line {
+  overflow-wrap: anywhere;
+  animation: cmdk-line-in 0.4s var(--ease-out) both;
+  animation-delay: calc(var(--i, 0) * 70ms);
+}
+.cmdk__out-cmd {
+  color: var(--text-3);
+}
+.cmdk__out-ps {
+  color: var(--accent);
+  margin-right: 0.6em;
+}
+.cmdk__out-line--hi {
+  color: var(--text);
+}
+.cmdk__out-line--ok {
+  color: var(--ok);
+}
+.cmdk__out-line--err {
+  color: var(--danger);
+}
+@keyframes cmdk-line-in {
+  from {
+    opacity: 0;
+    transform: translate3d(-6px, 0, 0);
+  }
+}
+
+/* empty state */
+.cmdk__empty {
+  padding: 26px 18px 30px;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  line-height: 1.7;
+  color: var(--text-3);
+}
+.cmdk__empty-cmd {
+  color: var(--text);
+  overflow-wrap: anywhere;
+}
+.cmdk__empty-cmd::before {
+  content: "zsh: ";
+  color: var(--danger);
+}
+.cmdk__empty code {
+  padding: 0.08em 0.4em;
+  border: 1px solid var(--line);
+  border-radius: var(--r-xs);
+  color: var(--accent);
+  font-size: 0.95em;
+}
+
+/* rows enter with a tiny stagger only when the palette opens */
+.cmdk__list.is-entering .cmdk__item {
+  animation: cmdk-row-in 0.42s var(--ease-out) both;
+  animation-delay: calc(var(--i, 0) * 16ms);
+}
+@keyframes cmdk-row-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 8px, 0);
+  }
+}
+
+/* footer hint bar */
+.cmdk__foot {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-height: 42px;
+  padding: 8px 16px;
+  border-top: 1px solid var(--line);
+  color: var(--text-3);
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.03em;
+}
+.cmdk__hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+.cmdk__hint .kbd {
+  padding: 0.18em 0.42em;
+  font-size: var(--fs-micro);
+}
+.cmdk__count {
+  margin-left: auto;
+  white-space: nowrap;
+}
+.cmdk__count code {
+  padding: 0.1em 0.4em;
+  border: 1px solid var(--line);
+  border-radius: var(--r-xs);
+  color: var(--accent);
+  font-family: inherit;
+}
+
+@media (max-width: 640px) {
+  .cmdk {
+    padding-top: clamp(12px, 8vh, 80px);
+  }
+  .cmdk__list {
+    max-height: min(46vh, 420px);
+    max-height: min(46dvh, 420px);
+  }
+  .cmdk__via {
+    display: none;
+  }
+  .cmdk__foot .cmdk__hint:not(:first-child) {
+    display: none;
+  }
+}
+@media (hover: none), (pointer: coarse) {
+  .cmdk__foot .cmdk__hint {
+    display: none;
+  }
+  .cmdk__enter {
+    display: none;
+  }
+}
+@media (pointer: coarse) {
+  /* touch: the footer shows the result count only; keep the card clear of the home indicator */
+  .cmdk {
+    padding-bottom: max(12px, calc(env(safe-area-inset-bottom, 0px) + 8px));
+  }
+}
+@media (max-width: 420px) {
+  .cmdk__meta .badge:not(.badge--new) {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toast,
+  .toast.is-out {
+    transform: none;
+  }
+  .cmdk__panel {
+    transform: none;
+  }
+}
+

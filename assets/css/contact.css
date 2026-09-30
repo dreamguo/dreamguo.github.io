@@ -1,0 +1,533 @@
+/* ==========================================================================
+   contact.css — CONTACT section (.contact*) and FOOTER (.footer*).
+   ========================================================================== */
+
+.contact [hidden],
+.footer [hidden] {
+  display: none !important;
+}
+
+.contact {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  gap: clamp(40px, 7vw, 84px);
+  padding-block: clamp(4px, 2vw, 24px) 0;
+}
+
+/* --------------------------------------------------------------------------
+   Decorative layer: gradient orb
+   -------------------------------------------------------------------------- */
+.contact__decor {
+  position: absolute;
+  z-index: -1;
+  inset: -60px calc(var(--gutter) * -1) -40px;
+  overflow: hidden;
+  pointer-events: none;
+  /* fade out on all four sides so the glow never ends in a hard rectangular edge */
+  -webkit-mask-image: linear-gradient(180deg, transparent, #000 18%, #000 74%, transparent),
+    linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
+  mask-image: linear-gradient(180deg, transparent, #000 18%, #000 74%, transparent),
+    linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+}
+.contact__orb {
+  position: absolute;
+  right: 4%;
+  top: 0;
+  width: min(62vw, 660px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 35% 35%,
+    rgba(var(--accent-rgb), 0.3),
+    rgba(var(--accent-2-rgb), 0.17) 46%,
+    transparent 70%
+  );
+  filter: blur(34px);
+  opacity: 0.8;
+  animation: contact-drift 20s ease-in-out infinite alternate;
+  animation-play-state: paused;
+}
+.contact__decor.is-live .contact__orb {
+  animation-play-state: running;
+}
+:root[data-theme="light"] .contact__orb {
+  opacity: 0.55;
+}
+@media (max-width: 640px) {
+  /* phones, light theme: the cool disc sat right behind the e-mail domain and grayed it; keep it a faint glow off to the side */
+  :root[data-theme="light"] .contact__orb {
+    opacity: 0.32;
+    right: -14%;
+    top: -14%;
+  }
+}
+@keyframes contact-drift {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(-9%, 12%, 0) scale(1.12);
+  }
+}
+/* --------------------------------------------------------------------------
+   CTA: eyebrow · huge e-mail · actions
+   -------------------------------------------------------------------------- */
+.contact__cta {
+  min-width: 0;
+}
+.contact__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.8em;
+  margin-bottom: var(--s-4);
+}
+
+.contact__email {
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+  padding-bottom: 0.14em;
+  font-size: clamp(1.4rem, 6.6vw, 4.75rem);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: var(--tracking-tight);
+  overflow-wrap: anywhere;
+}
+.contact__email::before,
+.contact__email::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: max(2px, 0.05em);
+  border-radius: 2px;
+}
+.contact__email::before {
+  background: var(--line-strong);
+}
+.contact__email::after {
+  background: var(--accent-grad);
+  box-shadow: 0 0 22px rgba(var(--accent-rgb), 0.55);
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform 0.7s var(--ease-out);
+}
+.contact__local {
+  color: var(--text);
+}
+.contact__domain {
+  color: var(--text-2);
+  transition: color var(--dur-3) var(--ease);
+}
+.contact__at {
+  padding-inline: 0.03em;
+  color: var(--accent);
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+}
+.contact__email:focus-visible::after {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+.contact__email:focus-visible .contact__domain {
+  color: var(--text);
+}
+@media (hover: hover) and (pointer: fine) {
+  .contact__email:hover::after {
+    transform: scaleX(1);
+    transform-origin: left center;
+  }
+  .contact__email:hover .contact__domain {
+    color: var(--text);
+  }
+}
+.contact__email:focus-visible {
+  outline-offset: 8px;
+}
+
+.contact__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-3);
+  margin-top: clamp(24px, 4vw, 40px);
+}
+.contact__actions .btn {
+  min-height: 46px;
+}
+
+/* copy button: two stacked icons that cross-fade */
+.contact__copy-icons {
+  position: relative;
+  display: inline-block;
+  width: 1.1em;
+  height: 1.1em;
+}
+.contact__icon {
+  position: absolute;
+  inset: 0;
+  display: block;
+  transition: opacity var(--dur-2) var(--ease), transform var(--dur-3) var(--ease-out);
+}
+.contact__icon .icon {
+  width: 100%;
+  height: 100%;
+}
+.contact__icon--check {
+  opacity: 0;
+  transform: scale(0.4) rotate(-30deg);
+  color: var(--ok);
+}
+.contact__copy.is-copied {
+  --_bd: var(--ok);
+  --_bg: rgba(var(--accent-rgb), 0.06);
+}
+.contact__copy.is-copied .contact__icon--copy {
+  opacity: 0;
+  transform: scale(0.4);
+}
+.contact__copy.is-copied .contact__icon--check {
+  opacity: 1;
+  transform: none;
+}
+
+/* live "Singapore local time" HUD chip */
+.contact__hud {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85em;
+  min-height: 46px;
+  padding: 0.5em 1.1em 0.5em 0.95em;
+  border: 1px solid var(--line);
+  border-radius: var(--r-pill);
+  background: var(--panel);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  color: var(--text-2);
+  font-size: var(--fs-xs);
+}
+.contact__hud-pin {
+  display: inline-flex;
+  color: var(--accent);
+}
+.contact__hud-pin .icon {
+  width: 18px;
+  height: 18px;
+}
+.contact__hud-text {
+  display: grid;
+  gap: 2px;
+  line-height: 1.2;
+}
+.contact__hud-label {
+  color: var(--text-3);
+  font-size: var(--fs-micro);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}
+.contact__hud-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.7em;
+}
+.contact__hud-time {
+  color: var(--text);
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
+}
+.contact__colon {
+  display: inline-block;
+  margin-inline: 0.06em;
+  animation: contact-colon 1s steps(1) infinite;
+}
+@keyframes contact-colon {
+  50% {
+    opacity: 0.15;
+  }
+}
+.contact__hud-zone,
+.contact__wd {
+  color: var(--text-3);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.06em;
+}
+
+/* touch: the big e-mail link is a real tap target */
+@media (pointer: coarse) {
+  .contact__email {
+    padding-block: max(0.28em, 10px) max(0.36em, 12px);
+  }
+}
+
+@media (min-width: 900px) {
+  .contact__hud {
+    margin-left: auto;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Link cards
+   -------------------------------------------------------------------------- */
+.contact__links {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--s-4);
+}
+@media (min-width: 560px) {
+  .contact__links {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .contact__link-item:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+}
+.contact__link-item {
+  display: grid;
+  min-width: 0;
+}
+
+.contact__link {
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+  min-width: 0;
+  min-height: 88px;
+  padding: var(--s-4) var(--s-5);
+  border-radius: var(--r-md);
+}
+.contact__link-icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--line-strong);
+  border-radius: 13px;
+  background: rgba(var(--accent-rgb), 0.05);
+  color: var(--text);
+  transition: color var(--dur-2), border-color var(--dur-2), background var(--dur-2), box-shadow var(--dur-3);
+}
+.contact__link-icon .icon {
+  width: 22px;
+  height: 22px;
+}
+.contact__link-body {
+  display: grid;
+  flex: 1;
+  gap: 3px;
+  min-width: 0;
+}
+.contact__link-label {
+  line-height: 1.2;
+}
+.contact__link-handle {
+  overflow: hidden;
+  color: var(--text);
+  font-size: var(--fs-md);
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.contact__link-arrow {
+  display: inline-flex;
+  flex: none;
+  color: var(--text-3);
+  transition: color var(--dur-2), transform var(--dur-3) var(--ease-out);
+}
+.contact__link-arrow .icon {
+  width: 20px;
+  height: 20px;
+}
+@media (hover: hover) and (pointer: fine) {
+  .contact__link:hover .contact__link-icon {
+    color: var(--accent);
+    border-color: var(--line-accent);
+    background: rgba(var(--accent-rgb), 0.12);
+    box-shadow: 0 0 26px rgba(var(--accent-rgb), 0.25);
+  }
+  .contact__link:hover .contact__link-arrow {
+    color: var(--accent);
+    transform: translate(4px, -4px);
+  }
+}
+
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
+.footer {
+  position: relative;
+  z-index: var(--z-content);
+  margin-top: clamp(24px, 6vw, 64px);
+  padding: var(--s-7) 0 calc(var(--s-6) + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid var(--line);
+  background: var(--veil);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+}
+.footer::before {
+  /* accent glint on the hairline */
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 50%;
+  width: min(60%, 520px);
+  height: 1px;
+  transform: translateX(-50%);
+  background: linear-gradient(90deg, transparent, rgba(var(--accent-rgb), 0.65), transparent);
+  pointer-events: none;
+}
+.footer__inner {
+  display: grid;
+  gap: var(--s-6);
+}
+
+.footer__top-row {
+  display: grid;
+  gap: var(--s-5);
+  align-items: center;
+}
+.footer__brand {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+.footer__name {
+  font-size: var(--fs-lg);
+  font-weight: 600;
+  letter-spacing: var(--tracking-tight);
+}
+.footer__place {
+  color: var(--text-3);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.04em;
+}
+
+.footer__nav .footer__nav-list {
+  /* the extra class beats ul[role=list]: link text starts on the same edge as the wordmark and the copyright */
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 6px;
+  margin-inline: -10px;
+}
+@media (max-width: 560px) {
+  .footer__nav .footer__nav-list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0;
+  }
+}
+.footer__link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 10px;
+  color: var(--text-2);
+  font-size: var(--fs-sm);
+  transition: color var(--dur-2);
+}
+.footer__link::after {
+  content: "";
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
+  height: 1px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--dur-3) var(--ease-out);
+}
+.footer__link:focus-visible {
+  color: var(--text);
+}
+.footer__link:focus-visible::after {
+  transform: scaleX(1);
+}
+@media (hover: hover) and (pointer: fine) {
+  .footer__link:hover {
+    color: var(--text);
+  }
+  .footer__link:hover::after {
+    transform: scaleX(1);
+  }
+}
+
+.footer__top {
+  justify-self: start;
+  min-height: 44px;
+  padding-inline: 1.1em;
+}
+.footer__top-icon {
+  display: inline-flex;
+  transform: rotate(180deg);
+  transition: transform var(--dur-3) var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .footer__top:hover .footer__top-icon {
+    transform: rotate(180deg) translateY(3px);
+  }
+}
+
+.footer__rule {
+  height: 1px;
+  background: linear-gradient(90deg, var(--line-strong), var(--line) 60%, transparent);
+}
+
+.footer__legal {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-2) var(--s-5);
+  color: var(--text-3);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.03em;
+  line-height: 1.6;
+}
+.footer__copy {
+  color: var(--text-2);
+}
+.footer__source {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  min-height: 44px;
+  margin-block: -12px;
+  color: var(--text-2);
+  transition: color var(--dur-2);
+}
+.footer__source .icon {
+  width: 14px;
+  height: 14px;
+}
+.footer__source:focus-visible {
+  color: var(--accent);
+}
+@media (hover: hover) and (pointer: fine) {
+  .footer__source:hover {
+    color: var(--accent);
+  }
+}
+
+@media (min-width: 900px) {
+  .footer__top-row {
+    grid-template-columns: minmax(200px, auto) 1fr auto;
+    gap: var(--s-6);
+  }
+  .footer__nav .footer__nav-list {
+    justify-content: center;
+  }
+  .footer__top {
+    justify-self: end;
+  }
+  .footer__legal .footer__source {
+    margin-left: auto;
+  }
+}

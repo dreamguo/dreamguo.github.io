@@ -33,21 +33,37 @@
   <link rel="icon" type="image/png" sizes="192x192" href="assets/img/icon-192.png">
   <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 
-  <!-- Runs before first paint (and before any stylesheet is requested): mark JS-enabled, apply saved theme /
-       language / paused-motion preference (no flash), and arm the reveal failsafe: if fx.js has not added html.fx-ready within 5 s
-       (blocked, crashed, offline), html.reveal-failsafe forces every .reveal visible so the page is never blank. -->
+  <!-- Runs before first paint (and before any stylesheet is requested): mark JS-enabled, apply the theme / language
+       (URL parameter, then saved choice, then the system light/dark setting and browser language) and the paused-motion
+       preference (no flash), and arm the reveal failsafe: if fx.js has not added html.fx-ready within 5 s (blocked,
+       crashed, offline), html.reveal-failsafe forces every .reveal visible so the page is never blank.
+       Keep the theme / language rules in step with core.js start(), 404.html and the redirect pages. -->
   <script>
     (function () {
       var d = document.documentElement;
       d.className = d.className.replace('no-js', 'js');
       try {
         var q = new URLSearchParams(location.search);
-        var th = q.get('theme') || localStorage.getItem('mq:theme') || 'dark';
-        var lg = q.get('lang') || localStorage.getItem('mq:lang') || 'en';
-        d.setAttribute('data-theme', th === 'light' ? 'light' : 'dark');
-        d.setAttribute('data-lang', lg === 'zh' ? 'zh' : 'en');
+        var get = function (k) { try { return localStorage.getItem('mq:' + k); } catch (e) { return null; } };
+        var pick = function (v, a, b) { v = String(v || '').toLowerCase(); return v === a || v === b ? v : ''; };
+        /* theme: ?theme= > saved choice > the system's light/dark setting */
+        var th = pick(q.get('theme'), 'light', 'dark') || pick(get('theme'), 'light', 'dark') ||
+          (window.matchMedia && matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+        /* language: ?lang= > saved choice > first Chinese or English entry of the browser's language list (default English) */
+        var lg = pick(q.get('lang'), 'zh', 'en') || pick(get('lang'), 'zh', 'en');
+        if (!lg) {
+          lg = 'en';
+          var ls = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language];
+          for (var i = 0; i < ls.length; i++) {
+            var c = String(ls[i] || '').toLowerCase();
+            if (/^zh([-_]|$)/.test(c)) { lg = 'zh'; break; }
+            if (/^en([-_]|$)/.test(c)) break;
+          }
+        }
+        d.setAttribute('data-theme', th);
+        d.setAttribute('data-lang', lg);
         d.setAttribute('lang', lg === 'zh' ? 'zh-CN' : 'en');
-        if (localStorage.getItem('mq:motion') === 'paused') d.classList.add('motion-off');
+        if (get('motion') === 'paused') d.classList.add('motion-off');
         var mt = document.querySelector('meta[name="theme-color"]');
         if (mt && th === 'light') mt.setAttribute('content', '#f4f6f9');
       } catch (e) {}

@@ -43,16 +43,30 @@
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400..600&family=Instrument+Serif:ital@0;1&display=swap"></noscript>
 
   <!-- Apply theme / language before first paint. Same rules as the home page: ?theme= / ?lang= win, then the saved
-       choice, then the defaults (dark, English) - no navigator.language sniffing. -->
+       choice, then the system light/dark setting and the browser's language list (default English). -->
   <script>
     (function () {
       var d = document.documentElement;
       try {
         var q = new URLSearchParams(location.search);
-        var th = q.get('theme') || localStorage.getItem('mq:theme') || 'dark';
-        var lg = q.get('lang') || localStorage.getItem('mq:lang') || 'en';
-        d.setAttribute('data-theme', th === 'light' ? 'light' : 'dark');
-        d.setAttribute('data-lang', lg === 'zh' ? 'zh' : 'en');
+        var get = function (k) { try { return localStorage.getItem('mq:' + k); } catch (e) { return null; } };
+        var pick = function (v, a, b) { v = String(v || '').toLowerCase(); return v === a || v === b ? v : ''; };
+        /* theme: ?theme= > saved choice > the system's light/dark setting */
+        var th = pick(q.get('theme'), 'light', 'dark') || pick(get('theme'), 'light', 'dark') ||
+          (window.matchMedia && matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+        /* language: ?lang= > saved choice > first Chinese or English entry of the browser's language list (default English) */
+        var lg = pick(q.get('lang'), 'zh', 'en') || pick(get('lang'), 'zh', 'en');
+        if (!lg) {
+          lg = 'en';
+          var ls = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language];
+          for (var i = 0; i < ls.length; i++) {
+            var c = String(ls[i] || '').toLowerCase();
+            if (/^zh([-_]|$)/.test(c)) { lg = 'zh'; break; }
+            if (/^en([-_]|$)/.test(c)) break;
+          }
+        }
+        d.setAttribute('data-theme', th);
+        d.setAttribute('data-lang', lg);
         d.setAttribute('lang', lg === 'zh' ? 'zh-CN' : 'en');
         var mt = document.querySelector('meta[name="theme-color"]');
         if (mt && th === 'light') mt.setAttribute('content', '#f4f6f9');
@@ -219,6 +233,20 @@
       }
       applyLang(root.getAttribute('data-lang') === 'zh' ? 'zh' : 'en');
       applyTheme(root.getAttribute('data-theme') === 'light' ? 'light' : 'dark');
+      /* first visit: follow the OS light/dark setting live until the visitor picks a theme (same rule as the home page) */
+      var follow = true;
+      var savedTheme = function () { try { return /^(light|dark)$/i.test(localStorage.getItem('mq:theme') || ''); } catch (e) { return false; } };
+      try { if (/^(light|dark)$/i.test(new URLSearchParams(location.search).get('theme') || '')) follow = false; } catch (e) {}
+      if (savedTheme()) follow = false;
+      if (window.matchMedia) {
+        var osLight = window.matchMedia('(prefers-color-scheme: light)');
+        var onOs = function () {
+          if (follow && savedTheme()) follow = false; /* a choice was saved meanwhile (another tab): it wins */
+          if (follow) applyTheme(osLight.matches ? 'light' : 'dark');
+        };
+        if (osLight.addEventListener) osLight.addEventListener('change', onOs);
+        else if (osLight.addListener) osLight.addListener(onOs);
+      }
       if (btn) btn.addEventListener('click', function () {
         var next = root.getAttribute('data-lang') === 'zh' ? 'en' : 'zh';
         applyLang(next);
@@ -226,6 +254,7 @@
       });
       if (btnTheme) btnTheme.addEventListener('click', function () {
         var next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+        follow = false;
         applyTheme(next);
         try { localStorage.setItem('mq:theme', next); } catch (e) {}
       });

@@ -93,7 +93,7 @@
   var ambK = 0; // stacked layouts: 0 inside the hero -> 1 once the hero has scrolled off (dim ambient cloud)
 
   var dirty = true, rafId = 0, running = false, lastT = 0, lastDraw = 0, lastTel = 0, framesDrawn = 0;
-  var fpsEma = 60, slowT = 0, dprSteps = 0, ctxLost = false, warned = false;
+  var fpsEma = 60, slowT = 0, dprSteps = 0, ctxLost = false, warned = false, relayoutPending = false;
 
   var view = new Float32Array(16), proj = new Float32Array(16);
   var shockU = new Float32Array(12);
@@ -1026,6 +1026,8 @@
     lastT = t;
     lastDraw = t;
     var rm = S.reducedMotion;
+    // resize requested by the resolution governor: do it before drawing (resizing after the draw would present a cleared, black buffer)
+    if (relayoutPending) { relayoutPending = false; layout(); }
 
     /* clocks */
     var moving = false;
@@ -1188,7 +1190,7 @@
           slowT = 0; dprSteps++;
           dprCap = Math.max(0.6, Math.min(dpr, dprCap) - 0.4);
           fpsEma = 40;
-          layout();
+          relayoutPending = true;
         }
       }
     }
@@ -1369,7 +1371,11 @@
     var rz = 0;
     window.addEventListener('resize', function () {
       cancelAnimationFrame(rz);
-      rz = requestAnimationFrame(layout);
+      rz = requestAnimationFrame(function () {
+        // resizing clears the canvas: while the loop is running, let step() resize right before it draws
+        if (gl && running && !ctxLost) { relayoutPending = true; wake(); }
+        else layout();
+      });
     }, { passive: true });
     window.addEventListener('load', scheduleStage);
     // the copy / HUD rise in with a translate: re-measure once they have settled (rects include transforms)

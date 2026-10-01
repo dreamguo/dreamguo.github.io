@@ -482,12 +482,17 @@
   }
 
   /* --------------------------------------------------------- theme transition */
+  var pendingTheme = null;
   function toggleTheme(x, y) {
     var did = false;
+    // decided at click time, from the latest click whose view-transition callback has not run yet
+    var target = (pendingTheme || S.theme) === 'light' ? 'dark' : 'light';
+    pendingTheme = target;
     function run() {
       if (did) return;
       did = true;
-      S.toggleTheme();
+      if (pendingTheme === target) pendingTheme = null;
+      S.setTheme(target);
     }
     var vt = doc.startViewTransition;
     if (!vt || S.reducedMotion || doc.hidden || typeof x !== 'number') {

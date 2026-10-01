@@ -15,9 +15,25 @@
     (function () {
       var d = document.documentElement;
       try {
-        d.setAttribute('data-theme', localStorage.getItem('mq:theme') === 'light' ? 'light' : 'dark');
-        var lg = localStorage.getItem('mq:lang') || 'en'; /* same defaults as the home page: English, no language sniffing */
-        d.setAttribute('data-lang', lg === 'zh' ? 'zh' : 'en');
+        var get = function (k) { try { return localStorage.getItem('mq:' + k); } catch (e) { return null; } };
+        var pick = function (v, a, b) { v = String(v || '').toLowerCase(); return v === a || v === b ? v : ''; };
+        /* same rules as the home page: saved choice, then the system light/dark setting and the browser language */
+        var th = pick(get('theme'), 'light', 'dark') || (window.matchMedia && matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+        var lg = pick(get('lang'), 'zh', 'en');
+        if (!lg) {
+          lg = 'en';
+          var ls = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language];
+          for (var i = 0; i < ls.length; i++) {
+            var c = String(ls[i] || '').toLowerCase();
+            if (/^zh([-_]|$)/.test(c)) { lg = 'zh'; break; }
+            if (/^en([-_]|$)/.test(c)) break;
+          }
+        }
+        d.setAttribute('data-theme', th);
+        d.setAttribute('data-lang', lg);
+        d.setAttribute('lang', lg === 'zh' ? 'zh-CN' : 'en');
+        var mt = document.querySelector('meta[name="theme-color"]');
+        if (mt && th === 'light') mt.setAttribute('content', '#f4f6f9');
       } catch (e) {}
       location.replace('../');
     })();

@@ -4,7 +4,7 @@
 
    Public API:
      Site.data                    window.SITE_DATA
-     Site.lang / Site.theme       'en'|'zh'  /  'dark'|'light'
+     Site.lang / Site.theme       'en'|'zh'  /  'dark'|'light'  (first visit: browser language + OS light/dark setting)
      Site.t(v)                    resolve a string or {en, zh} for the current language
      Site.ui(key)                 UI string by key   (Site.addStrings({key:{en,zh}}) to add more)
      Site.fmt(str, vars)          "{n} papers" -> "8 papers"
@@ -236,12 +236,50 @@
   }
 
   /* ----------------------------------------------------------------- theme */
+  // First visit (no ?theme=, nothing saved): follow the OS light/dark setting, live. Any explicit choice
+  // (the toggle, the palette, or a saved one) stops that. Same rules as the inline <head> script in index.html.
+  var followSystemTheme = false;
+  function pickValue(v, a, b) {
+    v = String(v || '').toLowerCase();
+    return v === a || v === b ? v : '';
+  }
+  function systemTheme() {
+    return window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  }
+  // Browser language: the first Chinese (zh*) or English (en*) entry of navigator.languages decides; default English.
+  function browserLang() {
+    var ls = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language];
+    for (var i = 0; i < ls.length; i++) {
+      var c = String(ls[i] || '').toLowerCase();
+      if (/^zh([-_]|$)/.test(c)) return 'zh';
+      if (/^en([-_]|$)/.test(c)) return 'en';
+    }
+    return 'en';
+  }
+  function watchSystemTheme() {
+    if (!window.matchMedia) return;
+    var mq = window.matchMedia('(prefers-color-scheme: light)');
+    var onChange = function () {
+      if (!followSystemTheme) return;
+      if (pickValue(store.get('theme', ''), 'light', 'dark')) {
+        followSystemTheme = false; // a choice was saved meanwhile (another tab): it wins
+        return;
+      }
+      setTheme(mq.matches ? 'light' : 'dark', { persist: false });
+    };
+    if (mq.addEventListener) mq.addEventListener('change', onChange);
+    else if (mq.addListener) mq.addListener(onChange);
+  }
+
   function setTheme(th, opts) {
     th = th === 'light' ? 'light' : 'dark';
     var changed = th !== Site.theme;
     Site.theme = th;
     root.setAttribute('data-theme', th);
-    if (!opts || opts.persist !== false) store.set('theme', th);
+    if (!opts || opts.persist !== false) {
+      store.set('theme', th);
+      followSystemTheme = false; // an explicit choice wins over the OS setting from now on
+    }
     var mt = qs('meta[name="theme-color"]');
     if (mt) mt.setAttribute('content', th === 'light' ? '#f4f6f9' : '#06080c');
     if (changed) emit('themechange', th);
@@ -455,9 +493,17 @@
     Site.coarse = !!(cq && cq.matches);
 
     // initial theme + language (the inline <head> script already set the attributes)
+    // priority: ?theme= / ?lang= (this visit only) > saved choice > OS light/dark setting and browser language
     var q = new URLSearchParams(location.search);
-    setTheme(q.get('theme') || store.get('theme', 'dark'), { persist: false });
-    setLang(q.get('lang') || store.get('lang', 'en'), { persist: false, force: false });
+    var urlTheme = pickValue(q.get('theme'), 'light', 'dark');
+    var savedTheme = pickValue(store.get('theme', ''), 'light', 'dark');
+    followSystemTheme = !urlTheme && !savedTheme;
+    setTheme(urlTheme || savedTheme || systemTheme(), { persist: false });
+    if (followSystemTheme) watchSystemTheme();
+    setLang(pickValue(q.get('lang'), 'zh', 'en') || pickValue(store.get('lang', ''), 'zh', 'en') || browserLang(), {
+      persist: false,
+      force: false,
+    });
     hydrateIcons(document);
 
     modules.forEach(function (m) {

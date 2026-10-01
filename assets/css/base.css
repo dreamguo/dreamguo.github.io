@@ -852,3 +852,16 @@ html.no-js .hero {
     outline: 2px solid Highlight;
   }
 }
+
+/* Chinese visitors: the static copy in index.html is English. Keep it hidden until the scripts have swapped the language in
+   (html.is-ready); the inline head script's 5 s failsafe (html.reveal-failsafe) still guarantees the page is never blank. */
+html.js[data-lang="zh"]:not(.is-ready):not(.reveal-failsafe) #main {
+  visibility: hidden;
+}
+/* ...and hold the hero entrance animations until then, so they play when the content appears */
+html.js[data-lang="zh"]:not(.is-ready):not(.reveal-failsafe) .hero__copy > *,
+html.js[data-lang="zh"]:not(.is-ready):not(.reveal-failsafe) .hero__hud,
+html.js[data-lang="zh"]:not(.is-ready):not(.reveal-failsafe) .hero__name::after,
+html.js[data-lang="zh"]:not(.is-ready):not(.reveal-failsafe) .hero__name-a {
+  animation-play-state: paused;
+}

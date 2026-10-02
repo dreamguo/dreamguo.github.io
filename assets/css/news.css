@@ -157,6 +157,11 @@
   letter-spacing: 0.02em;
   font-variant-numeric: tabular-nums;
 }
+.news__date .sr-only {
+  /* the spoken month-year words are for assistive tech only: keep them out of copied text */
+  -webkit-user-select: none;
+  user-select: none;
+}
 .news__tag {
   --badge: var(--t);
   padding: 0.34em 0.62em;

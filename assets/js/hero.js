@@ -194,7 +194,7 @@
     syncKeys();
   }
 
-  // Stacked hero (phones / small tablets): the 3D stage is a band between the typed line and the lede, far above the HUD.
+  // Stacked hero (phones / small tablets): the 3D stage is a band between the typed line and the lede (phones: the CTA row), far above the HUD.
   // After a chip tap, bring that band back into view when it has scrolled away (same measure as hero-gl.js).
   function revealStage() {
     if (!window.matchMedia || !heroEl || !window.scrollTo) return;
@@ -202,6 +202,9 @@
     if (window.matchMedia('(max-height: 500px) and (orientation: landscape)').matches) return;
     if (S.hero && S.hero.status === 'none') return; // no backdrop, nothing to show
     var typed = heroEl.querySelector('.hero__typed'), lede = heroEl.querySelector('.hero__lede');
+    var ctaRow = heroEl.querySelector('.hero__cta');
+    // phones: the CTA row can sit between the stage band and the lede (order set in hero.css); the band ends at whichever comes first
+    if (lede && ctaRow && ctaRow.getBoundingClientRect().top < lede.getBoundingClientRect().top) lede = ctaRow;
     if (!typed || !lede) return;
     var nav = document.getElementById('site-nav');
     var navH = (nav && nav.getBoundingClientRect().bottom) || 64;
@@ -297,9 +300,12 @@
     lastTel['t_' + key] = val;
     el.textContent = val;
   }
+  // Telemetry keeps arriving (10 Hz) while the hero is scrolled away: remember the latest state, write nothing;
+  // the observer in buildTyper() repaints the HUD as soon as it is back in view.
   function onTelemetry(st) {
     if (!hud || !hudEls.c0) return;
     lastTel.last = st;
+    if (heroEl.classList.contains('is-away')) return;
     if (st.scene !== lastTel.scene) syncScene(st.scene);
     var def = TEL[st.scene] || TEL.reconstruct;
     var m = def.read(st);
@@ -334,18 +340,24 @@
   // Intl.Segmenter exists, put a <wbr> before every word and let CSS (keep-all) break only there. The text itself
   // is unchanged (textContent, copy / paste and screen readers see the same string). Punctuation stays glued to
   // the word before it, so no line starts with 。 or ，.
+  var LEDE_KEEP = /多模态|具身智能|基础模型|博士学位/g; // terms the dictionary would split (具身|智能): never break inside
   function phraseLede() {
     var el = document.querySelector('.hero__lede');
     if (!el) return;
     el.classList.remove('is-phrased');
     if (S.lang !== 'zh' || !window.Intl || typeof Intl.Segmenter !== 'function') return;
-    var txt = el.textContent, frag = document.createDocumentFragment(), buf = '', prevLen = 0;
+    var txt = el.textContent, frag = document.createDocumentFragment(), buf = '', prevLen = 0, keep = [];
+    txt.replace(LEDE_KEEP, function (m, off) { keep.push([off, off + m.length]); return m; });
+    function insideKeep(i) {
+      for (var k = 0; k < keep.length; k++) if (i > keep[k][0] && i < keep[k][1]) return true;
+      return false;
+    }
     try {
       var it = new Intl.Segmenter('zh-CN', { granularity: 'word' }).segment(txt)[Symbol.iterator](), r;
       while (!(r = it.next()).done) {
         var sg = r.value.segment, len = sg.length;
         // the dictionary splits unknown words (多|模|态) into single characters: two singles in a row stay together
-        if (r.value.isWordLike && buf && !(prevLen === 1 && len === 1)) {
+        if (r.value.isWordLike && buf && !(prevLen === 1 && len === 1) && !insideKeep(r.value.index)) {
           frag.appendChild(document.createTextNode(buf));
           frag.appendChild(document.createElement('wbr'));
           buf = '';
@@ -418,7 +430,9 @@
     if ('IntersectionObserver' in window && heroEl) {
       new IntersectionObserver(function (es) {
         tw.visible = es[es.length - 1].isIntersecting;
+        heroEl.classList.toggle('is-away', !tw.visible); // hero.css pauses the endless CSS animations while it is off-screen
         if (tw.visible && !tw.timer) twSchedule(200);
+        if (tw.visible && lastTel.last) onTelemetry(lastTel.last); // HUD readouts were not written while away
       }, { threshold: 0 }).observe(heroEl);
     }
   }

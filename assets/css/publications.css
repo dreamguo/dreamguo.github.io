@@ -35,6 +35,7 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
+  scroll-margin-top: 10px; /* scrollIntoView() from a hashtag filter (publications.js showBar): the same 90px landing as the cards */
 }
 
 .pubs__search {
@@ -47,8 +48,6 @@
   border: 1px solid var(--pub-field-line);
   border-radius: var(--r-md);
   background: var(--panel);
-  backdrop-filter: blur(14px) saturate(140%);
-  -webkit-backdrop-filter: blur(14px) saturate(140%);
   cursor: text;
   transition: border-color var(--dur-2), box-shadow var(--dur-3) var(--ease), background var(--dur-2);
 }
@@ -115,8 +114,7 @@
   color: var(--text-3);
   transition: color var(--dur-1), background var(--dur-2);
 }
-.pubs[data-shortcuts="off"] .pubs__kbd,
-.pubs[data-shortcuts="off"] .pubs__hint {
+.pubs[data-shortcuts="off"] .pubs__kbd {
   display: none;
 }
 @media (hover: hover) and (pointer: fine) {
@@ -130,11 +128,13 @@
 }
 
 /* chips */
+/* each filter family owns a full row at every width and in every language, so the two label columns align and the
+   block is the same height in English and Chinese */
 .pubs__filters {
   display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  gap: 12px 28px;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 12px;
 }
 .pubs__group {
   display: flex;
@@ -144,6 +144,7 @@
 }
 .pubs__glabel {
   flex: none;
+  min-width: 3.5em; /* 'show' and 'topic' share one label width, so both chip rows start on the same x */
   /* sits on the first chip row's center line, however many rows the chips wrap to */
   padding-top: calc((var(--pub-chip-h) - 1em) / 2);
   color: var(--text-3);
@@ -151,6 +152,9 @@
   line-height: 1;
   letter-spacing: var(--tracking-wide);
   text-transform: uppercase;
+}
+:lang(zh) .pubs__glabel {
+  min-width: 0; /* 显示 / 主题 are both two characters wide already */
 }
 .pubs__chips {
   display: flex;
@@ -228,17 +232,6 @@
   .pubs__reset:hover {
     background-size: 100% 1px;
   }
-}
-.pubs__hint {
-  flex: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  letter-spacing: 0.03em;
-}
-/* dark: the search box already shows its "/" key — drop the duplicate line */
-:root:not([data-theme="light"]) .pubs__hint {
-  display: none;
 }
 
 /* --------------------------------------------------------------------------
@@ -323,7 +316,7 @@
    Paper card
    -------------------------------------------------------------------------- */
 .pub {
-  scroll-margin-top: calc(var(--nav-h) + 24px);
+  scroll-margin-top: 10px; /* html scroll-padding-top (80px) + 10px = the same 90px landing as the section headings */
 }
 .pub.panel {
   display: flex;
@@ -334,7 +327,7 @@
   background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.07), transparent 42%), var(--panel);
   border-color: var(--line-strong);
 }
-/* calm dark: the featured card is set apart by its size and a stronger hairline, not by a coloured wash */
+/* calm dark: the featured card is set apart by its size and a stronger hairline, not by a colored wash */
 :root:not([data-theme="light"]) .pub--feature.panel {
   background: var(--panel);
 }
@@ -461,8 +454,6 @@
   padding: 4px 8px;
   border-radius: var(--r-xs);
   background: var(--veil);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
   color: var(--text-2);
   font-family: var(--font-mono);
   font-size: var(--fs-micro);
@@ -471,6 +462,15 @@
   text-transform: uppercase;
   pointer-events: none;
   transition: opacity var(--dur-2);
+}
+/* dark: the white-background figures sit right behind the chip; a denser veil keeps its text above 4.5:1 */
+:root:not([data-theme="light"]) .pub__cap {
+  background: rgba(6, 8, 12, 0.84);
+}
+@media (prefers-contrast: more) {
+  :root:not([data-theme="light"]) .pub__cap {
+    background: var(--veil);
+  }
 }
 .pub__cap .pub__ico {
   color: var(--accent);
@@ -545,6 +545,7 @@
   flex: 1;
   min-width: 0;
   padding: var(--pub-pad);
+  container-type: inline-size; /* for the action-grid @container rules below */
 }
 .pub__meta {
   display: flex;
@@ -574,8 +575,8 @@
     transform: scale(0.8);
   }
 }
-/* calm dark: NEW / award are neutral grey status badges (wording + icon carry the meaning, not hue); the NEW dot is
-   a still, unlit dot. Only venue badges keep their own colour. */
+/* calm dark: NEW / award are neutral gray status badges (wording + icon carry the meaning, not hue); the NEW dot is
+   a still, unlit dot. Only venue badges keep their own color. */
 :root:not([data-theme="light"]) .pub__meta .badge--new,
 :root:not([data-theme="light"]) .pub__meta .badge--award {
   --badge: var(--venue-preprint);
@@ -741,6 +742,7 @@ a.pub__au-name {
   letter-spacing: 0.01em;
   line-height: 1.6;
   overflow-wrap: anywhere;
+  text-wrap: balance;
 }
 
 /* tl;dr — 3 lines, expandable when clipped */
@@ -821,7 +823,7 @@ a.pub__au-name {
   border-right: 3.5px solid transparent;
   border-bottom: 6px solid var(--accent-2);
 }
-/* calm dark: neutral pills (hairline + faint tint, grey marker) */
+/* calm dark: neutral pills (hairline + faint tint, gray marker) */
 :root:not([data-theme="light"]) .pub__pill {
   border-color: var(--line-strong);
   background: var(--line);
@@ -842,7 +844,7 @@ a.pub__au-name {
   position: relative;
   padding: 4px 0;
   cursor: pointer;
-  transition: color var(--dur-1);
+  transition: color var(--dur-1), scale var(--dur-1) var(--ease);
 }
 @media (hover: hover) and (pointer: fine) {
   .pub__tag:hover {
@@ -862,15 +864,33 @@ a.pub__au-name {
   min-height: 36px;
   padding: 0.5em 0.95em;
 }
-/* featured card on desktop: five or six actions read as a 3-column grid, not a ragged 4+2 wrap
-   (cards with four actions keep the flex row: a 3-column grid would strand one button; below 980px the
-   text column is too narrow for three English columns, so the row simply wraps) */
-@media (min-width: 980px) {
-  .pub--feature .pub__actions[data-n="5"],
-  .pub--feature .pub__actions[data-n="6"] {
-    display: grid;
-    grid-template-columns: repeat(3, max-content);
-    justify-content: start;
+/* Action grids. Both bands are in em, so they follow the browser's text size, and each also asks the card how much
+   room it really has (@container): the content column stops growing at 1200px while the text keeps growing, so at a
+   large text size on a wide screen three max-content columns could still outgrow the card. Where they would not fit,
+   the row keeps wrapping.
+   Featured card: five or six actions read as a 3-column grid, not a ragged 4+2 wrap (four actions keep the flex row:
+   a 3-column grid would strand one button). Below 61.25em, 980px at the default text size, the text column is too
+   narrow for three English columns. */
+@media (min-width: 61.25em) {
+  @container (min-width: 21.25em) {
+    .pub--feature .pub__actions[data-n="5"],
+    .pub--feature .pub__actions[data-n="6"] {
+      display: grid;
+      grid-template-columns: repeat(3, max-content);
+      justify-content: start;
+    }
+  }
+}
+/* Two-up cards cannot fit five actions on one row between 900 and 1169px at the default text size (English labels):
+   read 3 + 2, not 4 + 1 with a lone BibTeX. Below 900px the card is full width and one row fits; from 1170px the
+   two-up card is wide enough. */
+@media (min-width: 56.25em) and (max-width: 73.0625em) {
+  @container (min-width: 19.5em) {
+    .pub:not(.pub--feature):not(.pub-row) .pub__actions[data-n="5"] {
+      display: grid;
+      grid-template-columns: repeat(3, max-content);
+      justify-content: start;
+    }
   }
 }
 .pub__ico {
@@ -962,6 +982,13 @@ a.pub__au-name {
 @media (max-height: 500px) and (orientation: landscape) {
   .pub__frame--img {
     max-height: 46vh;
+  }
+}
+/* landscape phones, stacked card: the 16:9 illustration would be a whole screen tall before the title */
+@media (max-width: 899px) and (max-height: 500px) and (orientation: landscape) {
+  .pub--feature .pub__frame:not(.pub__frame--img) {
+    aspect-ratio: auto;
+    height: 46vh;
   }
 }
 
@@ -1331,8 +1358,7 @@ a.pub__au-name {
   .pubs {
     --pub-chip-h: 44px;
   }
-  .pubs__kbd,
-  .pubs__hint {
+  .pubs__kbd {
     display: none;
   }
   .pubs__chip {
@@ -1402,6 +1428,18 @@ a.pub__au-name {
     width: 44px;
     height: 44px;
   }
+  /* 'Reset' beside the count: 28px visible, at least 44px wide and tall to hit (the zh label is only 24px wide) */
+  .pubs__reset {
+    position: relative;
+  }
+  .pubs__reset::after {
+    content: "";
+    position: absolute;
+    inset: -8px -12px;
+  }
+  .pubs__input {
+    font-size: 16px; /* iPadOS: no zoom-on-focus above 760px either (the max-width rule below stays) */
+  }
 }
 
 @media (max-width: 760px) {
@@ -1414,18 +1452,12 @@ a.pub__au-name {
     font-size: 16px; /* no iOS zoom-on-focus */
   }
   .pubs__filters {
-    flex-direction: column;
-    flex-wrap: nowrap; /* a wrapping column sized every group to max-content and hid the chips */
-    align-items: stretch;
     gap: 10px;
   }
   .pubs__group {
     flex-direction: column;
     align-items: stretch;
     gap: 6px;
-    width: 100%;
-    max-width: 100%;
-    min-width: 0;
   }
   .pubs__glabel {
     padding-top: 0;
@@ -1556,10 +1588,18 @@ a.pub__au-name {
   }
 }
 
-/* the in-page pause control (html.motion-off) behaves like prefers-reduced-motion */
+/* the in-page pause control (html.motion-off) behaves like prefers-reduced-motion: no hover lift, and the deep-link
+   highlight stays visible as a static outline */
 @media (hover: hover) and (pointer: fine) {
   html.motion-off .pub-item:hover > .pub.panel,
   html.motion-off .pub.panel:hover .pub__img {
     transform: none;
   }
+}
+html.motion-off .pub.is-flash {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+html.motion-off .pub-row.is-flash {
+  background: rgba(var(--accent-rgb), 0.16);
 }

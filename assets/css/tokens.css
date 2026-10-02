@@ -45,9 +45,9 @@
   --bg: #06080c;
   --bg-elev: #0a0f16;
   --bg-sunk: #04060a;
-  --panel: rgba(14, 20, 30, 0.62);
+  --panel: rgba(12, 18, 26, 0.78); /* mostly opaque: the point cloud behind a card reads as haze, not as structure */
   --panel-solid: #0d131c;
-  --panel-hover: rgba(20, 29, 42, 0.72);
+  --panel-hover: rgba(18, 26, 38, 0.84);
   --veil: rgba(6, 8, 12, 0.72);
 
   /* lines */
@@ -85,7 +85,7 @@
   --venue-acmmm: 165, 188, 118;
   --venue-preprint: 150, 160, 176;
 
-  /* emphasis ring (dark): a hairline, no coloured halo */
+  /* emphasis ring (dark): a hairline, no colored halo */
   --glow-sm: 0 0 0 1px rgba(var(--accent-rgb), 0.08);
   --glow-md: 0 0 0 1px rgba(var(--accent-rgb), 0.1);
   --shadow-lg: 0 30px 80px -30px rgba(0, 0, 0, 0.7);
@@ -228,5 +228,19 @@
     --text-3: var(--text-2);
     --panel: rgba(255, 255, 255, 0.95);
     --veil: rgba(244, 246, 249, 0.92);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Very large screens: grow the type and the content column gently. 1600px and below are untouched; 100% as the base keeps
+   the visitor's browser font-size preference (1600px = 16px root / 1200px column, 1920px = 17.6px / 1328px, 2560px = 20px
+   cap / 1560px). Only html font-size and --container change (--nav-h and the px tokens stay as they are).
+   -------------------------------------------------------------------------- */
+@media (min-width: 1600px) {
+  html {
+    font-size: min(calc(100% + (100vw - 1600px) * 0.005), 125%);
+  }
+  :root {
+    --container: min(calc(1200px + (100vw - 1600px) * 0.4), 1560px);
   }
 }

@@ -83,7 +83,7 @@ html.is-orbiting * {
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(min-content, 350px); /* the HUD may grow under enlarged text */
+  grid-template-columns: minmax(0, 1fr) minmax(min-content, 21.875rem); /* the HUD (350px at a 16px root) scales with the text and may grow under enlarged text */
   align-items: end;
   gap: clamp(24px, 4vw, 64px);
 }
@@ -452,6 +452,23 @@ html.is-orbiting * {
 .hero__hiring-text.is-phrased {
   word-break: keep-all;
 }
+/* where the note has its full 36rem (700-899px stacked, 1100px and up): tag and sentence are two columns, so both text lines
+   start at the same x. Narrower columns, phones and short landscape keep the flowing note, which would gain a line here. */
+@media (min-width: 700px) and (max-width: 899px) and (min-height: 501px), (min-width: 1100px) and (min-height: 501px) {
+  .hero__hiring {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: 0.8em;
+    align-items: baseline;
+  }
+  .hero__hiring-tag {
+    margin-right: 0;
+    justify-self: start;
+  }
+  .hero__hiring-text {
+    display: block;
+  }
+}
 :root[data-lang="zh"] .hero__hiring-text {
   text-wrap: pretty;
 }
@@ -477,8 +494,10 @@ html.is-orbiting * {
 .hud {
   display: grid;
   gap: 12px;
-  padding: 14px 14px 12px;
+  padding: 14px 14px 18px; /* the bottom corner ticks (inset 9px, 11px arms) clear the meta line */
   border-radius: var(--r-md);
+  -webkit-backdrop-filter: blur(14px) saturate(140%); /* the one panel that keeps its blur (base.css dropped it from static cards): it sits over the brightest cloud points */
+  backdrop-filter: blur(14px) saturate(140%);
   text-shadow: none;
   overflow: visible; /* .panel clips; with enlarged text the HUD must grow, never cut controls off */
 }
@@ -548,7 +567,7 @@ html.is-orbiting * {
   border: 1px solid var(--line);
   border-radius: 50%;
   color: var(--text-2);
-  transition: color var(--dur-2), border-color var(--dur-2), background var(--dur-2);
+  transition: color var(--dur-2), border-color var(--dur-2), background var(--dur-2), scale var(--dur-1) var(--ease);
 }
 .hud__replay::after,
 .hud__motion::after {
@@ -801,13 +820,19 @@ html.is-orbiting * {
   box-shadow: 0 0 8px var(--accent);
   animation: hero-scroll 2.2s var(--ease-in-out) infinite;
 }
+/* compositor-only: the pulse starts at top: -45% and travels 63.8px (322.22% of its own 45% height) down the 44px line */
 @keyframes hero-scroll {
   0% {
-    top: -45%;
+    transform: translateY(0);
   }
   100% {
-    top: 100%;
+    transform: translateY(322.22%);
   }
+}
+/* nothing endless runs while the hero is off-screen (hero.js toggles .is-away; hero-drift keeps going while any part shows) */
+.hero.is-away .hero__name-b,
+.hero.is-away .hero__scroll-line::after {
+  animation-play-state: paused;
 }
 
 /* origin crosshair: sits on the scene's center; hidden on small / touch screens */
@@ -868,6 +893,9 @@ html.is-orbiting * {
   white-space: nowrap;
   text-shadow: 0 0 6px var(--bg), 0 0 14px var(--bg), 0 1px 2px var(--bg);
 }
+:root[data-theme="light"] .hero__reticle-label {
+  color: var(--text-3); /* decoration: quieter than the nav links (dark theme already uses --text-2) */
+}
 
 /* ------------------------------------------------------- entrance choreography */
 @keyframes hero-rise {
@@ -927,7 +955,7 @@ html.js .hero__hud {
   }
   .hud {
     gap: 10px;
-    padding: 12px 12px 10px;
+    padding: 12px 12px 16px;
   }
   .hud__foot {
     display: none;
@@ -1153,14 +1181,13 @@ html.no-webgl .hero__inner::before,
     flex: 1 1 auto;
   }
   .hud {
-    padding: 12px 12px 10px;
+    padding: 12px 12px 16px;
     gap: 10px;
   }
   .hud__chip-hint,
   .hud__aux,
-  .hud__foot,
   .hero__scroll-label {
-    display: none;
+    display: none; /* .hud__foot ("Swipe sideways to orbit") stays: the one interactive feature is advertised on phones */
   }
   .hud__meta {
     margin-top: 0;
@@ -1274,7 +1301,7 @@ html.no-webgl .hero::before {
 }
 
 /* ------------------------------------------------------------ calm dark
-   Dark theme: neutrals plus the one soft accent (active chip, primary button). No coloured glows or halos; amber stays
+   Dark theme: neutrals plus the one soft accent (active chip, primary button). No colored glows or halos; amber stays
    on the tiny Hiring tag and the "@" only. The light theme keeps the rules above unchanged. */
 :root:not([data-theme="light"]) .hero::after {
   --vf: var(--text-3);
@@ -1374,5 +1401,22 @@ html.no-webgl:not([data-theme="light"]) .hero::before {
   }
   .hud__chip {
     align-content: center;
+  }
+}
+
+/* phones with toolbars up (664-740px tall): the CTAs sit directly under the stage band and the lede follows; svh math
+   only, so nothing reflows when the toolbars collapse. DOM order is unchanged (the lede has no focusable content).
+   Only where the band exists: without WebGL (no band) the lede keeps its place above the CTAs. */
+@media (max-width: 560px) and (min-height: 501px) {
+  html:not(.no-webgl) .hero:not(.hero--static) .hero__cta {
+    order: 6;
+    margin-top: 16px;
+  }
+  html:not(.no-webgl) .hero:not(.hero--static) .hero__lede {
+    order: 7;
+    margin: 22px 0 0;
+  }
+  .hero__inner::before {
+    height: clamp(176px, min(58vw, 31svh), 420px);
   }
 }

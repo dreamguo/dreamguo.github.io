@@ -35,7 +35,7 @@
       email: 'im.guomengqi@gmail.com',
       location: { en: 'Singapore', zh: '新加坡' },
       coords: '1.3521°N 103.8198°E',
-      updated: { en: 'Sep 2026', zh: '2026 年 9 月' },
+      updated: { en: 'Oct 2026', zh: '2026 年 10 月' },
       year: 2026,
     },
 
@@ -87,7 +87,7 @@
       },
       paragraphs: [
         {
-          en: "I’m a **Researcher at Huawei Norbert Wiener Research Center (Singapore)**, working on multimodal and spatial foundation models and embodied AI.",
+          en: "I’m a **researcher at Huawei Norbert Wiener Research Center (Singapore)**, working on multimodal and spatial foundation models and embodied AI.",
           zh: '我是**华为维纳研究所（新加坡）的研究员**，专注于多模态与空间基础模型、具身智能。',
         },
         {
@@ -95,8 +95,8 @@
           zh: '我于 **2026 年在[新加坡国立大学](https://www.nus.edu.sg/)获得博士学位**，在计算机视觉与机器人感知（CVRP）实验室师从 [Gim Hee Lee 教授](https://www.comp.nus.edu.sg/~leegh/)。博士期间的研究聚焦 3D 计算机视觉，尤其是序列化的 3D 重建、理解与生成。',
         },
         {
-          en: "Before NUS, I was a research intern in the [CCVL Lab](https://ccvl.jhu.edu/) at Johns Hopkins University under [Prof. Alan Yuille](https://www.cs.jhu.edu/~ayuille1/), and earned my B.S. in Computer Science and Technology from the ShenYuan Honors College at [Beihang University](https://ev.buaa.edu.cn/) in 2021, advised by [Prof. Si Liu](https://colalab.net/team/).",
-          zh: '读博之前，我曾在约翰斯·霍普金斯大学 [CCVL 实验室](https://ccvl.jhu.edu/)跟随 [Alan Yuille 教授](https://www.cs.jhu.edu/~ayuille1/)担任研究实习生；2021 年毕业于[北京航空航天大学](https://ev.buaa.edu.cn/)沈元学院，获计算机科学与技术学士学位，导师为[刘偲教授](https://colalab.net/team/)。',
+          en: "Before NUS, I earned my **B.S. from [Beihang University](https://ev.buaa.edu.cn/) in 2021** (Computer Science and Technology, ShenYuan Honors College), advised by [Prof. Si Liu](https://colalab.net/team/), and, during my degree, was a research intern in the [CCVL Lab](https://ccvl.jhu.edu/) at Johns Hopkins University under [Prof. Alan Yuille](https://www.cs.jhu.edu/~ayuille1/).",
+          zh: '读博之前，我于 **2021 年毕业于[北京航空航天大学](https://ev.buaa.edu.cn/)**沈元学院，获计算机科学与技术学士学位，导师为[刘偲教授](https://colalab.net/team/)，本科期间还曾在约翰斯\u2060·\u2060霍普金斯大学 [CCVL 实验室](https://ccvl.jhu.edu/)担任研究实习生，师从 [Alan Yuille 教授](https://www.cs.jhu.edu/~ayuille1/)。',
         },
       ],
       /* small "spec sheet" next to the portrait */
@@ -125,7 +125,7 @@
           title: { en: 'Understand', zh: '理解' },
           text: {
             en: 'Semantic fields and part-level understanding that generalize across scenes and from synthetic to real domains.',
-            zh: '可跨场景、跨合成到真实域泛化的语义场与部件级理解。',
+            zh: '可跨场景泛化、并从合成域迁移到真实域的语义场与部件级理解。',
           },
           papers: ['gnesf', 'udapart', 'partdisc'],
         },
@@ -162,7 +162,7 @@
       },
       {
         type: 'career', date: '2025', sort: '2025-08',
-        text: { en: 'Joined **Huawei Norbert Wiener Research Center (Singapore)** as a Researcher.', zh: '加入**华为维纳研究所（新加坡）**，担任研究员。' },
+        text: { en: 'Joined **Huawei Norbert Wiener Research Center (Singapore)** as a researcher.', zh: '加入**华为维纳研究所（新加坡）**，担任研究员。' },
       },
       {
         type: 'paper', date: '2025', sort: '2025-09', paper: '4d3r',
@@ -170,7 +170,7 @@
       },
       {
         type: 'paper', date: '03.2025', sort: '2025-03', paper: 'mvgsr',
-        text: { en: 'Released [MVGSR](https://mvgsr.github.io), multi-view consistent Gaussian splatting for robust surface reconstruction, on arXiv.', zh: '在 arXiv 发布 [MVGSR](https://mvgsr.github.io)：面向鲁棒表面重建的多视角一致高斯泼溅。' },
+        text: { en: 'Released [MVGSR](https://mvgsr.github.io) on arXiv: multi-view consistent Gaussian splatting for robust surface reconstruction.', zh: '在 arXiv 发布 [MVGSR](https://mvgsr.github.io)：面向鲁棒表面重建的多视角一致高斯泼溅。' },
       },
       {
         type: 'paper', date: '07.2024', sort: '2024-07',
@@ -198,11 +198,11 @@
       },
       {
         type: 'award', date: '07.2021', sort: '2021-07',
-        text: { en: 'Awarded **Outstanding Graduate** at [Beihang University](https://ev.buaa.edu.cn/).', zh: '获[北京航空航天大学](https://ev.buaa.edu.cn/)**优秀毕业生**称号。' },
+        text: { en: 'Named **Outstanding Graduate** of [Beihang University](https://ev.buaa.edu.cn/).', zh: '获[北京航空航天大学](https://ev.buaa.edu.cn/)**优秀毕业生**称号。' },
       },
       {
         type: 'career', date: '06.2020', sort: '2020-06',
-        text: { en: 'Joined the [CCVL Lab](https://ccvl.jhu.edu/) at Johns Hopkins University as a research intern.', zh: '加入约翰斯·霍普金斯大学 [CCVL 实验室](https://ccvl.jhu.edu/)担任研究实习生。' },
+        text: { en: 'Joined the [CCVL Lab](https://ccvl.jhu.edu/) at Johns Hopkins University as a research intern.', zh: '加入约翰斯\u2060·\u2060霍普金斯大学 [CCVL 实验室](https://ccvl.jhu.edu/)担任研究实习生。' },
       },
       {
         type: 'career', date: '10.2019', sort: '2019-10',
@@ -218,7 +218,7 @@
       },
       {
         type: 'award', date: '07.2017', sort: '2017-07',
-        text: { en: 'Awarded **Outstanding Graduate** at [Shenzhen Experimental School (SZSY)](https://www.szsy.cn/).', zh: '获[深圳实验学校](https://www.szsy.cn/)**优秀毕业生**称号。' },
+        text: { en: 'Named **Outstanding Graduate** of [Shenzhen Experimental School (SZSY)](https://www.szsy.cn/).', zh: '获[深圳实验学校](https://www.szsy.cn/)**优秀毕业生**称号。' },
       },
     ],
     newsVisible: 6, // how many items before "show more"
@@ -270,7 +270,7 @@
         title: 'MVGSR: Multi-View Consistency Gaussian Splatting for Robust Surface Reconstruction',
         authors: [a('Chenfeng Hou'), a('Qi Xun Yeo'), a(ME), a('Yongxin Su'), a('Yanyan Li'), LEE],
         venue: 'arXiv', year: 2025, kind: 'preprint',
-        venueLong: { en: 'arXiv preprint arXiv:2503.08093', zh: 'arXiv 预印本 arXiv:2503.08093' },
+        venueLong: { en: 'Preprint · arXiv:2503.08093', zh: '预印本 · arXiv:2503.08093' },
         badge: 'arXiv 2025',
         selected: false,
         tldr: {
@@ -435,7 +435,7 @@
         title: 'Unsupervised Part Discovery via Feature Alignment',
         authors: [a(ME), a('Yutong Bai'), a('Zhishuai Zhang'), a('Adam Kortylewski'), YUILLE],
         venue: 'arXiv', year: 2020, kind: 'preprint',
-        venueLong: { en: 'arXiv preprint arXiv:2012.00313', zh: 'arXiv 预印本 arXiv:2012.00313' },
+        venueLong: { en: 'Preprint · arXiv:2012.00313', zh: '预印本 · arXiv:2012.00313' },
         badge: 'arXiv 2020',
         selected: false,
         tldr: {
@@ -470,8 +470,8 @@
         role: { en: 'Ph.D. in Computer Science', zh: '计算机科学博士' },
         place: { en: 'Singapore', zh: '新加坡' },
         note: {
-          en: 'Advised by [Prof. Gim Hee Lee](https://www.comp.nus.edu.sg/~leegh/). 3D reconstruction, understanding and generation; NeurIPS ×2, ECCV ×3. Research Achievement Award 2024.',
-          zh: '导师为 [Gim Hee Lee 教授](https://www.comp.nus.edu.sg/~leegh/)。研究 3D 重建、理解与生成；NeurIPS ×2、ECCV ×3。2024 年获研究成就奖。',
+          en: 'Advised by [Prof. Gim Hee Lee](https://www.comp.nus.edu.sg/~leegh/). 3D reconstruction, understanding and generation. Papers: NeurIPS ×2, ECCV ×3. Research Achievement Award 2024.',
+          zh: '导师为 [Gim Hee Lee 教授](https://www.comp.nus.edu.sg/~leegh/)。研究 3D 重建、理解与生成。论文：NeurIPS ×2、ECCV ×3。2024 年获研究成就奖。',
         },
       },
       {
@@ -543,27 +543,27 @@
 
       'sec.about.title': { en: 'Seeing the world in *3D*', zh: '用 *3D* 看世界' },
       'sec.about.kicker': { en: 'From 3D vision research to spatial foundation models.', zh: '从 3D 视觉研究走向空间基础模型。' },
-      'sec.news.title': { en: 'Latest *signals*', zh: '最新*动态*' },
+      'sec.news.title': { en: 'Latest *news*', zh: '最新*动态*' },
       'sec.news.kicker': { en: 'Papers, career and awards, newest first.', zh: '论文、经历与荣誉，按时间倒序。' },
       'sec.research.title': { en: 'Selected *research*', zh: '代表性*研究*' },
       'sec.research.kicker': { en: 'Reconstruction, understanding and generation of the 3D world — from NeRF to Gaussian splatting to 4D.', zh: '3D 世界的重建、理解与生成⁠——从 NeRF、高斯泼溅到 4D。' },
-      'sec.journey.title': { en: 'The *path* so far', zh: '一路走来的*足迹*' },
+      'sec.journey.title': { en: 'The *path* so far', zh: '一路*走来*' },
       'sec.journey.kicker': { en: 'Where I’ve studied and worked.', zh: '求学与工作的每一站。' },
       'sec.recognition.title': { en: 'Recognition & *service*', zh: '荣誉与学术*服务*' },
-      'sec.recognition.kicker': { en: 'Awards, scholarships and academic service.', zh: '奖项、奖学金与学术服务。' },
+      'sec.recognition.kicker': { en: 'Awards, publication record, reviewing and skills.', zh: '奖项、论文产出、审稿服务与技能。' },
       'sec.contact.title': { en: "Let’s *talk*", zh: '来*聊聊*吧' },
-      'sec.contact.kicker': { en: 'Always happy to chat about 3D vision, spatial foundation models and embodied AI.', zh: '欢迎交流 3D 视觉、空间基础模型与具身智能。' },
+      'sec.contact.kicker': { en: 'Always happy to chat about 3D vision and embodied AI, and looking for interns and Ph.D. students.', zh: '欢迎交流 3D 视觉与具身智能；也在招募实习生和博士生。' },
 
       'hero.eyebrow': { en: 'Singapore · 1.3521°N 103.8198°E', zh: '新加坡 · 1.3521°N 103.8198°E' },
       'hero.role': { en: 'Researcher', zh: '研究员' },
       'hero.org': { en: 'Huawei Norbert Wiener Research Center (Singapore)', zh: '华为维纳研究所（新加坡）' },
       'hero.lede': {
-        en: 'I work on multimodal and spatial foundation models and embodied AI. I earned my Ph.D. at NUS in 2026, teaching machines to reconstruct, understand and generate the 3D world.',
-        zh: '我从事多模态与空间基础模型、具身智能的研究与开发。2026 年博士毕业于 NUS，读博期间教会了机器重建、理解并生成 3D 世界。',
+        en: 'I work on multimodal and spatial foundation models and embodied AI. My Ph.D. at\u00A0NUS (2026) focused on how machines reconstruct, understand and generate the 3D world.',
+        zh: '我从事多模态与空间基础模型、具身智能的研究与开发。2026 年于 NUS 获博士学位，博士期间研究机器如何重建、理解并生成 3D 世界。',
       },
       'hero.hiring.tag': { en: 'Hiring', zh: '招募中' },
       'hero.hiring.text': {
-        en: 'I am looking for prospective interns\u00A0/ PhD students to work on 3D\u00A0/ 4D\u00A0/ embodied AI. Feel free to [drop an email](mailto:im.guomengqi@gmail.com) if you are interested in working with me.',
+        en: 'I’m looking for prospective interns\u00A0/ Ph.D. students to work on 3D\u00A0/ 4D\u00A0/ embodied AI. Interested in working with me? [Drop me an email](mailto:im.guomengqi@gmail.com).',
         zh: '我正在招募实习生\u00A0/ 博士生，研究方向为 3D\u00A0/ 4D\u00A0/ 具身智能。如果你有兴趣和我一起工作，欢迎[发邮件](mailto:im.guomengqi@gmail.com)联系我。',
       },
       'hero.cta.research': { en: 'Explore research', zh: '浏览研究' },

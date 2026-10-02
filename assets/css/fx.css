@@ -1,7 +1,7 @@
 /* ==========================================================================
    fx.css — global effects + command palette
    Sections: 1 locks · 2 spotlight / tilt / glare · 3 selection · 4 custom cursor · 5 toast
-             6 command palette (.cmdk*) · 7 calm dark (dark-theme overrides of 2-6: no coloured glows, one soft accent)
+             6 command palette (.cmdk*) · 7 calm dark (dark-theme overrides of 2-6: no colored glows, one soft accent)
    ========================================================================== */
 
 :root {
@@ -408,6 +408,22 @@ html.has-cursor.is-orbiting .hero * {
 .cmdk__esc .kbd {
   pointer-events: none;
 }
+@media (pointer: coarse) {
+  /* the title bar is shorter than a touch target: the close button's hit area reaches 44px down into the input row's
+     padding, above the field, without changing how it looks */
+  .cmdk__esc {
+    position: relative;
+    z-index: 1;
+  }
+  .cmdk__esc::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: -6px;
+    left: -6px;
+    min-height: 44px;
+  }
+}
 @media (hover: hover) and (pointer: fine) {
   .cmdk__esc:hover {
     color: var(--text);
@@ -482,6 +498,10 @@ html.has-cursor.is-orbiting .hero * {
 .cmdk__field.is-empty .cmdk__caret {
   display: block;
 }
+/* the closed palette is only visibility:hidden, so its caret would keep blinking (idle style recalcs) */
+.cmdk:not(.is-open) .caret {
+  animation: none;
+}
 .cmdk__field.is-empty .cmdk__input {
   caret-color: transparent;
 }
@@ -522,11 +542,9 @@ html.has-cursor.is-orbiting .hero * {
 }
 .cmdk__gl-mark {
   color: var(--accent);
-  opacity: 0.8;
 }
 .cmdk__gl-n {
   margin-left: auto;
-  opacity: 0.7;
 }
 
 .cmdk__item {
@@ -630,7 +648,6 @@ mark.cmdk__hl {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  opacity: 0.85;
 }
 .cmdk__via::before {
   content: "≈ ";
@@ -838,7 +855,7 @@ mark.cmdk__hl {
 
 /* --------------------------------------------------------------------------
    7 · Calm dark — the dark theme only (the light theme keeps the rules above untouched).
-       One soft accent hue, neutrals for everything else, no coloured halo or glow anywhere
+       One soft accent hue, neutrals for everything else, no colored halo or glow anywhere
        (the focus ring is the only exception and lives in base.css).
    -------------------------------------------------------------------------- */
 :root:not([data-theme="light"]) [data-spotlight]:not(.panel)::before {
@@ -848,8 +865,8 @@ mark.cmdk__hl {
   background: radial-gradient(360px circle at var(--gx, 50%) var(--gy, 50%), rgba(var(--accent-rgb), 0.07), transparent 62%);
 }
 
-/* cursor: thin neutral ring (with a hairline rim of the page colour so it also reads over the light accent button),
-   small dot, a gentle grow over links, no coloured fill */
+/* cursor: thin neutral ring (with a hairline rim of the page color so it also reads over the light accent button),
+   small dot, a gentle grow over links, no colored fill */
 :root:not([data-theme="light"]) .cursor__ring {
   border-color: var(--text-3);
   border-color: color-mix(in srgb, var(--text) 42%, transparent);

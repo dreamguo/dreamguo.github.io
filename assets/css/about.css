@@ -188,8 +188,6 @@
   border: 1px solid var(--line);
   border-radius: var(--r-xs);
   background: var(--veil);
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
   color: var(--text-2);
   font-family: var(--font-mono);
   font-size: var(--fs-micro);
@@ -210,6 +208,21 @@
   max-width: 420px;
 }
 @media (min-width: 640px) and (max-width: 959.98px) {
+  .about__specs-wrap {
+    max-width: none;
+  }
+}
+/* tablet landscape / small laptops (short viewport, not sticky): one column, portrait and spec sheet side by side,
+   so the bio and the thrust cards get the full width instead of a ~590px strip. Must stay after the base rules above. */
+@media (min-width: 960px) and (max-width: 1099.98px) and (max-height: 819.98px) {
+  .about {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .about__aside {
+    grid-template-columns: minmax(0, 300px) minmax(0, 1fr);
+    align-items: center;
+    gap: var(--s-6);
+  }
   .about__specs-wrap {
     max-width: none;
   }
@@ -586,7 +599,7 @@
 }
 
 /* --------------------------------------------------------------------------
-   Phones: compact thrust cards (icon + title share a row; paper chips scroll on one line)
+   Phones: compact thrust cards (icon + title share a row; paper chips wrap below the text)
    -------------------------------------------------------------------------- */
 @media (max-width: 480px) {
   .about__thrust {
@@ -627,36 +640,15 @@
   }
   .about__thrust-papers,
   .about__thrust-since {
+    /* the paper chips keep the base flex-wrap: they wrap onto as many rows as the width needs, no hidden sideways scroller */
     grid-area: papers;
     padding-top: 0;
     margin-top: var(--s-1);
   }
-  .about__thrust-papers {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    padding-block: 7px; /* room for the 44px tap target and the focus ring inside the scroller */
-    margin-block: -7px 0;
-    padding-inline-end: 40px;
-    scrollbar-width: none;
-    -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 36px), transparent);
-    mask-image: linear-gradient(90deg, #000 calc(100% - 36px), transparent);
-  }
-  .about__thrust-papers::-webkit-scrollbar {
-    display: none;
-  }
-  .about__thrust-papers > * {
-    flex: none;
-  }
-}
-@media (max-width: 480px) and (pointer: coarse) {
-  .about__thrust-papers {
-    padding-block: 0; /* the chips are already 44px tall on touch */
-    margin-block: var(--s-1) 0;
-  }
 }
 
 /* --------------------------------------------------------------------------
-   Calm dark: no coloured glows; the amber "Current" tag is the only warm cue
+   Calm dark: no colored glows; the amber "Current" tag is the only warm cue
    -------------------------------------------------------------------------- */
 :root:not([data-theme="light"]) .about__tone {
   background:
@@ -669,7 +661,7 @@
 :root:not([data-theme="light"]) .about__thrust-since .about__thrust-label {
   color: var(--text-3);
 }
-:root:not([data-theme="light"]) @media (hover: hover) and (pointer: fine) {
+@media (hover: hover) and (pointer: fine) {
   :root:not([data-theme="light"]) .about__thrust:hover .about__thrust-icon {
     box-shadow: none;
   }
@@ -722,8 +714,6 @@
   border: 1px solid var(--line);
   border-radius: var(--r-xs);
   background: var(--veil);
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
   color: var(--text);
   font-family: var(--font-mono);
   font-size: var(--fs-micro);

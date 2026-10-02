@@ -30,6 +30,7 @@
   var state = { filter: 'all', expanded: false };
   var els = {};
   var hasFold = false;
+  var heightAnim = null; // running card-height ease (see tweenHeight)
 
   /* ------------------------------------------------------------- helpers */
   function goPaper(id) {
@@ -69,6 +70,40 @@
     while (el.firstChild) el.removeChild(el.firstChild);
   }
 
+  // "MM.YYYY" as words ("March 2025" / "2025年3月") for screen readers; year-only dates stay as they are.
+  // Read from the visible date, not from `sort`: sort carries a month even for entries that only show a year.
+  function spokenDate(it) {
+    var m = /^(\d{2})\.(\d{4})$/.exec(String(S.t(it.date) || ''));
+    if (!m || +m[1] < 1 || +m[1] > 12 || !window.Intl || !Intl.DateTimeFormat) return null;
+    try {
+      return new Intl.DateTimeFormat(S.lang === 'zh' ? 'zh-CN' : 'en-US', { month: 'long', year: 'numeric', timeZone: 'UTC' }).format(
+        new Date(Date.UTC(+m[2], +m[1] - 1, 1))
+      );
+    } catch (e) {
+      return null;
+    }
+  }
+
+  // Ease the card between its old and new height when a filter changes the number of rows.
+  function cardHeight(el) {
+    var v = el.offsetHeight;
+    if (heightAnim) {
+      heightAnim.cancel(); // a half-finished ease must not fight the next measurement
+      heightAnim = null;
+    }
+    return v;
+  }
+  function tweenHeight(el, from) {
+    if (S.reducedMotion || !el.animate) return;
+    var to = el.offsetHeight;
+    if (Math.abs(to - from) < 8) return;
+    var anim = el.animate([{ height: from + 'px' }, { height: to + 'px' }], { duration: 420, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' });
+    heightAnim = anim;
+    anim.onfinish = anim.oncancel = function () {
+      if (heightAnim === anim) heightAnim = null;
+    };
+  }
+
   /* ---------------------------------------------------------------- rows */
   function row(it, i, mode, isLast) {
     var type = it.type || 'career';
@@ -78,14 +113,23 @@
     else if (mode === 'filter') cls += ' is-enter';
     if (isLast) cls += ' is-last';
 
+    // datetime follows the shown date ("MM.YYYY" -> YYYY-MM, "YYYY" -> YYYY), never the month hidden in `sort`
     var dateAttrs = { class: 'news__date mono' };
-    if (/^\d{4}(-\d{2})?$/.test(String(it.sort || ''))) dateAttrs.datetime = it.sort;
+    var shownDate = String(S.t(it.date) || '').trim();
+    var dm = /^(\d{2})\.(\d{4})$/.exec(shownDate);
+    if (dm) dateAttrs.datetime = dm[2] + '-' + dm[1];
+    else if (/^\d{4}$/.test(shownDate)) dateAttrs.datetime = shownDate;
+    var spoken = spokenDate(it);
+    // aria-label on <time> is not reliably announced: hide the digits and expose the words instead
+    var dateNode = spoken
+      ? h('time', dateAttrs, h('span', { 'aria-hidden': 'true' }, S.t(it.date)), h('span', { class: 'sr-only' }, spoken))
+      : h('time', dateAttrs, S.t(it.date));
 
     return h(
       'li',
       { class: cls, 'data-type': type, style: '--i:' + Math.min(i, 8) },
       h('span', { class: 'news__node', 'aria-hidden': 'true' }),
-      h('div', { class: 'news__meta' }, h('time', dateAttrs, S.t(it.date)), h('span', { class: 'badge news__tag' }, S.ui('news.tag.' + type))),
+      h('div', { class: 'news__meta' }, dateNode, h('span', { class: 'badge news__tag' }, S.ui('news.tag.' + type))),
       h(
         'p',
         { class: 'news__text' },
@@ -195,7 +239,9 @@
     if (k === state.filter) return;
     state.filter = k;
     syncFilters();
+    var from = cardHeight(els.card);
     var total = renderList('filter');
+    tweenHeight(els.card, from);
     els.live.textContent = S.fmt(S.ui('news.showing'), { n: total });
   }
 

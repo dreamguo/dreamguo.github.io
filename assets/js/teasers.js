@@ -738,13 +738,13 @@
     pal = null;
     sprites = null;
     instances.forEach(function (i) {
-      i.redraw();
+      if (i.visible) i.redraw(); // off-screen canvases are drawn when the observer reports them in view
     });
   });
   S.on('motionchange', function () {
     instances.forEach(function (i) {
       i.lastNow = 0;
-      i.redraw();
+      if (i.visible) i.redraw();
     });
     kick();
   });
@@ -807,7 +807,7 @@
       inst.w = w;
       inst.h = h;
       inst.dpr = dpr;
-      draw();
+      if (inst.visible) draw(); // off-screen: the IntersectionObserver callback draws on arrival
     }
 
     var ro = null,

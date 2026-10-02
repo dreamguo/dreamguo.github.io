@@ -7,7 +7,7 @@
 
    Declarative hooks (just add the attribute / class, then call
    Site.fx && Site.fx.refresh(container) after injecting DOM):
-     .reveal                  fade/slide in when scrolled into view  (--i = stagger)
+     .reveal                  fade/slide in when scrolled into view  (a screenful cascades as one wave, see onReveal)
      [data-count="8"]         count-up 0 → 8  (data-count-suffix / -prefix / -decimals)
      [data-magnetic="8"]      pointer-follow translate (max px, default 8), fine pointers only;
                               active within ~48px of the box, never closes more than half the gap to a sibling
@@ -53,16 +53,22 @@
   var revealIO = null;
   var countIO = null;
 
+  // A wave, not a queue: items that become visible in the same observer pass cascade top to bottom (--rv = 0..4, read by
+  // base.css with a fallback to --i); a lone item that scrolls in gets no delay. Items already scrolled past get none either.
   function onReveal(entries) {
+    var wave = [];
     entries.forEach(function (en) {
-      var el = en.target;
       var above = en.boundingClientRect.bottom <= 0; // already scrolled past (hash jump, restored scroll)
       var big = en.rootBounds && en.intersectionRect.height >= en.rootBounds.height * 0.3;
       var seen = en.isIntersecting && (en.intersectionRatio >= 0.12 || big);
-      if (seen || above) {
-        el.classList.add('is-in');
-        revealIO.unobserve(el);
-      }
+      if (seen || above) wave.push({ el: en.target, above: above, top: en.boundingClientRect.top });
+    });
+    wave.sort(function (a, b) { return a.top - b.top; });
+    var n = 0; // position among the items that are actually on screen (the ones above do not push the cascade back)
+    wave.forEach(function (w) {
+      w.el.style.setProperty('--rv', String(w.above ? 0 : Math.min(n++, 4)));
+      w.el.classList.add('is-in');
+      revealIO.unobserve(w.el);
     });
   }
   function onCount(entries) {
@@ -412,7 +418,7 @@
   var mqContrast = window.matchMedia ? window.matchMedia('(prefers-contrast: more)') : null;
 
   var HOVER_SEL =
-    'a[href], button, [role="button"], [role="option"], [role="tab"], summary, select, .chip, .btn, label[for], [data-cmdk-open], [data-magnetic], [data-cursor]';
+    'a[href], button, [role="button"], [role="option"], [role="tab"], summary, select, .chip, .btn, label[for], [data-cmdk-open], [data-magnetic], [data-cursor], .recog__bar:not(.is-zero)';
   var TEXT_SEL =
     'textarea, [contenteditable=""], [contenteditable="true"], input:not([type="button"]):not([type="submit"]):not([type="reset"]):not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="color"])';
 

@@ -5,7 +5,7 @@
    scrollspy pill + hover ghost · ⌘K button · EN|中 toggle · theme toggle ·
    scroll-progress hairline · mobile full-screen menu (focus trap, Esc, scroll lock).
 
-   Public: Site.nav = { go(id), openMenu(), closeMenu(), toggleTheme(x, y), active() }
+   Public: Site.nav = { go(id), openMenu(), closeMenu(), toggleTheme(x, y), active(), hold(ms), moving() }
    Emits : 'sectionchange' (id)
    Listens: 'paletteopen' (closes the mobile menu), 'langchange', 'themechange'
    ========================================================================== */
@@ -56,6 +56,11 @@
     py: 9999,
     pyQueued: false,
     rehideT: 0,
+    holdUntil: 0, // hold() (Site.pubs.focus(), and go() when the jump started inside the bar) keeps the bar shown until this timestamp
+    userScrolled: false, // the bar only auto-hides after a real scroll gesture (wheel, touch, keyboard, pointer)
+    keepBar: false, // the running jump started inside the bar: hold the bar again once the page has settled
+    goTo: 0, // scroll offset the last go() is travelling to, and the time until which that trip may still be under way
+    goBy: 0,
   };
 
   function bind(fn) {
@@ -356,7 +361,7 @@
     st.lastY = y;
     if (
       S.reducedMotion || menuOpen || st.goActive || y < 480 || paletteOpen() ||
-      focusInsideVisibly() || hoverInside() || st.nearTop
+      focusInsideVisibly() || hoverInside() || st.nearTop || !st.userScrolled || Date.now() < st.holdUntil
     ) {
       st.acc = 0;
       setHidden(false);
@@ -379,7 +384,7 @@
   var EDGE_HOLD = 90;
   function canAutoHide() {
     var y = window.pageYOffset || root.scrollTop || 0;
-    return !(S.reducedMotion || menuOpen || st.goActive || y < 480 || paletteOpen() || focusInsideVisibly() || hoverInside());
+    return !(S.reducedMotion || menuOpen || st.goActive || y < 480 || paletteOpen() || focusInsideVisibly() || hoverInside() || Date.now() < st.holdUntil);
   }
   function edgeStep() {
     st.pyQueued = false;
@@ -450,6 +455,10 @@
     clearTimeout(st.endT);
     st.endT = setTimeout(function () {
       st.goActive = false;
+      if (st.keepBar) {
+        st.keepBar = false;
+        hold(1500);
+      }
       onScroll();
     }, ms);
   }
@@ -457,6 +466,7 @@
   /* ------------------------------------------------------------- navigation */
   function go(id, opts) {
     var el = id && id !== 'hero' && id !== 'top' ? doc.getElementById(id) : null;
+    var fromBar = !!nav && nav.contains(doc.activeElement); // read before the focus handoff below
     var smooth = !S.reducedMotion && !(opts && opts.instant);
     st.goActive = true;
     armEnd(650);
@@ -471,10 +481,28 @@
         var barH = nav ? nav.offsetHeight : 68;
         top = Math.max(0, el.getBoundingClientRect().top + (window.pageYOffset || 0) + pad - barH - 22);
       }
-      window.scrollTo({ top: top, behavior: smooth ? 'smooth' : 'auto' });
+      st.goTo = Math.min(top, Math.max(0, root.scrollHeight - window.innerHeight));
+      st.goBy = Date.now() + 4000;
+      window.scrollTo({ top: top, behavior: smooth ? 'smooth' : opts && opts.instant ? 'instant' : 'auto' }); // 'auto' would follow html { scroll-behavior: smooth }
     } catch (e) {
       if (el) el.scrollIntoView();
       else window.scrollTo(0, 0);
+    }
+    // after an in-page jump move the sequential-focus starting point to the target (what a native #link does),
+    // so the next Tab continues inside the section instead of returning to the control that was activated
+    var ftgt = el ? el.querySelector('.section-head__title') : null;
+    if (!ftgt && !el && !fromBar) ftgt = doc.getElementById('main');
+    if (ftgt) {
+      if (!ftgt.hasAttribute('tabindex')) {
+        ftgt.setAttribute('tabindex', '-1');
+        ftgt.addEventListener('blur', function () { ftgt.removeAttribute('tabindex'); }, { once: true });
+      }
+      try { ftgt.focus({ preventScroll: true }); } catch (e) { /* ignore */ }
+    }
+    // focus has just left the bar: a keyboard user who was using it should not lose it as soon as the page lands
+    if (fromBar) {
+      st.keepBar = true;
+      hold(1500);
     }
     try {
       history.replaceState(null, '', el ? '#' + id : location.pathname + location.search);
@@ -688,7 +716,15 @@
       doc.documentElement.addEventListener('mouseleave', onEdgeLeave);
     }
 
-    /* scrolling */
+    /* scrolling: auto-hide stays off until the first real scroll gesture, so deep links and programmatic landings keep the bar */
+    var armHide = function () { st.userScrolled = true; };
+    ['wheel', 'touchmove', 'keydown', 'pointerdown'].forEach(function (ev) {
+      window.addEventListener(ev, armHide, { passive: true, once: true });
+    });
+    // a wheel or touch gesture takes over from any jump still under way
+    ['wheel', 'touchmove'].forEach(function (ev) {
+      window.addEventListener(ev, function () { st.goBy = 0; }, { passive: true });
+    });
     window.addEventListener('scroll', onScroll, { passive: true });
     doc.addEventListener('keydown', onKeydown);
 
@@ -712,12 +748,27 @@
     queueRemeasure();
   }
 
+  // keep the bar shown while a programmatic jump lands (the downward travel is not the reader scrolling)
+  function hold(ms) {
+    st.holdUntil = Date.now() + (ms || 1500);
+    st.acc = 0;
+    setHidden(false);
+  }
+  // true while a programmatic jump is gliding or its hold window is open (core.js skips its scroll restore then). Frames
+  // can be further apart than armEnd()'s quiet window, so a jump also counts as under way until it has reached its target.
+  function moving() {
+    var now = Date.now();
+    return st.goActive || now < st.holdUntil || (now < st.goBy && Math.abs((window.pageYOffset || 0) - st.goTo) > 2);
+  }
+
   S.nav = {
     go: go,
     openMenu: openMenu,
     closeMenu: closeMenu,
     toggleTheme: toggleTheme,
     active: function () { return st.active; },
+    hold: hold,
+    moving: moving,
   };
 
   S.register('nav', init);

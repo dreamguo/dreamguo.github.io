@@ -745,7 +745,7 @@
       var f = function (c) { return [c[0] * 0.78 + ink[0] * 0.22, c[1] * 0.78 + ink[1] * 0.22, c[2] * 0.78 + ink[2] * 0.22]; };
       c0 = f(c0); c1 = f(c1); c2 = f(c2);
     } else {
-      // calm dark: one accent hue plus neutrals. The ramp runs accent -> pale accent -> muted grey (from --text / --text-2), so
+      // calm dark: one accent hue plus neutrals. The ramp runs accent -> pale accent -> muted gray (from --text / --text-2), so
       // the height gradient and the SfM frusta (top of the ramp) stay readable without a second or third hue.
       var tx = parseRGB(cssVar('--text'), [0.91, 0.94, 0.97]), t2 = parseRGB(cssVar('--text-2'), [0.67, 0.72, 0.79]);
       var mixc = function (a, b, k) { return [a[0] + (b[0] - a[0]) * k, a[1] + (b[1] - a[1]) * k, a[2] + (b[2] - a[2]) * k]; };
@@ -760,7 +760,7 @@
      The camera never frames "the whole viewport": it frames a stage rectangle that the
      hero copy leaves free. Measured from the DOM (so it follows fonts, zh copy, resize):
        side  (two-column hero): the area right of the widest text line, above the HUD
-       stack (single column):   the empty band between the typed line and the lede     */
+       stack (single column):   the empty band between the typed line and the lede (phones: the CTA row) */
   var RF = 2.35; // world radius that should fit the stage (frusta / ground rim may overhang and fade)
   function textBox(el) {
     try {
@@ -821,6 +821,9 @@
       }
     } else {
       var typed = q('.hero__typed'), lede = q('.hero__lede');
+      var ctaRow = q('.hero__cta');
+      // phones: the CTA row can sit between the stage band and the lede (order set in hero.css); the band ends at whichever comes first
+      if (lede && ctaRow && ctaRow.getBoundingClientRect().top < lede.getBoundingClientRect().top) lede = ctaRow;
       if (typed && lede) {
         var tb = typed.getBoundingClientRect(), lb = lede.getBoundingClientRect();
         var bt = tb.bottom + sy0 + 4, bb = lb.top + sy0 - 12, bh = bb - bt;
@@ -1398,7 +1401,8 @@
     if (gl || hero.status === 'none') return;
     var ctx = null;
     try {
-      var attrs = { alpha: false, antialias: false, depth: false, stencil: false, powerPreference: 'high-performance', preserveDrawingBuffer: false };
+      // powerPreference 'default': a decorative backdrop must not wake the discrete GPU (the resolution governor scales the load)
+      var attrs = { alpha: false, antialias: false, depth: false, stencil: false, powerPreference: 'default', preserveDrawingBuffer: false };
       ctx = canvas.getContext('webgl', attrs) || canvas.getContext('experimental-webgl', attrs);
     } catch (e) { ctx = null; }
     if (!ctx) { fallback('WebGL unavailable'); return; }

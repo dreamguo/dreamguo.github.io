@@ -138,9 +138,9 @@
     for (k = 0; k < m && qi < n; k++) if (sl.charAt(k) === q.charAt(qi)) qi++;
     if (qi < n) return null;
 
-    // short queries must read as a substring or as word starts: a scattered subsequence ("clear" in
+    // short queries (up to 8 letters) must read as a substring or as word starts: a scattered subsequence ("clear" in
     // "Comparative validation ...") is noise. A jump over skipped characters may only land on a word boundary.
-    var strict = n <= 5;
+    var strict = n <= 8;
     var from = new Int16Array(n * m);
     var prev = new Array(m);
     var cur = new Array(m);
@@ -203,7 +203,7 @@
         pos[jj - 1] = ii;
       }
       if (strict && n >= 4) {
-        // 4-5 letters: a substring, or word prefixes of at least two letters each ("neu ren"), never "c" + "lear"
+        // 4-8 letters: a substring, or word prefixes of at least two letters each ("neu ren"), never "c" + "lear"
         var runLen = 1;
         var shortRun = false;
         for (var rp = 1; rp <= n; rp++) {
@@ -269,6 +269,21 @@
     if (v.indexOf('cvpr') >= 0) return 'badge--cvpr';
     if (p.kind === 'journal') return 'badge--journal';
     return 'badge--preprint';
+  }
+  // venue + two-digit year ('eccv24', 'nips25'): short queries must read as a substring or whole words, so a scattered
+  // match inside 'ECCV 2024' is rejected; the shorthand is indexed explicitly instead
+  function venueYearKeys(p) {
+    var yy = String(p.year || '').slice(-2);
+    var out = [];
+    if (yy.length !== 2) return out;
+    [p.venue, String(p.badge || '').replace(/\s*\d{4}$/, '')].forEach(function (v) {
+      var base = String(v || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+      if (!base || base.length > 7) return;
+      [base, base === 'neurips' ? 'nips' : ''].forEach(function (b) {
+        if (b && out.indexOf(b + yy) < 0) out.push(b + yy);
+      });
+    });
+    return out;
   }
   function openExternal(href) {
     if (!href) return;
@@ -345,13 +360,15 @@
   }
 
   var NAV_ALIASES = {
-    about: ['bio', 'me', 'intro', 'profile', 'who', '简介', '关于我', '个人简介'],
+    about: ['bio', 'me', 'intro', 'profile', 'who', 'researcher', 'mengqi', 'guo', 'huawei', 'wiener', 'nus', 'phd', 'ph.d.', 'skills', '简介', '关于我', '个人简介', '郭梦琦', '梦琦', '华为', '维纳', '博士', '技能'],
     news: ['updates', 'latest', 'announcements', 'signals', '新闻', '最新', '消息'],
-    research: ['papers', 'publications', 'pubs', 'projects', 'work', '论文', '成果', '科研'],
-    journey: ['experience', 'education', 'career', 'timeline', 'cv', 'resume', '经历', '教育', '履历', '简历'],
-    recognition: ['awards', 'honors', 'service', 'reviewer', 'prizes', '奖项', '荣誉', '审稿', '学术服务'],
-    contact: ['email', 'reach', 'hire', 'social', 'get in touch', '联系方式', '邮箱', '联系我'],
+    research: ['papers', 'publications', 'pubs', 'projects', 'work', 'embodied', 'spatial', '3d', '4d', '论文', '成果', '科研', '具身', '空间'],
+    journey: ['experience', 'education', 'career', 'timeline', 'cv', 'resume', 'nus', 'phd', 'huawei', 'beihang', 'jhu', 'megvii', 'internship', '经历', '教育', '履历', '简历', '实习', '北航', '博士'],
+    recognition: ['awards', 'honors', 'service', 'reviewer', 'prizes', 'skills', '奖项', '荣誉', '审稿', '学术服务', '技能'],
+    contact: ['email', 'reach', 'hire', 'hiring', 'intern', 'internship', 'phd student', 'join', 'openings', 'social', 'get in touch', '联系方式', '邮箱', '联系我', '招聘', '实习', '博士生', '招生'],
   };
+  // 'gsplat' for the Gaussian-splatting scene and the papers tagged with it (short queries only match whole words or substrings)
+  var SPLAT_ALIAS = 'gsplat';
   var LS = {
     papers: 'papers', paper: 'papers', pubs: 'papers', publications: 'papers', research: 'papers',
     links: 'links', link: 'links', contact: 'links', social: 'links',
@@ -396,6 +413,8 @@
       var hasEllipsis = (p.authors || []).some(function (a) { return a.ellipsis; });
       var primary = lk.arxiv || lk.journal || lk.pdf || lk.project || lk.code || lk.openreview || '';
       var keys = [p.short, p.venue, String(p.year), p.badge, 'paper', 'open ' + String(p.short || p.id).toLowerCase()]
+        .concat(venueYearKeys(p))
+        .concat((p.tags || []).indexOf('gaussian-splatting') >= 0 ? SPLAT_ALIAS : [])
         .concat(p.tags || [])
         .concat(names);
       (p.topics || []).forEach(function (tid) { keys = keys.concat(topicLabel[tid] || []); });
@@ -490,7 +509,7 @@
           id: 'act:scene:' + sc.id, group: 'actions', icon: 'cube',
           title: S.fmt(S.ui('cmdk.a.scene'), { name: name }), sub: sc.hint,
           state: curScene === sc.id ? S.ui('cmdk.current') : null,
-          keys: ['scene', '3d', 'background', 'backdrop', 'scene ' + sc.id, sc.id, tIn(sc.label, 'en'), tIn(sc.label, 'zh'), sc.hint, '场景', '背景'],
+          keys: ['scene', 'scenes', '3d', 'background', 'backdrop', 'scene ' + sc.id, sc.id, tIn(sc.label, 'en'), tIn(sc.label, 'zh'), sc.hint, sc.id === 'splat' ? SPLAT_ALIAS : '', '场景', '背景'],
           run: function () {
             goSection('hero');
             afterScroll(function () { if (S.hero && S.hero.setScene) S.hero.setScene(sc.id, { pin: true }); });

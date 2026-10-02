@@ -33,6 +33,12 @@
 }
 .nav.is-hidden .nav__bar {
   transform: translate3d(0, -101%, 0);
+  box-shadow: none; /* no ghost haze at the top edge; the shadow fades with the slide and returns with the bar */
+}
+/* the bar is off-screen, so the fixed 68px <header> must not keep swallowing taps and hovers on the content under it.
+   It becomes interactive again as soon as is-hidden is removed (mouse edge recall, scroll up and keyboard focus all remove it). */
+.nav.is-hidden {
+  pointer-events: none;
 }
 .nav.is-menu-open .nav__bar {
   background: transparent;
@@ -304,7 +310,7 @@ html.js .nav.is-mounted .nav__tools > :nth-child(1) { --i: 5; }
   background: rgba(var(--accent-rgb), 0.02);
   color: var(--text-2);
   font-size: 0.8125rem;
-  transition: color var(--dur-1), border-color var(--dur-2), background-color var(--dur-2);
+  transition: color var(--dur-1), border-color var(--dur-2), background-color var(--dur-2), scale var(--dur-1) var(--ease); /* scale: pressed state (base.css) */
 }
 @media (hover: hover) and (pointer: fine) {
   .nav__cmdk:hover {
@@ -361,7 +367,7 @@ html.js .nav.is-mounted .nav__tools > :nth-child(1) { --i: 5; }
   font-size: var(--fs-micro);
   font-weight: 600;
   letter-spacing: 0.04em;
-  transition: color var(--dur-2);
+  transition: color var(--dur-2), scale var(--dur-1) var(--ease);
 }
 @media (hover: hover) and (pointer: fine) {
   .nav__lang-btn:hover {
@@ -370,6 +376,10 @@ html.js .nav.is-mounted .nav__tools > :nth-child(1) { --i: 5; }
 }
 .nav__lang-btn[aria-pressed="true"] {
   color: var(--accent);
+}
+/* light: the translucent bar can sit over mid-tone content; a touch more text color keeps the label above 4.5:1 */
+:root[data-theme="light"] .nav__lang-btn[aria-pressed="true"] {
+  color: color-mix(in srgb, var(--accent) 72%, var(--text));
 }
 
 .nav__theme {
@@ -380,7 +390,7 @@ html.js .nav.is-mounted .nav__tools > :nth-child(1) { --i: 5; }
   border: 1px solid var(--line);
   border-radius: 50%;
   color: var(--text-2);
-  transition: color var(--dur-2), border-color var(--dur-2), background-color var(--dur-2);
+  transition: color var(--dur-2), border-color var(--dur-2), background-color var(--dur-2), scale var(--dur-1) var(--ease);
 }
 @media (hover: hover) and (pointer: fine) {
   .nav__theme:hover {

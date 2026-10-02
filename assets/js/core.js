@@ -222,14 +222,90 @@
     if (md && data.ui['meta.description']) md.setAttribute('content', ui('meta.description'));
   }
 
+  // keep the reader's place across a language switch: the Chinese text is shorter, so everything below moves.
+  // Remember which block sits at ~30% of the viewport (and how far into it), then scroll back to the same spot.
+  var ANCHORS = ['article[id^=paper-]', '.jnode', '.news__item', '.recog__block', '.about__thrust', 'section[data-section]'];
+  function readingAnchor() {
+    try {
+      if ((window.pageYOffset || 0) < 8) return null;
+      var line = Math.min(window.innerHeight * 0.3, 260),
+        next = null;
+      for (var k = 0; k < ANCHORS.length; k++) {
+        // the line fell in a gap between blocks: the next block below it (if on screen) stays where it is; the section is the last resort
+        if (k === ANCHORS.length - 1 && next && next.line < window.innerHeight) return next;
+        var els = document.querySelectorAll(ANCHORS[k]);
+        for (var i = 0; i < els.length; i++) {
+          var r = els[i].getBoundingClientRect();
+          if (!(r.height > 0)) continue;
+          if (r.top <= line && r.bottom > line) return { k: k, i: i, f: (line - r.top) / r.height, line: line };
+          if (r.top > line && (!next || r.top < next.line)) next = { k: k, i: i, f: 0, line: r.top };
+        }
+      }
+      return next;
+    } catch (e) {
+      /* never block the language switch */
+    }
+    return null;
+  }
+  function restoreAnchor(a) {
+    try {
+      var el = a && document.querySelectorAll(ANCHORS[a.k])[a.i];
+      if (!el) return;
+      var r = el.getBoundingClientRect();
+      // 'instant': html has scroll-behavior: smooth, which would animate this correction
+      window.scrollTo({ top: Math.max(0, Math.round((window.pageYOffset || 0) + r.top + a.f * r.height - a.line)), behavior: 'instant' });
+    } catch (e) {
+      /* ignore */
+    }
+  }
+  // An instant scrollTo would cancel a running smooth jump (nav.js exposes Site.nav.moving()), so no restoring then.
+  function jumping() {
+    var nv = Site.nav;
+    return !!(nv && typeof nv.moving === 'function' && nv.moving());
+  }
+  // Some content settles after langchange (the publications TL;DR toggles arrive ~250 ms later): two more corrections,
+  // dropped for good at the first sign that the reader has taken over.
+  var settleStop = null;
+  function settleAnchor(anchor) {
+    if (settleStop) settleStop();
+    var timers = [],
+      EVENTS = ['wheel', 'touchstart', 'keydown', 'pointerdown', 'mousedown'];
+    function stop() {
+      timers.forEach(clearTimeout);
+      EVENTS.forEach(function (n) {
+        window.removeEventListener(n, stop, true);
+      });
+      settleStop = null;
+    }
+    EVENTS.forEach(function (n) {
+      window.addEventListener(n, stop, { passive: true, capture: true });
+    });
+    [450, 900].forEach(function (ms, i) {
+      timers.push(
+        setTimeout(function () {
+          if (!jumping()) restoreAnchor(anchor);
+          if (i) stop();
+        }, ms)
+      );
+    });
+    settleStop = stop;
+  }
+
   function setLang(l, opts) {
     l = l === 'zh' ? 'zh' : 'en';
     var changed = l !== Site.lang;
+    // only once the page is built (html.is-ready): the very first setLang runs before the modules have rendered anything
+    var anchor = changed && root.classList.contains('is-ready') && !jumping() ? readingAnchor() : null;
     Site.lang = l;
     if (!opts || opts.persist !== false) store.set('lang', l);
     applyLangToDocument();
     i18nStatic(document);
     if (changed || (opts && opts.force)) emit('langchange', l);
+    if (anchor) {
+      restoreAnchor(anchor);
+      requestAnimationFrame(function () { restoreAnchor(anchor); });
+      settleAnchor(anchor);
+    }
   }
   function toggleLang() {
     setLang(Site.lang === 'zh' ? 'en' : 'zh');
@@ -275,6 +351,13 @@
     th = th === 'light' ? 'light' : 'dark';
     var changed = th !== Site.theme;
     Site.theme = th;
+    if (changed) {
+      // mute CSS color transitions for the flip itself (base.css html.theme-flip): ~900 elements would otherwise cross-fade raggedly
+      root.classList.add('theme-flip');
+      var unflip = function () { root.classList.remove('theme-flip'); };
+      requestAnimationFrame(function () { requestAnimationFrame(unflip); });
+      setTimeout(unflip, 160); // belt and braces: rAF can be held while a view transition captures
+    }
     root.setAttribute('data-theme', th);
     if (!opts || opts.persist !== false) {
       store.set('theme', th);
@@ -390,7 +473,7 @@
     var OPENER = /[（「『“‘《〈【〔［(]+$/;
     var SINGLE = /[\u3400-\u9fff\uf900-\ufaff]/;
     // names and terms the dictionary would split apart: never break inside these
-    var KEEP = /北京航空航天大学|新加坡国立大学|华为维纳研究所（新加坡）|约翰斯·霍普金斯大学|北京大学|沈元学院|深圳实验学校|旷视研究院|计算机科学与技术|研究员|实习生|研究实习生|博士学位|学士学位|优秀毕业生|研究成就奖|研究奖学金|高斯泼溅|多模态|具身智能|空间智能|基础模型/g;
+    var KEEP = /北京航空航天大学|新加坡国立大学|华为维纳研究所（新加坡）|约翰斯\u2060?·\u2060?霍普金斯大学|北京大学|沈元学院|深圳实验学校|旷视研究院|计算机科学与技术|研究员|实习生|研究实习生|博士学位|学士学位|优秀毕业生|研究成就奖|研究奖学金|高斯泼溅|多模态|具身智能|空间智能|基础模型/g;
     var seg = null, obs = null, roots = [];
 
     function isWbr(n) {
@@ -416,9 +499,10 @@
       try {
         var it = seg.segment(txt)[Symbol.iterator](), r;
         while (!(r = it.next()).done) {
-          var sg = r.value.segment;
+          var sg = r.value.segment,
+            core = sg.replace(/\u2060/g, ''); // a word joiner (U+2060) glues a term together: it is no word of its own
           // the dictionary leaves stray single characters (工程|师, 学|位): they stay with the word before them
-          if (r.value.isWordLike && buf && !(sg.length === 1 && SINGLE.test(sg)) && !insideKeep(r.value.index)) {
+          if (r.value.isWordLike && buf && !(core.length === 1 && SINGLE.test(core)) && !insideKeep(r.value.index) && txt.charAt(r.value.index - 1) !== '\u2060') {
             buf = buf.replace('\u200B', '');
             var opener = OPENER.exec(buf); // an opening bracket belongs to the word after it
             if (opener) buf = buf.slice(0, opener.index);

@@ -32,8 +32,8 @@
     'pubs.search.placeholder.s': { en: 'Search papers…', zh: '搜索论文…' },
     'pubs.search.label': { en: 'Search papers', zh: '搜索论文' },
     'pubs.search.clear': { en: 'Clear search', zh: '清除搜索' },
-    'pubs.g.scope': { en: 'venue', zh: '发表于' },
-    'pubs.g.scope.aria': { en: 'Filter by venue', zh: '按会议/期刊筛选' },
+    'pubs.g.scope': { en: 'show', zh: '显示' },
+    'pubs.g.scope.aria': { en: 'Filter by selection or venue', zh: '按代表作、会议或期刊筛选' },
     'pubs.g.topic': { en: 'topic', zh: '主题' },
     'pubs.g.topic.aria': { en: 'Filter by topic', zh: '按主题筛选' },
     'pubs.chip.all': { en: 'All', zh: '全部' },
@@ -42,7 +42,6 @@
     'pubs.chip.preprint': { en: 'Preprint', zh: '预印本' },
     'pubs.status': { en: 'Showing {n} of {total} papers', zh: '显示 {n} / {total} 篇论文' },
     'pubs.reset': { en: 'Reset', zh: '重置' },
-    'pubs.hint': { en: '{k} to search', zh: '按 {k} 搜索' },
     'pubs.empty.q': { en: 'No papers match “{q}”.', zh: '没有与“{q}”匹配的论文。' },
     'pubs.empty.f': { en: 'No papers match these filters.', zh: '没有符合当前筛选的论文。' },
     'pubs.empty.clear': { en: 'Clear filters', zh: '清除筛选' },
@@ -361,10 +360,29 @@
   }
 
   var clampRO = null;
-  function checkClamp(el) {
+  function isClamped(el) {
+    return el.scrollHeight > el.clientHeight + 1;
+  }
+  function setClamp(el, on) {
     var wrap = el.parentNode;
-    if (!wrap || wrap.classList.contains('is-open')) return;
-    wrap.classList.toggle('is-clamped', el.scrollHeight > el.clientHeight + 1);
+    if (wrap && !wrap.classList.contains('is-open')) wrap.classList.toggle('is-clamped', on);
+  }
+  function checkClamp(el) {
+    setClamp(el, isClamped(el));
+  }
+  /* Decide every attached TL;DR now (all measurements first, then the class changes: one layout, not one per card).
+     The ResizeObserver only reports a size change after the frame's scripts have run, so after a rebuild the
+     44px "Show more" rows would arrive a beat later and push the reading position down. */
+  function settleClamps() {
+    var tls = [];
+    Object.keys(E).forEach(function (id) {
+      var t = E[id].tldrEl;
+      if (t && t.isConnected) tls.push(t);
+    });
+    var over = tls.map(isClamped);
+    tls.forEach(function (t, i) {
+      setClamp(t, over[i]);
+    });
   }
   function watchClamp(el) {
     if (typeof ResizeObserver === 'function') {
@@ -732,6 +750,7 @@
         );
         b.addEventListener('click', function () {
           setQuery(String(tg2).replace(/-/g, ' '), true);
+          showBar();
         });
         tags.appendChild(h('li', null, b));
       });
@@ -1003,11 +1022,10 @@
     V.reset.addEventListener('click', function () {
       reset();
     });
-    var hint = h('span', { class: 'pubs__hint mono', 'aria-hidden': 'true' }, tpl(ui('pubs.hint'), { k: h('kbd', { class: 'kbd' }, '/') }));
 
     bar.appendChild(V.search);
     bar.appendChild(h('div', { class: 'pubs__filters' }, groups));
-    bar.appendChild(h('div', { class: 'pubs__meta' }, h('div', { class: 'pubs__meta-l' }, V.status, V.reset), hint));
+    bar.appendChild(h('div', { class: 'pubs__meta' }, h('div', { class: 'pubs__meta-l' }, V.status, V.reset)));
   }
 
   function updateChips(tokens) {
@@ -1215,6 +1233,27 @@
     syncSearchUI();
     if (run) apply('filter');
   }
+  // an element that has not faded in yet still carries its 12px reveal offset, which would shift a scroll landing:
+  // show it (without the fade) before jumping to it, so the landing is the same 90px whether or not it was revealed
+  function showNow(el) {
+    if (!el || el.classList.contains('is-in')) return;
+    el.style.transition = 'none';
+    el.classList.add('is-in');
+    void el.offsetWidth;
+    el.style.transition = '';
+  }
+  // a filter started from inside a card (hashtag) shrinks the list below the reader: bring the search bar (query, count, Reset)
+  // and the first results back under the nav instead of leaving them above the viewport
+  function showBar() {
+    if (!V.bar) return;
+    requestAnimationFrame(function () {
+      var r = V.bar.getBoundingClientRect();
+      if (r.top < 76 || r.top > window.innerHeight * 0.45) {
+        showNow(V.bar);
+        V.bar.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'start' });
+      }
+    });
+  }
   function reset() {
     st.q = '';
     st.scope = 'all';
@@ -1273,11 +1312,12 @@
       apply('filter');
     }
     var go = function () {
+      if (S.nav && typeof S.nav.hold === 'function') S.nav.hold(1800); // keep the nav bar shown during the jump (nav.js)
       var node = document.getElementById('paper-' + id);
       if (!node) return;
-      node.scrollIntoView({ behavior: reduced() ? 'auto' : opts.instant ? 'instant' : 'smooth', block: 'start' });
       var li = node.closest ? node.closest('.pub-item') : null;
-      if (li) li.classList.add('is-in');
+      showNow(li);
+      node.scrollIntoView({ behavior: reduced() ? 'auto' : opts.instant ? 'instant' : 'smooth', block: 'start' });
       focusCard(node);
       clearTimeout(flashTimer);
       S.qsa('.pub.is-flash').forEach(function (n) {
@@ -1620,8 +1660,19 @@
       syncNewTabHint();
       onLang();
     });
+    // core.js re-phrases the zh prose (a different line wrap) in a langchange listener of its own, added once the modules
+    // are up; a listener added on 'ready' runs after it, so the TL;DR toggles are decided on the final text
+    S.on('ready', function () {
+      S.on('langchange', settleClamps);
+    });
     window.addEventListener('resize', tidySoon);
-    if (document.fonts && document.fonts.ready && document.fonts.ready.then) document.fonts.ready.then(tidySoon);
+    if (document.fonts && document.fonts.ready && document.fonts.ready.then) {
+      document.fonts.ready.then(function () {
+        tidySoon();
+        // new font metrics can re-wrap a TL;DR without resizing its line-clamped box, so the observer would not report it
+        settleClamps();
+      });
+    }
     document.addEventListener('keydown', focusSearchKey);
     syncShortcuts();
     S.on('shortcutschange', syncShortcuts);

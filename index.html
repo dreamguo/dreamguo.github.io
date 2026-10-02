@@ -18,15 +18,16 @@
   <meta property="og:title" content="Mengqi Guo 郭梦琦 — Spatial AI &amp; 3D Vision">
   <meta property="og:description" content="Mengqi Guo, Researcher at Huawei Norbert Wiener Research Center (Singapore). NUS Ph.D. (2026). Spatial foundation models, embodied AI, 3D/4D vision.">
   <meta property="og:url" content="https://dreamguo.github.io/">
-  <meta property="og:image" content="https://dreamguo.github.io/assets/img/og-image.png">
+  <meta property="og:image" content="https://dreamguo.github.io/assets/img/og-card.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Mengqi Guo — Spatial AI and 3D Vision: a glowing 3D point cloud beside the name and title.">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:alt" content="Mengqi Guo — Spatial AI and 3D Vision: a 3D point cloud beside the name and title.">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Mengqi Guo 郭梦琦 — Spatial AI &amp; 3D Vision">
   <meta name="twitter:description" content="Mengqi Guo, Researcher at Huawei Norbert Wiener Research Center (Singapore). NUS Ph.D. (2026). Spatial foundation models, embodied AI, 3D/4D vision.">
-  <meta name="twitter:image" content="https://dreamguo.github.io/assets/img/og-image.png">
-  <meta name="twitter:image:alt" content="Mengqi Guo — Spatial AI and 3D Vision: a glowing 3D point cloud beside the name and title.">
+  <meta name="twitter:image" content="https://dreamguo.github.io/assets/img/og-card.jpg">
+  <meta name="twitter:image:alt" content="Mengqi Guo — Spatial AI and 3D Vision: a 3D point cloud beside the name and title.">
 
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
   <link rel="icon" href="favicon.ico" sizes="any">
@@ -96,21 +97,23 @@
   {
     "@context": "https://schema.org",
     "@type": "Person",
+    "@id": "https://dreamguo.github.io/#me",
     "name": "Mengqi Guo",
     "alternateName": "郭梦琦",
     "url": "https://dreamguo.github.io/",
+    "mainEntityOfPage": { "@type": "ProfilePage", "url": "https://dreamguo.github.io/", "inLanguage": ["en", "zh-CN"] },
     "image": "https://dreamguo.github.io/assets/img/avatar-960.jpg",
     "jobTitle": "Researcher",
     "description": "Mengqi Guo, Researcher at Huawei Norbert Wiener Research Center (Singapore). NUS Ph.D. (2026). Spatial foundation models, embodied AI, 3D/4D vision.",
     "worksFor": { "@type": "Organization", "name": "Huawei Norbert Wiener Research Center (Singapore)" },
     "alumniOf": [
-      { "@type": "CollegeOrUniversity", "name": "National University of Singapore" },
+      { "@type": "CollegeOrUniversity", "name": "National University of Singapore", "url": "https://www.nus.edu.sg/" },
       { "@type": "CollegeOrUniversity", "name": "Beihang University" }
     ],
     "knowsAbout": ["3D reconstruction", "Gaussian splatting", "neural radiance fields", "spatial foundation models", "embodied AI", "computer vision"],
     "sameAs": [
       "https://github.com/dreamguo",
-      "https://scholar.google.com/citations?user=Qa4BlOoAAAAJ&hl=en"
+      "https://scholar.google.com/citations?user=Qa4BlOoAAAAJ"
     ]
   }
   </script>
@@ -137,7 +140,7 @@
             <span class="hero__company"><span class="hero__at" aria-hidden="true">@</span><span class="hero__org" data-i18n="hero.org">Huawei Norbert Wiener Research Center (Singapore)</span></span>
           </p>
           <p class="hero__typed" aria-hidden="true"><span class="hero__phrase" id="hero-phrase">spatial intelligence</span></p>
-          <p class="hero__lede" data-i18n="hero.lede">I work on multimodal and spatial foundation models and embodied AI. I earned my Ph.D. at NUS in 2026, teaching machines to reconstruct, understand and generate the 3D world.</p>
+          <p class="hero__lede" data-i18n="hero.lede">I work on multimodal and spatial foundation models and embodied AI. My Ph.D. at NUS (2026) focused on how machines reconstruct, understand and generate the 3D world.</p>
           <div class="hero__cta">
             <a class="btn btn--primary" href="#research"><span data-i18n="hero.cta.research">Explore research</span><span data-icon="arrow-right"></span></a>
             <a class="btn btn--ghost" href="#contact" data-i18n="hero.cta.contact">Get in touch</a>
@@ -147,7 +150,7 @@
           </div>
           <div class="hero__hiring" role="note">
             <span class="hero__hiring-tag mono" data-i18n="hero.hiring.tag">Hiring</span>
-            <p class="hero__hiring-text" data-i18n="hero.hiring.text" data-i18n-rich>I am looking for prospective interns / PhD students to work on 3D / 4D / embodied AI. Feel free to <a class="link" href="mailto:im.guomengqi@gmail.com">drop an email</a> if you are interested in working with me.</p>
+            <p class="hero__hiring-text" data-i18n="hero.hiring.text" data-i18n-rich>I’m looking for prospective interns / Ph.D. students to work on 3D / 4D / embodied AI. Interested in working with me? <a class="link" href="mailto:im.guomengqi@gmail.com">Drop me an email</a>.</p>
           </div>
         </div>
         <aside class="hero__hud" id="hero-hud" aria-label="3D scene controls" data-i18n-attr="aria-label:hero.aria.hud"></aside>
@@ -157,16 +160,22 @@
 
     <!-- No-JS summary: directly under the hero (sections are hidden by base.css under html.no-js) -->
     <noscript>
+      <!-- keep in step with data.js (names, organizations, periods, papers, venues, years) -->
       <div class="noscript">
-        <p><strong>Researcher</strong> at Huawei Norbert Wiener Research Center (Singapore) · Ph.D., National University of Singapore (2026).<br>
-        Multimodal &amp; spatial foundation models, embodied AI, 3D reconstruction, understanding and generation.</p>
-        <p><strong>Selected papers:</strong>
+        <p><strong>Mengqi Guo (郭梦琦)</strong>, Researcher at Huawei Norbert Wiener Research Center (Singapore). Multimodal and spatial foundation models, embodied AI; 3D reconstruction, understanding and generation.</p>
+        <p><strong>Education:</strong> Ph.D. in Computer Science, National University of Singapore, 2021–2026, CVRP Lab, advised by <a href="https://www.comp.nus.edu.sg/~leegh/">Prof. Gim Hee Lee</a>; B.S. in Computer Science and Technology, Beihang University, 2017–2021. Research internships at Johns Hopkins University CCVL (2020), MEGVII Research (2019) and Peking University VIE Lab (2019).</p>
+        <p><strong>Papers:</strong>
           <a href="https://arxiv.org/abs/2511.05229">4D3R (NeurIPS 2025)</a> ·
           <a href="projects/TreeSBA/">TreeSBA (ECCV 2024)</a> ·
           <a href="projects/UNIKD/">UNIKD (ECCV 2024)</a> ·
           <a href="https://arxiv.org/abs/2403.10119">URS-NeRF (ECCV 2024)</a> ·
           <a href="https://arxiv.org/abs/2310.15712">GNeSF (NeurIPS 2023)</a> ·
-          <a href="https://arxiv.org/abs/2103.14098">UDA-Part (CVPR 2022 Oral)</a></p>
+          <a href="https://arxiv.org/abs/2103.14098">UDA-Part (CVPR 2022 Oral)</a> ·
+          <a href="https://arxiv.org/abs/2503.08093">MVGSR (arXiv 2025)</a> ·
+          <a href="https://www.sciencedirect.com/science/article/pii/S1361841523000312">HeiChole (Medical Image Analysis 2023)</a> ·
+          <a href="https://arxiv.org/abs/2012.00313">Part Discovery (arXiv 2020)</a></p>
+        <p>Reviewer for CVPR, ICCV, NeurIPS, ICLR, AAAI, ACM MM and TVCG.</p>
+        <p lang="zh-CN">郭梦琦（Mengqi Guo），华为维纳研究所（新加坡）研究员，2026 年博士毕业于新加坡国立大学。研究多模态与空间基础模型、具身智能与 3D 视觉。</p>
         <p><a href="https://scholar.google.com/citations?user=Qa4BlOoAAAAJ&amp;hl=en">Google Scholar</a> ·
            <a href="https://github.com/dreamguo">GitHub</a> ·
            <a href="mailto:im.guomengqi@gmail.com">im.guomengqi@gmail.com</a></p>
@@ -191,7 +200,7 @@
       <div class="container">
         <header class="section-head reveal">
           <span class="section-head__idx mono">02</span><span class="section-head__rule"></span>
-          <h2 class="section-head__title" id="news-title" data-i18n="sec.news.title" data-i18n-rich>Latest signals</h2>
+          <h2 class="section-head__title" id="news-title" data-i18n="sec.news.title" data-i18n-rich>Latest news</h2>
           <p class="section-head__kicker" data-i18n="sec.news.kicker">Papers, career and awards, newest first.</p>
         </header>
         <div id="news-body" class="news"></div>
@@ -228,7 +237,7 @@
         <header class="section-head reveal">
           <span class="section-head__idx mono">05</span><span class="section-head__rule"></span>
           <h2 class="section-head__title" id="recognition-title" data-i18n="sec.recognition.title" data-i18n-rich>Recognition &amp; service</h2>
-          <p class="section-head__kicker" data-i18n="sec.recognition.kicker">Awards, scholarships and academic service.</p>
+          <p class="section-head__kicker" data-i18n="sec.recognition.kicker">Awards, publication record, reviewing and skills.</p>
         </header>
         <div id="recognition-body" class="recog"></div>
       </div>
@@ -240,7 +249,7 @@
         <header class="section-head reveal">
           <span class="section-head__idx mono">06</span><span class="section-head__rule"></span>
           <h2 class="section-head__title" id="contact-title" data-i18n="sec.contact.title" data-i18n-rich>Let’s talk</h2>
-          <p class="section-head__kicker" data-i18n="sec.contact.kicker">Always happy to chat about 3D vision, spatial foundation models and embodied AI.</p>
+          <p class="section-head__kicker" data-i18n="sec.contact.kicker">Always happy to chat about 3D vision and embodied AI, and looking for interns and Ph.D. students.</p>
         </header>
         <div id="contact-body" class="contact"></div>
       </div>

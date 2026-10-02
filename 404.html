@@ -150,7 +150,7 @@
     <canvas class="nf__field" id="field" aria-hidden="true"></canvas>
 
     <header class="nf__bar">
-      <a class="nf__brand" id="nf-brand" href="./" data-home aria-label="Mengqi Guo — home"><span class="nf__mark" aria-hidden="true"><span class="nf__mark-txt">G</span></span><span class="nf__word"><span class="en">Mengqi Guo</span><span class="zh">郭梦琦</span></span></a>
+      <a class="nf__brand" id="nf-brand" href="/" data-home aria-label="Mengqi Guo — home"><span class="nf__mark" aria-hidden="true"><span class="nf__mark-txt">G</span></span><span class="nf__word"><span class="en">Mengqi Guo</span><span class="zh">郭梦琦</span></span></a>
       <div class="nf__tools">
         <button type="button" id="btn-theme" aria-label="Switch theme / 切换主题"><span class="en" id="theme-en">Light</span><span class="zh" id="theme-zh">浅色</span></button>
         <button type="button" id="btn-lang" aria-label="Switch language / 切换语言">中 / EN</button>
@@ -182,8 +182,8 @@
         </p>
 
         <div class="nf__cta">
-          <a class="btn btn--primary" href="./" data-home><span class="en">Back to home</span><span class="zh">回到主页</span><span aria-hidden="true">→</span></a>
-          <a class="btn btn--ghost" href="./#research" data-home data-hash="#research"><span class="en">See research</span><span class="zh">浏览研究</span></a>
+          <a class="btn btn--primary" href="/" data-home><span class="en">Back to home</span><span class="zh">回到主页</span><span aria-hidden="true">→</span></a>
+          <a class="btn btn--ghost" href="/#research" data-home data-hash="#research"><span class="en">See research</span><span class="zh">浏览研究</span></a>
           <span class="nf__hint"><span class="en">HTTP 404</span><span class="zh">HTTP 404</span></span>
         </div>
       </div>
@@ -202,12 +202,16 @@
         pathEl.textContent = p.length > 60 ? p.slice(0, 57) + '…' : p;
       }
 
-      /* home links: over file:// there is no directory index, so point them at index.html */
-      if (location.protocol === 'file:') {
-        var homes = document.querySelectorAll('a[data-home]');
-        for (var hi = 0; hi < homes.length; hi++) {
-          homes[hi].setAttribute('href', 'index.html' + (homes[hi].getAttribute('data-hash') || ''));
-        }
+      /* home links: the static hrefs are root-absolute, so they are right at any depth without JS. With JS they follow the
+         site root written into <base> above ("/AI_website/" when served as a project site); over file:// there is no
+         directory index, so they point at index.html */
+      var homes = document.querySelectorAll('a[data-home]');
+      var baseEl = document.getElementsByTagName('base')[0];
+      var siteRoot = baseEl ? baseEl.getAttribute('href') : '';
+      for (var hi = 0; hi < homes.length; hi++) {
+        var hash = homes[hi].getAttribute('data-hash') || '';
+        if (location.protocol === 'file:') homes[hi].setAttribute('href', 'index.html' + hash);
+        else if (siteRoot) homes[hi].setAttribute('href', siteRoot + hash);
       }
 
       /* language + theme toggles (share localStorage with the main site) */

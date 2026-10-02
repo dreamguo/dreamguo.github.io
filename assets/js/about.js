@@ -15,7 +15,7 @@
 
   S.addStrings({
     'about.spec': { en: 'Profile', zh: '个人档案' },
-    'about.thrusts': { en: 'Research thrusts', zh: '研究方向' },
+    'about.thrusts': { en: 'Research areas', zh: '研究方向' },
     'about.now': { en: 'Current', zh: '现在' },
     'about.papers': { en: 'Papers', zh: '相关论文' },
     'about.since': { en: 'Period', zh: '时间' },
@@ -142,15 +142,32 @@
   }
 
   /* --------------------------------------------------------------- specs */
+  // The Name row mixes scripts ("Mengqi Guo · 郭梦琦"): tag the run that is not in the page language, so screen readers
+  // switch voice and CJK glyphs pick the right font. The visible text does not change.
+  function nameRuns(str) {
+    var zh = S.lang === 'zh';
+    var re = zh ? /([A-Za-z][A-Za-z .'-]*[A-Za-z])/ : /([\u3400-\u9fff]+)/;
+    var code = zh ? 'en' : 'zh-CN';
+    return str.split(re).filter(Boolean).map(function (part) {
+      return re.test(part) ? h('span', { lang: code }, part) : part;
+    });
+  }
+
   function specsBlock(about) {
     var specs = about.specs || [];
     if (!specs.length) return null;
     var rows = specs.map(function (r) {
+      var isName = r.k && r.k.en === 'Name';
       return h(
         'div',
         { class: 'about__spec' + (r.accent ? ' is-accent' : '') },
         h('dt', null, S.t(r.k)),
-        h('dd', null, r.accent ? h('span', { class: 'dot-live', 'aria-hidden': 'true' }) : null, h('span', null, S.t(r.v)))
+        h(
+          'dd',
+          null,
+          r.accent ? h('span', { class: 'dot-live', 'aria-hidden': 'true' }) : null,
+          h('span', null, isName ? nameRuns(S.t(r.v)) : S.t(r.v))
+        )
       );
     });
     return h(

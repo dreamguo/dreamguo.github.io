@@ -149,24 +149,23 @@
   }
 
   function buildDecor() {
-    var decor = h(
-      'div',
-      { class: 'contact__decor', 'aria-hidden': 'true' },
-      h('div', { class: 'contact__orb' })
-    );
-    if ('IntersectionObserver' in window) {
-      new IntersectionObserver(
-        function (entries) {
-          entries.forEach(function (e) {
-            decor.classList.toggle('is-live', e.isIntersecting);
-          });
-        },
-        { rootMargin: '120px' }
-      ).observe(decor);
-    } else {
-      decor.classList.add('is-live');
+    return h('div', { class: 'contact__decor', 'aria-hidden': 'true' }, h('div', { class: 'contact__orb' }));
+  }
+
+  // .is-live on the section while it is near the viewport: the orb drift and the clock colon only animate then
+  function watchOnScreen(root) {
+    if (!('IntersectionObserver' in window)) {
+      root.classList.add('is-live');
+      return;
     }
-    return decor;
+    new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (e) {
+          root.classList.toggle('is-live', e.isIntersecting);
+        });
+      },
+      { rootMargin: '120px' }
+    ).observe(root);
   }
 
   function buildCta(email) {
@@ -287,6 +286,7 @@
     root.appendChild(buildCta(email));
     var links = buildLinks();
     if (links) root.appendChild(links);
+    watchOnScreen(root);
 
     c.copyOn = false;
     applyLang();

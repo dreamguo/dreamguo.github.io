@@ -19,13 +19,20 @@
   gap: var(--rgap);
   min-width: 0;
 }
-/* desktop: the last card of the shorter column stretches, so both columns end on one baseline (content stays top-aligned) */
+/* desktop: the first card (Awards) of the shorter left column absorbs the height difference, so both columns end on one
+   baseline and Skills keeps its natural height; the award rows spread evenly inside the taller card */
 @media (min-width: 900px) {
-  .recog__col > .recog__cell:last-child {
+  .recog__col:first-child > .recog__cell:first-child {
     display: flex;
     flex: 1;
   }
-  .recog__col > .recog__cell:last-child > .recog__block {
+  .recog__col:first-child > .recog__cell:first-child > .recog__block {
+    flex: 1;
+  }
+  .recog__block--awards .recog__plates {
+    flex: 1;
+  }
+  .recog__block--awards .recog__plate {
     flex: 1;
   }
 }
@@ -477,21 +484,21 @@
 .recog__legend {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 6px;
 }
 .recog__lg {
   display: inline-flex;
   align-items: center;
-  gap: 0.6em;
+  gap: 0.5em;
   min-height: 32px;
-  padding: 0.4em 0.85em;
+  padding: 0.4em 0.65em;
   border: 1px solid var(--line);
   border-radius: var(--r-pill);
   background: rgba(255, 255, 255, 0.02);
   color: var(--text-2);
   font-family: var(--font-mono);
   font-size: var(--fs-xs);
-  letter-spacing: 0.03em;
+  letter-spacing: 0.01em;
   transition: color var(--dur-1), border-color var(--dur-2), background var(--dur-2);
 }
 .recog__lg-n {
@@ -546,7 +553,7 @@
 }
 
 /* --------------------------------------------------------------------------
-   Calm dark: one accent hue for the block icons, no glows, softer venue colours.
+   Calm dark: one accent hue for the block icons, no glows, softer venue colors.
    Venue hues survive only in the chart, its legend and the reviewer chips.
    -------------------------------------------------------------------------- */
 :root:not([data-theme="light"]) .recog__block--awards,

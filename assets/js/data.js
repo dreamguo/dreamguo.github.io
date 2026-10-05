@@ -55,7 +55,7 @@
         { en: 'spatial intelligence', zh: '空间智能' },
         { en: 'embodied AI', zh: '具身智能' },
         { en: '3D reconstruction & generation', zh: '3D 重建与生成' },
-        { en: '4D scene understanding', zh: '4D 场景理解' },
+        { en: 'dynamic 4D scenes', zh: '动态 4D 场景' },
       ],
     },
 
@@ -87,16 +87,16 @@
       },
       paragraphs: [
         {
-          en: "I’m a **researcher at Huawei Norbert Wiener Research Center (Singapore)**, working on multimodal and spatial foundation models and embodied AI.",
-          zh: '我是**华为维纳研究所（新加坡）的研究员**，专注于多模态与空间基础模型、具身智能。',
+          en: "I’m a **Senior Staff Engineer at Huawei Norbert Wiener Research Center (Singapore)**, working on multimodal and spatial foundation models and embodied AI.",
+          zh: '我是**华为维纳研究所（新加坡）的资深主任工程师**，专注于多模态与空间基础模型、具身智能。',
         },
         {
           en: 'I received my **Ph.D. from the [National University of Singapore](https://www.nus.edu.sg/) in 2026**, in the Computer Vision and Robotic Perception (CVRP) Lab, advised by [Prof. Gim Hee Lee](https://www.comp.nus.edu.sg/~leegh/). My research centered on 3D computer vision — sequential 3D reconstruction, understanding and generation.',
           zh: '我于 **2026 年在[新加坡国立大学](https://www.nus.edu.sg/)获得博士学位**，在计算机视觉与机器人感知（CVRP）实验室师从 [Gim Hee Lee 教授](https://www.comp.nus.edu.sg/~leegh/)。博士期间的研究聚焦 3D 计算机视觉，尤其是序列化的 3D 重建、理解与生成。',
         },
         {
-          en: "Before NUS, I earned my **B.S. from [Beihang University](https://ev.buaa.edu.cn/) in 2021** (Computer Science and Technology, ShenYuan Honors College), advised by [Prof. Si Liu](https://colalab.net/team/), and, during my degree, was a research intern in the [CCVL Lab](https://ccvl.jhu.edu/) at Johns Hopkins University under [Prof. Alan Yuille](https://www.cs.jhu.edu/~ayuille1/).",
-          zh: '读博之前，我于 **2021 年毕业于[北京航空航天大学](https://ev.buaa.edu.cn/)**沈元学院，获计算机科学与技术学士学位，导师为[刘偲教授](https://colalab.net/team/)，本科期间还曾在约翰斯\u2060·\u2060霍普金斯大学 [CCVL 实验室](https://ccvl.jhu.edu/)担任研究实习生，师从 [Alan Yuille 教授](https://www.cs.jhu.edu/~ayuille1/)。',
+          en: "Before NUS, I earned my **B.S. from [Beihang University](https://ev.buaa.edu.cn/) in 2021** (Computer Science and Technology, ShenYuan Honors College), advised by [Prof. Si Liu](https://colalab.net/team/). During my degree, I interned at Peking University’s VIE Lab under [Prof.\u00A0Tingting Jiang](https://www.ai.pku.edu.cn/en/info/1459/2081.htm) and in the [CCVL Lab](https://ccvl.jhu.edu/) at Johns Hopkins University under [Prof. Alan Yuille](https://www.cs.jhu.edu/~ayuille1/).",
+          zh: '读博之前，我于 **2021 年毕业于[北京航空航天大学](https://ev.buaa.edu.cn/)**沈元学院，获计算机科学与技术学士学位，导师为[刘偲教授](https://colalab.net/team/)。本科期间，我曾在北京大学 VIE 实验室担任研究实习生，师从[蒋婷婷副教授](https://www.ai.pku.edu.cn/en/info/1459/2081.htm)；也曾在约翰斯\u2060·\u2060霍普金斯大学 [CCVL 实验室](https://ccvl.jhu.edu/)担任研究实习生，师从 [Alan Yuille 教授](https://www.cs.jhu.edu/~ayuille1/)。',
         },
       ],
       /* small "spec sheet" next to the portrait */
@@ -162,7 +162,7 @@
       },
       {
         type: 'career', date: '2025', sort: '2025-08',
-        text: { en: 'Joined **Huawei Norbert Wiener Research Center (Singapore)** as a researcher.', zh: '加入**华为维纳研究所（新加坡）**，担任研究员。' },
+        text: { en: 'Joined **Huawei Norbert Wiener Research Center (Singapore)**.', zh: '加入**华为维纳研究所（新加坡）**。' },
       },
       {
         type: 'paper', date: '2025', sort: '2025-09', paper: '4d3r',
@@ -210,7 +210,7 @@
       },
       {
         type: 'career', date: '06.2019', sort: '2019-06',
-        text: { en: 'Joined the [VIE Lab](http://www.vie.group/team) at Peking University as a research intern.', zh: '加入北京大学 [VIE 实验室](http://www.vie.group/team)担任研究实习生。' },
+        text: { en: 'Joined the [VIE Lab](https://www.ai.pku.edu.cn/en/info/1459/2081.htm) at Peking University as a research intern.', zh: '加入北京大学 [VIE 实验室](https://www.ai.pku.edu.cn/en/info/1459/2081.htm)担任研究实习生。' },
       },
       {
         type: 'career', date: '09.2017', sort: '2017-09',
@@ -456,11 +456,21 @@
         kind: 'work', current: true, mono: 'H',
         period: { en: '2025 — Present', zh: '2025 — 至今' },
         org: { en: 'Huawei Norbert Wiener Research Center (Singapore)', zh: '华为维纳研究所（新加坡）' },
-        role: { en: 'Researcher', zh: '研究员' },
+        role: { en: 'Senior Staff Engineer', zh: '资深主任工程师' },
         place: { en: 'Singapore', zh: '新加坡' },
         note: {
           en: 'Working on multimodal and spatial foundation models and embodied AI.',
           zh: '从事多模态与空间基础模型、具身智能方向的研究与开发。',
+        },
+      },
+      {
+        kind: 'work', mono: 'MW',
+        period: { en: '2024 — 2025', zh: '2024 — 2025' },
+        org: { en: 'Mirror World', zh: 'Mirror World' }, orgUrl: 'https://jokeryan.github.io/about/',
+        role: { en: 'Founder & CTO', zh: '创始人兼 CTO' },
+        note: {
+          en: 'A startup I co-founded during my Ph.D. with CEO [Zhiwen Yan](https://jokeryan.github.io/about/): a 3D-reconstruction-based indoor navigation product and a 3D event design platform. Part of the NUS School of Computing Venture Initiation Program and a finalist team in Singapore’s National Graduate Research Innovation Program (GRIP). The venture is currently discontinued. [Product snippet (PPTX, 84\u00A0MB)](https://jokeryan.github.io/files/Mirror_World_Snippet.pptx)',
+          zh: '博士期间与 CEO [Zhiwen Yan](https://jokeryan.github.io/about/) 共同创办的创业团队：基于大规模 3D 重建，开发室内视觉导航产品与 3D 活动设计平台。参与新加坡国立大学计算机学院创业启动计划（VIP），并作为团队进入新加坡国家研究生研究创新计划（GRIP）决赛。该创业项目目前已中止。[产品介绍（PPTX，84\u00A0MB）](https://jokeryan.github.io/files/Mirror_World_Snippet.pptx)',
         },
       },
       {
@@ -489,12 +499,20 @@
         period: { en: '2019', zh: '2019' },
         org: { en: 'MEGVII Research', zh: '旷视研究院' }, orgUrl: 'https://en.megvii.com/megvii_research',
         role: { en: '3D Vision Research Intern', zh: '3D 视觉研究实习生' },
+        note: {
+          en: 'Vehicle detection with 78 keypoints per car and camera parameter estimation, for automatic traffic-violation monitoring. [Demo and results](https://github.com/dreamguo/Megvii_intern_work)',
+          zh: '面向交通违章自动监测的车辆检测：检测每辆车的边界框与 78 个关键点，并估计相机内外参。[演示与结果](https://github.com/dreamguo/Megvii_intern_work)',
+        },
       },
       {
         kind: 'intern', mono: 'PKU',
         period: { en: '2019', zh: '2019' },
-        org: { en: 'Peking University\u00A0· VIE Lab', zh: '北京大学 · VIE 实验室' }, orgUrl: 'http://www.vie.group/team',
+        org: { en: 'Peking University\u00A0· VIE Lab', zh: '北京大学 · VIE 实验室' }, orgUrl: 'https://www.ai.pku.edu.cn/en/info/1459/2081.htm',
         role: { en: 'Research Intern', zh: '研究实习生' },
+        note: {
+          en: 'Advised by [Prof.\u00A0Tingting Jiang](https://www.ai.pku.edu.cn/en/info/1459/2081.htm). Worked on surgical workflow analysis for the [HeiChole benchmark](https://www.sciencedirect.com/science/article/pii/S1361841523000312) (Medical Image Analysis, 2023), guided by [Dr.\u00A0Daochang Liu](https://finspire13.github.io/).',
+          zh: '导师为[蒋婷婷副教授](https://www.ai.pku.edu.cn/en/info/1459/2081.htm)。在[刘道畅博士](https://finspire13.github.io/)的指导下，参与 [HeiChole 基准](https://www.sciencedirect.com/science/article/pii/S1361841523000312)（Medical Image Analysis，2023）的手术流程分析研究。',
+        },
       },
       {
         kind: 'edu', mono: 'BUAA',
@@ -530,14 +548,14 @@
     ui: {
       'meta.title': { en: 'Mengqi Guo 郭梦琦 — Spatial AI & 3D Vision', zh: '郭梦琦（Mengqi Guo）— 空间智能与 3D 视觉' },
       'meta.description': {
-        en: 'Mengqi Guo, Researcher at Huawei Norbert Wiener Research Center (Singapore). NUS Ph.D. (2026). Spatial foundation models, embodied AI, 3D/4D vision.',
-        zh: '郭梦琦（Mengqi Guo），华为维纳研究所（新加坡）研究员，2026 年博士毕业于新加坡国立大学。研究多模态与空间基础模型、具身智能与 3D 视觉。',
+        en: 'Mengqi Guo, Senior Staff Engineer at Huawei Norbert Wiener Research Center (Singapore). NUS Ph.D. (2026). Spatial foundation models, embodied AI, 3D/4D vision.',
+        zh: '郭梦琦（Mengqi Guo），华为维纳研究所（新加坡）资深主任工程师，2026 年博士毕业于新加坡国立大学。研究多模态与空间基础模型、具身智能与 3D 视觉。',
       },
 
       'nav.about': { en: 'About', zh: '关于' },
       'nav.news': { en: 'News', zh: '动态' },
       'nav.research': { en: 'Research', zh: '研究' },
-      'nav.journey': { en: 'Journey', zh: '经历' },
+      'nav.journey': { en: 'Experience', zh: '经历' },
       'nav.recognition': { en: 'Recognition', zh: '荣誉' },
       'nav.contact': { en: 'Contact', zh: '联系' },
 
@@ -555,7 +573,7 @@
       'sec.contact.kicker': { en: 'Always happy to chat about 3D vision and embodied AI, and looking for interns and Ph.D. students.', zh: '欢迎交流 3D 视觉与具身智能；也在招募实习生和博士生。' },
 
       'hero.eyebrow': { en: 'Singapore · 1.3521°N 103.8198°E', zh: '新加坡 · 1.3521°N 103.8198°E' },
-      'hero.role': { en: 'Researcher', zh: '研究员' },
+      'hero.role': { en: 'Senior Staff Engineer', zh: '资深主任工程师' },
       'hero.org': { en: 'Huawei Norbert Wiener Research Center (Singapore)', zh: '华为维纳研究所（新加坡）' },
       'hero.lede': {
         en: 'I work on multimodal and spatial foundation models and embodied AI. My Ph.D. at\u00A0NUS (2026) focused on how machines reconstruct, understand and generate the 3D world.',

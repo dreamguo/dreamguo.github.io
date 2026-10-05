@@ -77,8 +77,8 @@
 
     'cmdk.t.help': { en: 'list all commands', zh: '列出所有命令' },
     'cmdk.t.whoami.out': {
-      en: '{name} — Researcher @ Huawei Norbert Wiener Research Center (Singapore). Ph.D., NUS (2026). Spatial foundation models, embodied AI.',
-      zh: '{name}，华为维纳研究所（新加坡）研究员。NUS 博士（2026）。空间基础模型、具身智能。',
+      en: '{name} — Senior Staff Engineer @ Huawei Norbert Wiener Research Center (Singapore). Ph.D., NUS (2026). Spatial foundation models, embodied AI.',
+      zh: '{name}，华为维纳研究所（新加坡）资深主任工程师。NUS 博士（2026）。空间基础模型、具身智能。',
     },
     'cmdk.t.whoami': { en: 'a one-line bio', zh: '一句话简介' },
     'cmdk.t.lspapers': { en: 'list every paper', zh: '列出全部论文' },
@@ -360,10 +360,10 @@
   }
 
   var NAV_ALIASES = {
-    about: ['bio', 'me', 'intro', 'profile', 'who', 'researcher', 'mengqi', 'guo', 'huawei', 'wiener', 'nus', 'phd', 'ph.d.', 'skills', '简介', '关于我', '个人简介', '郭梦琦', '梦琦', '华为', '维纳', '博士', '技能'],
+    about: ['bio', 'me', 'intro', 'profile', 'who', 'researcher', 'engineer', 'senior', 'staff', 'mengqi', 'guo', 'huawei', 'wiener', 'nus', 'phd', 'ph.d.', 'skills', '简介', '关于我', '个人简介', '郭梦琦', '梦琦', '华为', '维纳', '博士', '技能', '工程师', '资深', '主任'],
     news: ['updates', 'latest', 'announcements', 'signals', '新闻', '最新', '消息'],
     research: ['papers', 'publications', 'pubs', 'projects', 'work', 'embodied', 'spatial', '3d', '4d', '论文', '成果', '科研', '具身', '空间'],
-    journey: ['experience', 'education', 'career', 'timeline', 'cv', 'resume', 'nus', 'phd', 'huawei', 'beihang', 'jhu', 'megvii', 'internship', '经历', '教育', '履历', '简历', '实习', '北航', '博士'],
+    journey: ['experience', 'education', 'career', 'timeline', 'cv', 'resume', 'nus', 'phd', 'huawei', 'beihang', 'jhu', 'megvii', 'pku', 'vie', 'startup', 'founder', 'cto', 'mirror world', 'tingting jiang', 'internship', '创业', '创始人', '北大', '北京大学', '旷视', '蒋婷婷', '一路走来', '经历', '教育', '履历', '简历', '实习', '北航', '博士'],
     recognition: ['awards', 'honors', 'service', 'reviewer', 'prizes', 'skills', '奖项', '荣誉', '审稿', '学术服务', '技能'],
     contact: ['email', 'reach', 'hire', 'hiring', 'intern', 'internship', 'phd student', 'join', 'openings', 'social', 'get in touch', '联系方式', '邮箱', '联系我', '招聘', '实习', '博士生', '招生'],
   };

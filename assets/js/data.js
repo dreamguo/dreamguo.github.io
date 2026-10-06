@@ -469,8 +469,8 @@
         org: { en: 'Mirror World', zh: 'Mirror World' }, orgUrl: 'https://jokeryan.github.io/about/',
         role: { en: 'Founder & CTO', zh: '创始人兼 CTO' },
         note: {
-          en: 'Startup co-founded with CEO [Zhiwen Yan](https://jokeryan.github.io/about/) during my Ph.D.: 3D indoor navigation and event design. Discontinued. [Product deck (PPTX, 84\u00A0MB)](https://jokeryan.github.io/files/Mirror_World_Snippet.pptx)',
-          zh: '博士期间与 CEO [Zhiwen Yan](https://jokeryan.github.io/about/) 共同创办的创业团队：3D 室内导航与活动设计，现已中止。[产品介绍（PPTX，84\u00A0MB）](https://jokeryan.github.io/files/Mirror_World_Snippet.pptx)',
+          en: 'Startup co-founded with CEO [Zhiwen Yan](https://jokeryan.github.io/about/) during my Ph.D.: 3D indoor navigation and event design. [Product deck (PPTX, 84\u00A0MB)](https://jokeryan.github.io/files/Mirror_World_Snippet.pptx)',
+          zh: '博士期间与 CEO [Zhiwen Yan](https://jokeryan.github.io/about/) 共同创办的创业团队：3D 室内导航与活动设计。[产品介绍（PPTX，84\u00A0MB）](https://jokeryan.github.io/files/Mirror_World_Snippet.pptx)',
         },
       },
       {

@@ -35,6 +35,19 @@
   .recog__block--awards .recog__plate {
     flex: 1;
   }
+  /* ...and if the right column is the shorter one, its last card (Reviewer) absorbs the difference instead */
+  .recog__col:last-child > .recog__cell:last-child {
+    display: flex;
+    flex: 1;
+  }
+  .recog__col:last-child > .recog__cell:last-child > .recog__block {
+    flex: 1;
+  }
+  /* the stretched Reviewer card keeps its chips centered between the title and the count */
+  .recog__col:last-child > .recog__cell:last-child .recog__venues {
+    flex: 1;
+    align-content: center;
+  }
 }
 @media (max-width: 899px) {
   .recog {

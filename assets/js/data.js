@@ -157,15 +157,15 @@
     /* type: paper | career | award      sort: 'YYYY-MM' (ordering only)     */
     news: [
       {
-        type: 'career', date: '2026', sort: '2026-06',
+        type: 'career', date: '03.2026', sort: '2026-03',
         text: { en: 'Graduated from the **National University of Singapore** with a Ph.D. in Computer Science.', zh: '从**新加坡国立大学**毕业，获计算机科学博士学位。' },
       },
       {
-        type: 'career', date: '2025', sort: '2025-08',
+        type: 'career', date: '08.2025', sort: '2025-08',
         text: { en: 'Joined **Huawei Norbert Wiener Research Center (Singapore)**.', zh: '加入**华为维纳研究所（新加坡）**。' },
       },
       {
-        type: 'paper', date: '2025', sort: '2025-09', paper: '4d3r',
+        type: 'paper', date: '09.2025', sort: '2025-09', paper: '4d3r',
         text: { en: '[4D3R](https://arxiv.org/abs/2511.05229) is accepted at **NeurIPS 2025**!', zh: '论文 [4D3R](https://arxiv.org/abs/2511.05229) 被 **NeurIPS 2025** 接收！' },
       },
       {
@@ -177,15 +177,15 @@
         text: { en: 'Three papers — [UNIKD](projects/UNIKD/), [TreeSBA](projects/TreeSBA/) and [URS-NeRF](https://boxuLibrary.github.io/projects/URS-NeRF/) — are accepted at **ECCV 2024**!', zh: '三篇论文 [UNIKD](projects/UNIKD/)、[TreeSBA](projects/TreeSBA/) 与 [URS-NeRF](https://boxuLibrary.github.io/projects/URS-NeRF/) 被 **ECCV 2024** 接收！' },
       },
       {
-        type: 'award', date: '2024', sort: '2024-01',
+        type: 'award', date: '01.2025', sort: '2025-01',
         text: { en: 'Received the **Research Achievement Award** from NUS.', zh: '获得 NUS **研究成就奖**。' },
       },
       {
-        type: 'paper', date: '2023', sort: '2023-09', paper: 'gnesf',
+        type: 'paper', date: '09.2023', sort: '2023-09', paper: 'gnesf',
         text: { en: '[GNeSF](https://arxiv.org/abs/2310.15712) is accepted at **NeurIPS 2023**!', zh: '论文 [GNeSF](https://arxiv.org/abs/2310.15712) 被 **NeurIPS 2023** 接收！' },
       },
       {
-        type: 'paper', date: '2023', sort: '2023-06', paper: 'heichole',
+        type: 'paper', date: '02.2023', sort: '2023-02', paper: 'heichole',
         text: { en: '[HeiChole](https://www.sciencedirect.com/science/article/pii/S1361841523000312) is published in **Medical Image Analysis**!', zh: '论文 [HeiChole](https://www.sciencedirect.com/science/article/pii/S1361841523000312) 发表于 **Medical Image Analysis**！' },
       },
       {
@@ -261,7 +261,7 @@
           poster: 'https://neurips.cc/virtual/2025/loc/san-diego/poster/119055',
         },
         repo: 'dreamguo/4D3R', stars: 2,
-        teaser: { type: 'procedural', scene: 'spacetime', alt: { en: 'Animated point-cloud illustration of a dynamic scene', zh: '动态场景的点云动画示意图' } },
+        teaser: { type: 'image', src: 'assets/img/papers/4d3r.jpg', alt: { en: '4D3R teaser: pose-free 4D Gaussian splatting from a monocular video', zh: '4D3R 概览图：单目视频的免位姿 4D 高斯泼溅' } },
         bib: { type: 'inproceedings', booktitle: 'Advances in Neural Information Processing Systems (NeurIPS)' },
       },
       {
@@ -469,8 +469,8 @@
         org: { en: 'Mirror World', zh: 'Mirror World' }, orgUrl: 'https://jokeryan.github.io/about/',
         role: { en: 'Founder & CTO', zh: '创始人兼 CTO' },
         note: {
-          en: 'A startup I co-founded during my Ph.D. with CEO [Zhiwen Yan](https://jokeryan.github.io/about/): a 3D-reconstruction-based indoor navigation product and a 3D event design platform. Part of the NUS School of Computing Venture Initiation Program and a finalist team in Singapore’s National Graduate Research Innovation Program (GRIP). The venture is currently discontinued. [Product snippet (PPTX, 84\u00A0MB)](https://jokeryan.github.io/files/Mirror_World_Snippet.pptx)',
-          zh: '博士期间与 CEO [Zhiwen Yan](https://jokeryan.github.io/about/) 共同创办的创业团队：基于大规模 3D 重建，开发室内视觉导航产品与 3D 活动设计平台。参与新加坡国立大学计算机学院创业启动计划（VIP），并作为团队进入新加坡国家研究生研究创新计划（GRIP）决赛。该创业项目目前已中止。[产品介绍（PPTX，84\u00A0MB）](https://jokeryan.github.io/files/Mirror_World_Snippet.pptx)',
+          en: 'Startup co-founded with CEO [Zhiwen Yan](https://jokeryan.github.io/about/) during my Ph.D.: 3D indoor navigation and event design. Discontinued. [Product deck (PPTX, 84\u00A0MB)](https://jokeryan.github.io/files/Mirror_World_Snippet.pptx)',
+          zh: '博士期间与 CEO [Zhiwen Yan](https://jokeryan.github.io/about/) 共同创办的创业团队：3D 室内导航与活动设计，现已中止。[产品介绍（PPTX，84\u00A0MB）](https://jokeryan.github.io/files/Mirror_World_Snippet.pptx)',
         },
       },
       {
@@ -480,13 +480,13 @@
         role: { en: 'Ph.D. in Computer Science', zh: '计算机科学博士' },
         place: { en: 'Singapore', zh: '新加坡' },
         note: {
-          en: 'Advised by [Prof. Gim Hee Lee](https://www.comp.nus.edu.sg/~leegh/). 3D reconstruction, understanding and generation. Papers: NeurIPS ×2, ECCV ×3. Research Achievement Award 2024.',
-          zh: '导师为 [Gim Hee Lee 教授](https://www.comp.nus.edu.sg/~leegh/)。研究 3D 重建、理解与生成。论文：NeurIPS ×2、ECCV ×3。2024 年获研究成就奖。',
+          en: 'Advised by [Prof. Gim Hee Lee](https://www.comp.nus.edu.sg/~leegh/). 3D reconstruction, understanding and generation. Papers: NeurIPS ×2, ECCV ×3. Research Achievement Award 2025.',
+          zh: '导师为 [Gim Hee Lee 教授](https://www.comp.nus.edu.sg/~leegh/)。研究 3D 重建、理解与生成。论文：NeurIPS ×2、ECCV ×3。2025 年获研究成就奖。',
         },
       },
       {
         kind: 'intern', mono: 'JHU',
-        period: { en: '2020', zh: '2020' },
+        period: { en: '2020 — 2021', zh: '2020 — 2021' },
         org: { en: 'Johns Hopkins University\u00A0· CCVL', zh: '约翰斯·霍普金斯大学 · CCVL' }, orgUrl: 'https://ccvl.jhu.edu/',
         role: { en: 'Research Intern', zh: '研究实习生' },
         note: {
@@ -496,12 +496,12 @@
       },
       {
         kind: 'intern', mono: 'MV',
-        period: { en: '2019', zh: '2019' },
+        period: { en: '2019 — 2020', zh: '2019 — 2020' },
         org: { en: 'MEGVII Research', zh: '旷视研究院' }, orgUrl: 'https://en.megvii.com/megvii_research',
         role: { en: '3D Vision Research Intern', zh: '3D 视觉研究实习生' },
         note: {
-          en: 'Vehicle detection with 78 keypoints per car and camera parameter estimation, for automatic traffic-violation monitoring. [Demo and results](https://github.com/dreamguo/Megvii_intern_work)',
-          zh: '面向交通违章自动监测的车辆检测：检测每辆车的边界框与 78 个关键点，并估计相机内外参。[演示与结果](https://github.com/dreamguo/Megvii_intern_work)',
+          en: 'Advised by Ziyao Xu, who led the 3D vision group. Vehicle 3D keypoint reconstruction and camera self-calibration for traffic monitoring. [Demo and results](https://github.com/dreamguo/Megvii_intern_work)',
+          zh: '导师为 Ziyao Xu（3D 视觉组负责人）。研究车辆 3D 关键点重建与相机自标定，用于交通监测。[演示与结果](https://github.com/dreamguo/Megvii_intern_work)',
         },
       },
       {
@@ -510,8 +510,8 @@
         org: { en: 'Peking University\u00A0· VIE Lab', zh: '北京大学 · VIE 实验室' }, orgUrl: 'https://www.ai.pku.edu.cn/en/info/1459/2081.htm',
         role: { en: 'Research Intern', zh: '研究实习生' },
         note: {
-          en: 'Advised by [Prof.\u00A0Tingting Jiang](https://www.ai.pku.edu.cn/en/info/1459/2081.htm). Worked on surgical workflow analysis for the [HeiChole benchmark](https://www.sciencedirect.com/science/article/pii/S1361841523000312) (Medical Image Analysis, 2023), guided by [Dr.\u00A0Daochang Liu](https://finspire13.github.io/).',
-          zh: '导师为[蒋婷婷副教授](https://www.ai.pku.edu.cn/en/info/1459/2081.htm)。在[刘道畅博士](https://finspire13.github.io/)的指导下，参与 [HeiChole 基准](https://www.sciencedirect.com/science/article/pii/S1361841523000312)（Medical Image Analysis，2023）的手术流程分析研究。',
+          en: 'Advised by [Prof.\u00A0Tingting Jiang](https://www.ai.pku.edu.cn/en/info/1459/2081.htm), guided by [Dr.\u00A0Daochang Liu](https://finspire13.github.io/). MICCAI 2019 EndoVis challenge on surgical workflow ([code](https://github.com/dreamguo/EndoVis2019)); co-author of the [HeiChole benchmark](https://www.sciencedirect.com/science/article/pii/S1361841523000312) paper.',
+          zh: '导师为[蒋婷婷副教授](https://www.ai.pku.edu.cn/en/info/1459/2081.htm)，由[刘道畅博士](https://finspire13.github.io/)指导。参加 MICCAI 2019 EndoVis 手术流程分析挑战赛（[代码](https://github.com/dreamguo/EndoVis2019)），并是 [HeiChole 基准](https://www.sciencedirect.com/science/article/pii/S1361841523000312)论文的作者之一。',
         },
       },
       {
@@ -529,9 +529,11 @@
 
     /* ==================================================================== */
     awards: [
-      { year: '2024', title: { en: 'Research Achievement Award', zh: '研究成就奖' }, org: { en: 'National University of Singapore', zh: '新加坡国立大学' } },
+      { year: '2025', title: { en: 'Research Achievement Award', zh: '研究成就奖' }, org: { en: 'National University of Singapore', zh: '新加坡国立大学' } },
       { year: '2021', title: { en: 'Research Scholarship', zh: '研究奖学金' }, org: { en: 'National University of Singapore', zh: '新加坡国立大学' } },
       { year: '2021', title: { en: 'Outstanding Graduate', zh: '优秀毕业生' }, org: { en: 'Beihang University', zh: '北京航空航天大学' } },
+      { year: '2020', title: { en: 'First Prize, Academic Competition Scholarship (Top 5%)', zh: '学术竞赛奖学金一等奖（前\u00A05%）' }, org: { en: 'Beihang University · 2019 & 2020', zh: '北京航空航天大学 · 2019、2020 年' } },
+      { year: '2018', title: { en: 'First Prize, North China Division (Top 10%)', zh: '华北赛区一等奖（前\u00A010%）' }, org: { en: 'China Undergraduate Physics Tournament', zh: '中国大学生物理学术竞赛（CUPT）' } },
       { year: '2017', title: { en: 'Outstanding Graduate', zh: '优秀毕业生' }, org: { en: 'Shenzhen Experimental School (SZSY)', zh: '深圳实验学校' } },
     ],
     service: {

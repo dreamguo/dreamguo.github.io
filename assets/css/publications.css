@@ -967,6 +967,24 @@ a.pub__au-name {
     justify-content: center;
     padding: clamp(24px, 3vw, 40px);
   }
+  /* a wide figure (the paper's Figure 1) reads best as a full-width banner above the text, not squeezed into half a card;
+     if the image fails to load the frame loses --img and the two-column layout above applies again */
+  .pub--feature.panel:has(> .pub__frame--img) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .pub--feature:has(> .pub__frame--img) .pub__frame {
+    aspect-ratio: 2.56 / 1; /* the figure is 2.66:1; the plate adds a 12px inset, so this gives even margins on all sides */
+    justify-self: stretch; /* a short-landscape max-height must not turn into a narrower plate */
+    min-height: 0;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .pub--feature:has(> .pub__frame--img) .pub__frame::after {
+    display: none;
+  }
+  .pub--feature:has(> .pub__frame--img) .pub__body {
+    max-width: 860px;
+  }
 }
 @media (max-width: 899px) {
   .pub-grid {

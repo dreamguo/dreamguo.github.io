@@ -195,7 +195,7 @@
     if (v === 'iclr') return 'badge--iclr';
     if (v === 'aaai') return 'badge--aaai';
     if (v === 'acmmm') return 'badge--acmmm';
-    if (v === 'tvcg' || v === 'tpami' || v === 'ijcv' || v === 'tip') return 'badge--journal'; // journals
+    if (v === 'tvcg' || v === 'ieeetvcg' || v === 'tpami' || v === 'ijcv' || v === 'tip') return 'badge--journal'; // journals
     return ''; // anything else: neutral badge
   }
   function buildService() {
@@ -206,7 +206,7 @@
         'ul',
         { class: 'recog__venues list-reset', role: 'list' },
         sv0.items.map(function (name) {
-          return h('li', { class: 'badge recog__venue ' + venueClass(name) }, name);
+          return h('li', { class: 'badge recog__venue ' + venueClass(name) + (String(name).length > 7 ? ' recog__venue--long' : '') }, name);
         })
       ),
       h('p', { class: 'recog__foot' }, S.fmt(S.ui('recog.service.n'), { n: sv0.items.length })),

@@ -363,8 +363,8 @@
     about: ['bio', 'me', 'intro', 'profile', 'who', 'researcher', 'engineer', 'senior', 'staff', 'mengqi', 'guo', 'huawei', 'wiener', 'nus', 'phd', 'ph.d.', 'skills', '简介', '关于我', '个人简介', '郭梦琦', '梦琦', '华为', '维纳', '博士', '技能', '工程师', '资深', '主任'],
     news: ['updates', 'latest', 'announcements', 'signals', '新闻', '最新', '消息'],
     research: ['papers', 'publications', 'pubs', 'projects', 'work', 'embodied', 'spatial', '3d', '4d', '论文', '成果', '科研', '具身', '空间'],
-    journey: ['experience', 'education', 'career', 'timeline', 'cv', 'resume', 'nus', 'phd', 'huawei', 'beihang', 'jhu', 'megvii', 'pku', 'vie', 'startup', 'founder', 'cto', 'mirror world', 'tingting jiang', 'internship', '创业', '创始人', '北大', '北京大学', '旷视', '蒋婷婷', '一路走来', '经历', '教育', '履历', '简历', '实习', '北航', '博士'],
-    recognition: ['awards', 'honors', 'service', 'reviewer', 'prizes', 'skills', '奖项', '荣誉', '审稿', '学术服务', '技能'],
+    journey: ['experience', 'education', 'career', 'timeline', 'cv', 'resume', 'nus', 'phd', 'huawei', 'beihang', 'jhu', 'megvii', 'pku', 'vie', 'patent', 'patents', '专利', 'startup', 'founder', 'cto', 'mirror world', 'tingting jiang', 'internship', '创业', '创始人', '北大', '北京大学', '旷视', '蒋婷婷', '一路走来', '经历', '教育', '履历', '简历', '实习', '北航', '博士'],
+    recognition: ['awards', 'honors', 'service', 'reviewer', 'tvcg', 'ieee tvcg', 'excellent individual', 'outstanding r&d', 'prizes', 'skills', '奖项', '荣誉', '审稿', '学术服务', '优秀个人奖', '杰出研发贡献奖', '技能'],
     contact: ['email', 'reach', 'hire', 'hiring', 'intern', 'internship', 'phd student', 'join', 'openings', 'social', 'get in touch', '联系方式', '邮箱', '联系我', '招聘', '实习', '博士生', '招生'],
   };
   // 'gsplat' for the Gaussian-splatting scene and the papers tagged with it (short queries only match whole words or substrings)

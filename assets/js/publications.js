@@ -45,7 +45,7 @@
     'pubs.empty.q': { en: 'No papers match “{q}”.', zh: '没有与“{q}”匹配的论文。' },
     'pubs.empty.f': { en: 'No papers match these filters.', zh: '没有符合当前筛选的论文。' },
     'pubs.empty.clear': { en: 'Clear filters', zh: '清除筛选' },
-    'pubs.h.latest': { en: 'Latest paper', zh: '最新论文' },
+    'pubs.h.latest': { en: 'Featured paper', zh: '重点论文' },
     'pubs.h.selected': { en: 'Selected work', zh: '代表作' },
     'pubs.h.more': { en: 'More selected work', zh: '更多代表作' },
     'pubs.h.other': { en: 'Other publications & preprints', zh: '其他论文与预印本' },

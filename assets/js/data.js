@@ -145,10 +145,10 @@
           now: true,
           title: { en: 'Now', zh: '当下' },
           text: {
-            en: 'Multimodal and spatial foundation models, and embodied AI.',
-            zh: '多模态与空间基础模型，以及具身智能。',
+            en: 'Multimodal and spatial foundation models, embodied AI and efficient LLM serving.',
+            zh: '多模态与空间基础模型、具身智能，以及高效大模型推理。',
           },
-          papers: [],
+          papers: ['duorate', 'stagq'],
         },
       ],
     },
@@ -157,8 +157,20 @@
     /* type: paper | career | award      sort: 'YYYY-MM' (ordering only)     */
     news: [
       {
+        type: 'paper', date: '10.2026', sort: '2026-10', paper: 'duorate',
+        text: { en: 'Released [DuoRate](https://arxiv.org/abs/2610.13328) on arXiv: per-expert precision allocation for Mixture-of-Experts serving (under review).', zh: '在 arXiv 发布 [DuoRate](https://arxiv.org/abs/2610.13328)：面向混合专家模型推理的逐专家精度分配（投稿中）。' },
+      },
+      {
+        type: 'paper', date: '10.2026', sort: '2026-10', paper: 'stagq',
+        text: { en: 'Released [StagQ](https://arxiv.org/abs/2610.05977) on arXiv: constraint-driven multi-precision weight quantization for LLMs (under review).', zh: '在 arXiv 发布 [StagQ](https://arxiv.org/abs/2610.05977)：面向大语言模型的约束驱动多精度权重量化（投稿中）。' },
+      },
+      {
         type: 'career', date: '03.2026', sort: '2026-03',
         text: { en: 'Graduated from the **National University of Singapore** with a Ph.D. in Computer Science.', zh: '从**新加坡国立大学**毕业，获计算机科学博士学位。' },
+      },
+      {
+        type: 'award', date: '03.2026', sort: '2026-03',
+        text: { en: 'Received two awards at Huawei for 2025: the **Excellent Individual Award** and the **Outstanding R&D Contribution Award**.', zh: '在华为获得 2025 年度**优秀个人奖**与**杰出研发贡献奖**。' },
       },
       {
         type: 'career', date: '08.2025', sort: '2025-08',
@@ -231,6 +243,7 @@
       { id: 'dynamic', label: { en: 'Dynamic 4D', zh: '动态 4D' } },
       { id: 'semantic', label: { en: 'Semantics & Parts', zh: '语义与部件' } },
       { id: 'assembly', label: { en: 'Assembly', zh: '结构拼装' } },
+      { id: 'efficient', label: { en: 'Efficient LLMs', zh: '高效大模型' } },
     ],
 
     papers: [
@@ -263,6 +276,42 @@
         repo: 'dreamguo/4D3R', stars: 2,
         teaser: { type: 'image', src: 'assets/img/papers/4d3r.jpg', alt: { en: '4D3R teaser: pose-free 4D Gaussian splatting from a monocular video', zh: '4D3R 概览图：单目视频的免位姿 4D 高斯泼溅' } },
         bib: { type: 'inproceedings', booktitle: 'Advances in Neural Information Processing Systems (NeurIPS)' },
+      },
+      {
+        id: 'duorate',
+        short: 'DuoRate',
+        title: 'DuoRate: Two-Rate Per-Expert Precision Allocation for Mixture-of-Experts Serving',
+        authors: [a(ME), a('Zhe Wei'), a('Yuan Yuan'), a('Jiunn Bin Lim'), a('Boyi Pan'), a('Michael Bi Mi')],
+        venue: 'arXiv', year: 2026, kind: 'preprint',
+        venueLong: { en: 'Preprint · arXiv:2610.13328 · under review', zh: '预印本 · arXiv:2610.13328 · 投稿中' },
+        badge: 'arXiv 2026',
+        selected: false,
+        tldr: {
+          en: 'Serving a Mixture-of-Experts model pays for expert precision twice: storage covers every expert, while decoding reads only the selected ones. DuoRate stores one prefix-readable weight stream and allocates each expert’s read precision per workload.',
+          zh: '混合专家（MoE）模型的推理服务需要为专家精度付出两次代价：存储覆盖所有专家，而解码只读取被选中的专家。DuoRate 只存一份可按前缀读取的权重流，并按工作负载为每个专家分配读取精度。',
+        },
+        topics: ['efficient'],
+        tags: ['mixture-of-experts', 'moe', 'quantization', 'llm-serving'],
+        links: { arxiv: 'https://arxiv.org/abs/2610.13328', pdf: 'https://arxiv.org/pdf/2610.13328' },
+        bib: { type: 'article', journal: 'arXiv preprint arXiv:2610.13328' },
+      },
+      {
+        id: 'stagq',
+        short: 'StagQ',
+        title: 'StagQ: Constraint-Driven Multi-Precision Weight Quantization for LLMs',
+        authors: [a('Zhe Wei'), a(ME), a('Yuan Yuan'), a('Jiunn Bin Lim'), a('Boyi Pan'), a('Michael Bi Mi')],
+        venue: 'arXiv', year: 2026, kind: 'preprint',
+        venueLong: { en: 'Preprint · arXiv:2610.05977 · under review', zh: '预印本 · arXiv:2610.05977 · 投稿中' },
+        badge: 'arXiv 2026',
+        selected: false,
+        tldr: {
+          en: 'A multi-precision weight format for LLMs: one stream with a 2-bit base and 1-bit refinement planes, so every supported precision is a readable prefix and no separate copies are needed for different deployments.',
+          zh: '面向大语言模型的多精度权重格式：以 2 比特分组仿射为基底，后接 1 比特精修平面，每一档精度都是可读取的前缀，无需为不同部署精度存储多份权重。',
+        },
+        topics: ['efficient'],
+        tags: ['quantization', 'multi-precision', 'llm'],
+        links: { arxiv: 'https://arxiv.org/abs/2610.05977', pdf: 'https://arxiv.org/pdf/2610.05977' },
+        bib: { type: 'article', journal: 'arXiv preprint arXiv:2610.05977' },
       },
       {
         id: 'mvgsr',
@@ -459,8 +508,8 @@
         role: { en: 'Senior Staff Engineer', zh: '资深主任工程师' },
         place: { en: 'Singapore', zh: '新加坡' },
         note: {
-          en: 'Working on multimodal and spatial foundation models and embodied AI.',
-          zh: '从事多模态与空间基础模型、具身智能方向的研究与开发。',
+          en: 'Multimodal and spatial foundation models, embodied AI and efficient LLM serving. One patent, two papers under review ([DuoRate](https://arxiv.org/abs/2610.13328), [StagQ](https://arxiv.org/abs/2610.05977)) and two 2025 awards: Excellent Individual and Outstanding R&D Contribution.',
+          zh: '从事多模态与空间基础模型、具身智能与高效大模型推理方向的研究与开发。获专利一项，两篇论文在投（[DuoRate](https://arxiv.org/abs/2610.13328)、[StagQ](https://arxiv.org/abs/2610.05977)），并荣获 2025 年度优秀个人奖与杰出研发贡献奖。',
         },
       },
       {
@@ -529,6 +578,8 @@
 
     /* ==================================================================== */
     awards: [
+      { year: '2026', title: { en: 'Excellent Individual Award (2025)', zh: '2025 年度优秀个人奖' }, org: { en: 'Huawei', zh: '华为' } },
+      { year: '2026', title: { en: 'Outstanding R&D Contribution Award (2025)', zh: '2025 年度杰出研发贡献奖' }, org: { en: 'Huawei', zh: '华为' } },
       { year: '2025', title: { en: 'Research Achievement Award', zh: '研究成就奖' }, org: { en: 'National University of Singapore', zh: '新加坡国立大学' } },
       { year: '2021', title: { en: 'Research Scholarship', zh: '研究奖学金' }, org: { en: 'National University of Singapore', zh: '新加坡国立大学' } },
       { year: '2021', title: { en: 'Outstanding Graduate', zh: '优秀毕业生' }, org: { en: 'Beihang University', zh: '北京航空航天大学' } },
@@ -538,7 +589,7 @@
     ],
     service: {
       title: { en: 'Reviewer', zh: '审稿人' },
-      items: ['CVPR', 'ICCV', 'NeurIPS', 'ICLR', 'AAAI', 'ACM MM', 'TVCG'],
+      items: ['CVPR', 'ICCV', 'NeurIPS', 'ICLR', 'AAAI', 'ACM MM', 'IEEE TVCG'],
     },
     skills: [
       { group: { en: 'Languages', zh: '编程语言' }, items: ['Python', 'C/C++', 'Java', 'MATLAB'] },
@@ -566,7 +617,7 @@
       'sec.news.title': { en: 'Latest *news*', zh: '最新*动态*' },
       'sec.news.kicker': { en: 'Papers, career and awards, newest first.', zh: '论文、经历与荣誉，按时间倒序。' },
       'sec.research.title': { en: 'Selected *research*', zh: '代表性*研究*' },
-      'sec.research.kicker': { en: 'Reconstruction, understanding and generation of the 3D world — from NeRF to Gaussian splatting to 4D.', zh: '3D 世界的重建、理解与生成⁠——从 NeRF、高斯泼溅到 4D。' },
+      'sec.research.kicker': { en: 'Reconstruction, understanding and generation of the 3D world — from NeRF to Gaussian splatting to 4D — and, lately, efficient LLM serving.', zh: '3D 世界的重建、理解与生成⁠——从 NeRF、高斯泼溅到 4D，以及近期的高效大模型推理。' },
       'sec.journey.title': { en: 'The *path* so far', zh: '一路*走来*' },
       'sec.journey.kicker': { en: 'Where I’ve studied and worked.', zh: '求学与工作的每一站。' },
       'sec.recognition.title': { en: 'Recognition & *service*', zh: '荣誉与学术*服务*' },

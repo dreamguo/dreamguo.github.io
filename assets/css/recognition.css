@@ -186,11 +186,14 @@
 }
 
 /* ----------------------------------------------------------------- service */
-/* seven chips read best as a tidy 4 + 3 grid at every width (a flex-wrap left TVCG alone on row two at 768) */
+/* seven chips read best as a tidy 4-column grid at every width (a flex-wrap left the last chip alone on row two at 768); a long name takes two columns */
 .recog__venues {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 10px;
+}
+.recog__venue--long {
+  grid-column: span 2; /* a long name ('IEEE TVCG') gets two columns, so the 4-column grid stays full and nothing is clipped */
 }
 .recog__venue {
   justify-content: center;
@@ -202,7 +205,7 @@
   background: rgba(var(--badge), 0.18);
   font-size: 0.82rem;
   letter-spacing: 0.04em;
-  text-transform: none; /* real casing: CVPR ICCV NeurIPS ICLR AAAI ACM MM TVCG */
+  text-transform: none; /* real casing: CVPR ICCV NeurIPS ICLR AAAI ACM MM IEEE TVCG */
   transition: transform var(--dur-3) var(--ease), box-shadow var(--dur-3) var(--ease), background var(--dur-2);
 }
 :root[data-theme="light"] .recog__venue {

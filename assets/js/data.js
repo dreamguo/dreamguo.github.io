@@ -95,8 +95,8 @@
           zh: '我于 **2026 年在[新加坡国立大学](https://www.nus.edu.sg/)获得博士学位**，在计算机视觉与机器人感知（CVRP）实验室师从 [Gim Hee Lee 教授](https://www.comp.nus.edu.sg/~leegh/)。博士期间的研究聚焦 3D 计算机视觉，尤其是序列化的 3D 重建、理解与生成。',
         },
         {
-          en: "Before NUS, I earned my **B.S. from [Beihang University](https://ev.buaa.edu.cn/) in 2021** (Computer Science and Technology, ShenYuan Honors College), advised by [Prof. Si Liu](https://colalab.net/team/). During my degree, I interned at Peking University’s VIE Lab under [Prof.\u00A0Tingting Jiang](https://www.ai.pku.edu.cn/en/info/1459/2081.htm) and in the [CCVL Lab](https://ccvl.jhu.edu/) at Johns Hopkins University under [Prof. Alan Yuille](https://www.cs.jhu.edu/~ayuille1/).",
-          zh: '读博之前，我于 **2021 年毕业于[北京航空航天大学](https://ev.buaa.edu.cn/)**沈元学院，获计算机科学与技术学士学位，导师为[刘偲教授](https://colalab.net/team/)。本科期间，我曾在北京大学 VIE 实验室担任研究实习生，师从[蒋婷婷副教授](https://www.ai.pku.edu.cn/en/info/1459/2081.htm)；也曾在约翰斯\u2060·\u2060霍普金斯大学 [CCVL 实验室](https://ccvl.jhu.edu/)担任研究实习生，师从 [Alan Yuille 教授](https://www.cs.jhu.edu/~ayuille1/)。',
+          en: "Before NUS, I earned my **B.S. from [Beihang University](https://ev.buaa.edu.cn/) in 2021** (Computer Science and Technology, ShenYuan Honors College), advised by [Prof. Si Liu](https://colalab.net/team/). During my degree, I interned at Peking University’s VIE Lab under [Prof.\u00A0Tingting Jiang](https://www.ai.pku.edu.cn/en/info/1459/2081.htm) and in the [CCVL Lab](https://ccvl.jhu.edu/) at Johns Hopkins University under [Bloomberg Distinguished Professor Alan Yuille](https://www.cs.jhu.edu/~ayuille1/).",
+          zh: '读博之前，我于 **2021 年毕业于[北京航空航天大学](https://ev.buaa.edu.cn/)**沈元学院，获计算机科学与技术学士学位，导师为[刘偲教授](https://colalab.net/team/)。本科期间，我曾在北京大学 VIE 实验室担任研究实习生，师从[蒋婷婷副教授](https://www.ai.pku.edu.cn/en/info/1459/2081.htm)；也曾在约翰斯\u2060·\u2060霍普金斯大学 [CCVL 实验室](https://ccvl.jhu.edu/)担任研究实习生，师从[彭博杰出教授 Alan Yuille](https://www.cs.jhu.edu/~ayuille1/)。',
         },
       ],
       /* small "spec sheet" next to the portrait */
@@ -157,12 +157,20 @@
     /* type: paper | career | award      sort: 'YYYY-MM' (ordering only)     */
     news: [
       {
+        type: 'event', date: '12.2026', sort: '2026-12',
+        text: { en: 'Heading to **NeurIPS 2026** in Sydney this December. Come say hi!', zh: '将于 12 月赴悉尼参加 **NeurIPS 2026**，欢迎交流！' },
+      },
+      {
         type: 'paper', date: '10.2026', sort: '2026-10', paper: 'duorate',
         text: { en: 'Released [DuoRate](https://arxiv.org/abs/2610.13328) on arXiv: per-expert precision allocation for Mixture-of-Experts serving (under review).', zh: '在 arXiv 发布 [DuoRate](https://arxiv.org/abs/2610.13328)：面向混合专家模型推理的逐专家精度分配（投稿中）。' },
       },
       {
         type: 'paper', date: '10.2026', sort: '2026-10', paper: 'stagq',
         text: { en: 'Released [StagQ](https://arxiv.org/abs/2610.05977) on arXiv: constraint-driven multi-precision weight quantization for LLMs (under review).', zh: '在 arXiv 发布 [StagQ](https://arxiv.org/abs/2610.05977)：面向大语言模型的约束驱动多精度权重量化（投稿中）。' },
+      },
+      {
+        type: 'award', date: '09.2026', sort: '2026-09',
+        text: { en: 'Named a **NeurIPS 2026 Top Reviewer**.', zh: '获评 **NeurIPS 2026 优秀审稿人**（Top Reviewer）。' },
       },
       {
         type: 'career', date: '03.2026', sort: '2026-03',
@@ -518,8 +526,8 @@
         org: { en: 'Mirror World', zh: 'Mirror World' }, orgUrl: 'https://jokeryan.github.io/about/',
         role: { en: 'Founder & CTO', zh: '创始人兼 CTO' },
         note: {
-          en: 'Startup co-founded with CEO [Zhiwen Yan](https://jokeryan.github.io/about/) during my Ph.D.: 3D indoor navigation and event design. [Product deck (PPTX, 84\u00A0MB)](https://jokeryan.github.io/files/Mirror_World_Snippet.pptx)',
-          zh: '博士期间与 CEO [Zhiwen Yan](https://jokeryan.github.io/about/) 共同创办的创业团队：3D 室内导航与活动设计。[产品介绍（PPTX，84\u00A0MB）](https://jokeryan.github.io/files/Mirror_World_Snippet.pptx)',
+          en: 'Startup co-founded with CEO [Dr.\u00A0Zhiwen Yan](https://jokeryan.github.io/about/) during my Ph.D.: 3D indoor navigation and event design. [Product deck (PPTX, 84\u00A0MB)](https://jokeryan.github.io/files/Mirror_World_Snippet.pptx)',
+          zh: '博士期间与 CEO [颜志文博士](https://jokeryan.github.io/about/)共同创办的创业团队：3D 室内导航与活动设计。[产品介绍（PPTX，84\u00A0MB）](https://jokeryan.github.io/files/Mirror_World_Snippet.pptx)',
         },
       },
       {
@@ -539,8 +547,8 @@
         org: { en: 'Johns Hopkins University\u00A0· CCVL', zh: '约翰斯·霍普金斯大学 · CCVL' }, orgUrl: 'https://ccvl.jhu.edu/',
         role: { en: 'Research Intern', zh: '研究实习生' },
         note: {
-          en: 'Part discovery and part segmentation with [Prof. Alan Yuille](https://www.cs.jhu.edu/~ayuille1/) — including the CVPR 2022 Oral paper.',
-          zh: '在 [Alan Yuille 教授](https://www.cs.jhu.edu/~ayuille1/)指导下研究部件发现与部件分割，成果包括 CVPR 2022 Oral 论文。',
+          en: 'Part discovery and part segmentation with [Bloomberg Distinguished Professor Alan Yuille](https://www.cs.jhu.edu/~ayuille1/) — including the CVPR 2022 Oral paper.',
+          zh: '在[彭博杰出教授 Alan Yuille](https://www.cs.jhu.edu/~ayuille1/) 指导下研究部件发现与部件分割，成果包括 CVPR 2022 Oral 论文。',
         },
       },
       {
@@ -550,7 +558,7 @@
         role: { en: '3D Vision Research Intern', zh: '3D 视觉研究实习生' },
         note: {
           en: 'Advised by Ziyao Xu, who led the 3D vision group. Vehicle 3D keypoint reconstruction and camera self-calibration for traffic monitoring. [Demo and results](https://github.com/dreamguo/Megvii_intern_work)',
-          zh: '导师为 Ziyao Xu（3D 视觉组负责人）。研究车辆 3D 关键点重建与相机自标定，用于交通监测。[演示与结果](https://github.com/dreamguo/Megvii_intern_work)',
+          zh: '导师为徐子尧（3D 视觉组负责人）。研究车辆 3D 关键点重建与相机自标定，用于交通监测。[演示与结果](https://github.com/dreamguo/Megvii_intern_work)',
         },
       },
       {
@@ -578,6 +586,7 @@
 
     /* ==================================================================== */
     awards: [
+      { year: '2026', title: { en: 'NeurIPS 2026 Top Reviewer', zh: 'NeurIPS 2026 优秀审稿人' }, org: { en: 'Conference on Neural Information Processing Systems', zh: '神经信息处理系统大会' } },
       { year: '2026', title: { en: 'Excellent Individual Award (2025)', zh: '2025 年度优秀个人奖' }, org: { en: 'Huawei', zh: '华为' } },
       { year: '2026', title: { en: 'Outstanding R&D Contribution Award (2025)', zh: '2025 年度杰出研发贡献奖' }, org: { en: 'Huawei', zh: '华为' } },
       { year: '2025', title: { en: 'Research Achievement Award', zh: '研究成就奖' }, org: { en: 'National University of Singapore', zh: '新加坡国立大学' } },
@@ -590,6 +599,7 @@
     service: {
       title: { en: 'Reviewer', zh: '审稿人' },
       items: ['CVPR', 'ICCV', 'NeurIPS', 'ICLR', 'AAAI', 'ACM MM', 'IEEE TVCG'],
+      highlight: { en: 'NeurIPS 2026 Top Reviewer', zh: 'NeurIPS 2026 优秀审稿人' },
     },
     skills: [
       { group: { en: 'Languages', zh: '编程语言' }, items: ['Python', 'C/C++', 'Java', 'MATLAB'] },
@@ -615,7 +625,7 @@
       'sec.about.title': { en: 'Seeing the world in *3D*', zh: '用 *3D* 看世界' },
       'sec.about.kicker': { en: 'From 3D vision research to spatial foundation models.', zh: '从 3D 视觉研究走向空间基础模型。' },
       'sec.news.title': { en: 'Latest *news*', zh: '最新*动态*' },
-      'sec.news.kicker': { en: 'Papers, career and awards, newest first.', zh: '论文、经历与荣誉，按时间倒序。' },
+      'sec.news.kicker': { en: 'Papers, career, awards and events, newest first.', zh: '论文、经历、荣誉与活动，按时间倒序。' },
       'sec.research.title': { en: 'Selected *research*', zh: '代表性*研究*' },
       'sec.research.kicker': { en: 'Reconstruction, understanding and generation of the 3D world — from NeRF to Gaussian splatting to 4D — and, lately, efficient LLM serving.', zh: '3D 世界的重建、理解与生成⁠——从 NeRF、高斯泼溅到 4D，以及近期的高效大模型推理。' },
       'sec.journey.title': { en: 'The *path* so far', zh: '一路*走来*' },

@@ -79,6 +79,9 @@
 .news__item[data-type="award"] {
   --t: var(--accent-3-rgb);
 }
+.news__item[data-type="event"] {
+  --t: var(--accent-rgb);
+}
 .news__item::after {
   /* hairline separator */
   content: "";

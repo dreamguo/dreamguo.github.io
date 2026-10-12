@@ -18,15 +18,17 @@
     'news.paper': { en: 'Papers', zh: '论文' },
     'news.career': { en: 'Career', zh: '经历' },
     'news.award': { en: 'Awards', zh: '荣誉' },
+    'news.event': { en: 'Events', zh: '活动' },
     'news.tag.paper': { en: 'Paper', zh: '论文' },
     'news.tag.career': { en: 'Career', zh: '经历' },
     'news.tag.award': { en: 'Award', zh: '荣誉' },
+    'news.tag.event': { en: 'Event', zh: '活动' },
     'news.new': { en: 'New', zh: '最新' },
     'news.view': { en: 'view paper', zh: '查看论文' },
     'news.showing': { en: 'Showing {n} entries', zh: '当前显示 {n} 条' },
   });
 
-  var TYPES = ['paper', 'career', 'award'];
+  var TYPES = ['paper', 'career', 'award', 'event'];
   var state = { filter: 'all', expanded: false };
   var els = {};
   var hasFold = false;

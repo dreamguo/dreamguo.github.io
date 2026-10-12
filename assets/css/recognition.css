@@ -43,10 +43,10 @@
   .recog__col:last-child > .recog__cell:last-child > .recog__block {
     flex: 1;
   }
-  /* the stretched Reviewer card keeps its chips centered between the title and the count */
-  .recog__col:last-child > .recog__cell:last-child .recog__venues {
+  /* the stretched Reviewer card keeps its chips and the Top Reviewer line centered between the title and the count */
+  .recog__col:last-child > .recog__cell:last-child .recog__svc {
     flex: 1;
-    align-content: center;
+    justify-content: center;
   }
 }
 @media (max-width: 899px) {
@@ -236,6 +236,31 @@
   .recog__venue:hover {
     border-color: rgba(var(--badge), 0.7);
   }
+}
+/* venue chips + the award earned for reviewing */
+.recog__svc {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+/* the award earned for reviewing, set under the venue chips */
+.recog__hl {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6em;
+  margin: 0;
+  padding: 0.7em 1em;
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  background: rgba(var(--accent-3-rgb), 0.07);
+  color: var(--text);
+  font-size: var(--fs-sm);
+  font-weight: 500;
+}
+.recog__hl-ico {
+  display: inline-flex;
+  color: var(--accent-3);
 }
 .recog__foot {
   margin: auto 0 0;

@@ -202,12 +202,20 @@
     var sv0 = D.service;
     if (!sv0 || !Array.isArray(sv0.items) || !sv0.items.length) return null;
     var body = [
+      // chips and the Top Reviewer line travel together, so a stretched card centers them as one group
       h(
-        'ul',
-        { class: 'recog__venues list-reset', role: 'list' },
-        sv0.items.map(function (name) {
-          return h('li', { class: 'badge recog__venue ' + venueClass(name) + (String(name).length > 7 ? ' recog__venue--long' : '') }, name);
-        })
+        'div',
+        { class: 'recog__svc' },
+        h(
+          'ul',
+          { class: 'recog__venues list-reset', role: 'list' },
+          sv0.items.map(function (name) {
+            return h('li', { class: 'badge recog__venue ' + venueClass(name) + (String(name).length > 7 ? ' recog__venue--long' : '') }, name);
+          })
+        ),
+        sv0.highlight
+          ? h('p', { class: 'recog__hl' }, h('span', { class: 'recog__hl-ico', 'aria-hidden': 'true', html: S.icon('award', { size: 16 }) }), S.t(sv0.highlight))
+          : null
       ),
       h('p', { class: 'recog__foot' }, S.fmt(S.ui('recog.service.n'), { n: sv0.items.length })),
     ];

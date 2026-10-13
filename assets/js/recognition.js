@@ -166,23 +166,53 @@
   }
 
   /* ------------------------------------------------------------------ awards */
+  var AWARDS_SHOWN = 6; // the newest honors stay visible; the rest fold away behind "Show more"
+  var awardsOpen = false; // survives a language re-render
+
+  function awardPlate(a, i) {
+    return h(
+      'li',
+      { class: 'recog__plate' + (i === 0 ? ' is-latest' : '') },
+      h('span', { class: 'recog__year mono' }, String(a.year)),
+      h('div', { class: 'recog__plate-body' }, h('p', { class: 'recog__plate-title' }, S.t(a.title)), h('p', { class: 'recog__plate-org' }, S.t(a.org))),
+      h('span', { class: 'recog__plate-ico', 'aria-hidden': 'true', html: S.icon('award', { size: 18 }) })
+    );
+  }
+
   function buildAwards() {
     var list = Array.isArray(D.awards) ? D.awards : [];
     if (!list.length) return null;
-    var ol = h(
-      'ol',
-      { class: 'recog__plates list-reset', role: 'list' },
-      list.map(function (a, i) {
-        return h(
-          'li',
-          { class: 'recog__plate' + (i === 0 ? ' is-latest' : '') },
-          h('span', { class: 'recog__year mono' }, String(a.year)),
-          h('div', { class: 'recog__plate-body' }, h('p', { class: 'recog__plate-title' }, S.t(a.title)), h('p', { class: 'recog__plate-org' }, S.t(a.org))),
-          h('span', { class: 'recog__plate-ico', 'aria-hidden': 'true', html: S.icon('award', { size: 18 }) })
-        );
-      })
-    );
-    return block('awards', 'award', S.ui('recog.awards'), S.fmt(S.ui('recog.awards.n'), { n: list.length }), ol);
+    var head = list.slice(0, AWARDS_SHOWN);
+    var tail = list.slice(AWARDS_SHOWN);
+    var kids = [h('ol', { class: 'recog__plates list-reset', role: 'list' }, head.map(awardPlate))];
+    if (tail.length) {
+      var open = awardsOpen;
+      var inner = h('div', { class: 'recog__fold-inner' }, h('ol', { class: 'recog__plates list-reset', role: 'list' }, tail.map(function (a, i) { return awardPlate(a, AWARDS_SHOWN + i); })));
+      var fold = h('div', { class: 'recog__fold' + (open ? ' is-open' : ''), id: 'recog-awards-fold' }, inner);
+      var label = h('span', null, S.ui(open ? 'common.less' : 'common.more'));
+      var icon = h('span', { class: 'recog__more-icon' + (open ? ' is-flipped' : ''), html: S.icon('chevron-down') });
+      var btn = h(
+        'button',
+        { class: 'btn btn--ghost btn--sm recog__more', type: 'button', 'aria-expanded': open ? 'true' : 'false', 'aria-controls': 'recog-awards-fold' },
+        label,
+        h('span', { class: 'recog__more-count mono' }, String(tail.length)),
+        icon
+      );
+      btn.addEventListener('click', function () {
+        awardsOpen = !awardsOpen;
+        fold.classList.toggle('is-open', awardsOpen);
+        btn.setAttribute('aria-expanded', awardsOpen ? 'true' : 'false');
+        label.textContent = S.ui(awardsOpen ? 'common.less' : 'common.more');
+        icon.classList.toggle('is-flipped', awardsOpen);
+        var card = btn.closest('.recog__block');
+        if (!awardsOpen && card && card.getBoundingClientRect().top < 0) {
+          // collapsing from far down: bring the card back into view instead of stranding the reader
+          card.scrollIntoView({ block: 'start', behavior: S.reducedMotion ? 'auto' : 'smooth' });
+        }
+      });
+      kids.push(fold, h('div', { class: 'recog__more-wrap' }, btn));
+    }
+    return block('awards', 'award', S.ui('recog.awards'), S.fmt(S.ui('recog.awards.n'), { n: list.length }), h('div', { class: 'recog__awards' }, kids));
   }
 
   /* ----------------------------------------------------------------- service */

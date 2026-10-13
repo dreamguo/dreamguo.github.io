@@ -29,7 +29,10 @@
   .recog__col:first-child > .recog__cell:first-child > .recog__block {
     flex: 1;
   }
-  .recog__block--awards .recog__plates {
+  .recog__block--awards .recog__awards {
+    flex: 1;
+  }
+  .recog__block--awards .recog__awards > .recog__plates {
     flex: 1;
   }
   .recog__block--awards .recog__plate {
@@ -114,10 +117,63 @@
 }
 
 /* ------------------------------------------------------------------ awards */
-.recog__plates {
+.recog__awards {
   display: flex;
   flex-direction: column;
   --yr-w: clamp(76px, 12vw, 104px);
+}
+.recog__plates {
+  display: flex;
+  flex-direction: column;
+}
+/* older honors fold away (grid-template-rows 0fr → 1fr, like the news log) */
+.recog__fold {
+  display: grid;
+  grid-template-rows: 0fr;
+  visibility: hidden;
+  transition: grid-template-rows 0.6s var(--ease-out), visibility 0s linear 0.6s;
+}
+.recog__fold.is-open {
+  grid-template-rows: 1fr;
+  visibility: visible;
+  transition-delay: 0s;
+}
+.recog__fold-inner {
+  min-height: 0;
+  overflow: hidden;
+}
+@supports (overflow: clip) {
+  .recog__fold-inner {
+    overflow-x: visible;
+    overflow-y: clip;
+  }
+}
+.recog__more-wrap {
+  display: flex;
+  justify-content: center;
+  padding-top: 10px;
+}
+.recog__more {
+  min-height: 44px;
+  padding-inline: 1.4em;
+  font-size: var(--fs-xs);
+}
+.recog__more-count {
+  color: var(--text-3);
+  letter-spacing: 0.02em;
+}
+.recog__more-count::before {
+  content: "+";
+}
+.recog__more[aria-expanded="true"] .recog__more-count {
+  display: none;
+}
+.recog__more-icon {
+  display: inline-flex;
+  transition: transform var(--dur-3) var(--ease-out);
+}
+.recog__more-icon.is-flipped {
+  transform: rotate(180deg);
 }
 .recog__plate {
   position: relative;
@@ -130,7 +186,8 @@
   border-radius: var(--r-sm);
   transition: background var(--dur-2) var(--ease);
 }
-.recog__plate + .recog__plate::before {
+.recog__plate + .recog__plate::before,
+.recog__fold .recog__plate:first-child::before {
   content: "";
   position: absolute;
   top: 0;

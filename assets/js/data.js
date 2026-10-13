@@ -91,12 +91,12 @@
           zh: '我是**华为维纳研究所（新加坡）的资深主任工程师**，专注于多模态与空间基础模型、具身智能。',
         },
         {
-          en: 'I received my **Ph.D. from the [National University of Singapore](https://www.nus.edu.sg/) in 2026**, in the Computer Vision and Robotic Perception (CVRP) Lab, advised by [Prof. Gim Hee Lee](https://www.comp.nus.edu.sg/~leegh/). My research centered on 3D computer vision — sequential 3D reconstruction, understanding and generation.',
-          zh: '我于 **2026 年在[新加坡国立大学](https://www.nus.edu.sg/)获得博士学位**，在计算机视觉与机器人感知（CVRP）实验室师从 [Gim Hee Lee 教授](https://www.comp.nus.edu.sg/~leegh/)。博士期间的研究聚焦 3D 计算机视觉，尤其是序列化的 3D 重建、理解与生成。',
+          en: 'I received my **Ph.D. in Computer Science from the [National University of Singapore](https://www.nus.edu.sg/) in 2026**, in the Computer Vision and Robotic Perception (CVRP) Lab, advised by [Prof. Gim Hee Lee](https://www.comp.nus.edu.sg/~leegh/). My research centered on 3D computer vision — sequential 3D reconstruction, understanding and generation.',
+          zh: '我于 **2026 年在[新加坡国立大学](https://www.nus.edu.sg/)获得计算机科学博士学位**，在计算机视觉与机器人感知（CVRP）实验室师从 [Gim Hee Lee 教授](https://www.comp.nus.edu.sg/~leegh/)。博士期间的研究聚焦 3D 计算机视觉，尤其是序列化的 3D 重建、理解与生成。',
         },
         {
           en: "Before NUS, I earned my **B.S. from [Beihang University](https://ev.buaa.edu.cn/) in 2021** (Computer Science and Technology, ShenYuan Honors College), advised by [Prof. Si Liu](https://colalab.net/team/). During my degree, I interned at Peking University’s VIE Lab under [Prof.\u00A0Tingting Jiang](https://www.ai.pku.edu.cn/en/info/1459/2081.htm) and in the [CCVL Lab](https://ccvl.jhu.edu/) at Johns Hopkins University under [Bloomberg Distinguished Professor Alan Yuille](https://www.cs.jhu.edu/~ayuille1/).",
-          zh: '读博之前，我于 **2021 年毕业于[北京航空航天大学](https://ev.buaa.edu.cn/)**沈元学院，获计算机科学与技术学士学位，导师为[刘偲教授](https://colalab.net/team/)。本科期间，我曾在北京大学 VIE 实验室担任研究实习生，师从[蒋婷婷副教授](https://www.ai.pku.edu.cn/en/info/1459/2081.htm)；也曾在约翰斯\u2060·\u2060霍普金斯大学 [CCVL 实验室](https://ccvl.jhu.edu/)担任研究实习生，师从[彭博杰出教授 Alan Yuille](https://www.cs.jhu.edu/~ayuille1/)。',
+          zh: '读博之前，我于 **2021 年毕业于[北京航空航天大学](https://ev.buaa.edu.cn/)**沈元学院，获计算机科学与技术学士学位，导师为[刘偲教授](https://colalab.net/team/)。本科期间，我曾在北京大学 VIE 实验室担任研究实习生，师从[蒋婷婷教授](https://www.ai.pku.edu.cn/en/info/1459/2081.htm)；也曾在约翰斯\u2060·\u2060霍普金斯大学 [CCVL 实验室](https://ccvl.jhu.edu/)担任研究实习生，师从[彭博杰出教授 Alan Yuille](https://www.cs.jhu.edu/~ayuille1/)。',
         },
       ],
       /* small "spec sheet" next to the portrait */
@@ -568,7 +568,7 @@
         role: { en: 'Research Intern', zh: '研究实习生' },
         note: {
           en: 'Advised by [Prof.\u00A0Tingting Jiang](https://www.ai.pku.edu.cn/en/info/1459/2081.htm), guided by [Dr.\u00A0Daochang Liu](https://finspire13.github.io/). MICCAI 2019 EndoVis challenge on surgical workflow ([code](https://github.com/dreamguo/EndoVis2019)); co-author of the [HeiChole benchmark](https://www.sciencedirect.com/science/article/pii/S1361841523000312) paper.',
-          zh: '导师为[蒋婷婷副教授](https://www.ai.pku.edu.cn/en/info/1459/2081.htm)，由[刘道畅博士](https://finspire13.github.io/)指导。参加 MICCAI 2019 EndoVis 手术流程分析挑战赛（[代码](https://github.com/dreamguo/EndoVis2019)），并是 [HeiChole 基准](https://www.sciencedirect.com/science/article/pii/S1361841523000312)论文的作者之一。',
+          zh: '导师为[蒋婷婷教授](https://www.ai.pku.edu.cn/en/info/1459/2081.htm)，由[刘道畅博士](https://finspire13.github.io/)指导。参加 MICCAI 2019 EndoVis 手术流程分析挑战赛（[代码](https://github.com/dreamguo/EndoVis2019)），并是 [HeiChole 基准](https://www.sciencedirect.com/science/article/pii/S1361841523000312)论文的作者之一。',
         },
       },
       {

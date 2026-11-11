@@ -45,9 +45,7 @@
     'pubs.empty.q': { en: 'No papers match “{q}”.', zh: '没有与“{q}”匹配的论文。' },
     'pubs.empty.f': { en: 'No papers match these filters.', zh: '没有符合当前筛选的论文。' },
     'pubs.empty.clear': { en: 'Clear filters', zh: '清除筛选' },
-    'pubs.h.latest': { en: 'Featured paper', zh: '重点论文' },
     'pubs.h.selected': { en: 'Selected work', zh: '代表作' },
-    'pubs.h.more': { en: 'More selected work', zh: '更多代表作' },
     'pubs.h.other': { en: 'Other publications & preprints', zh: '其他论文与预印本' },
     'pubs.group.count': { en: '{n} papers', zh: '{n} 篇' },
     'pubs.group.count.one': { en: '{n} paper', zh: '{n} 篇' },
@@ -63,6 +61,8 @@
     'pubs.btn.poster': { en: 'Poster', zh: '海报' },
     'pubs.btn.openreview': { en: 'OpenReview', zh: 'OpenReview' },
     'pubs.btn.dataset': { en: 'Dataset', zh: '数据集' },
+    'pubs.btn.weights': { en: 'Weights', zh: '权重' },
+    'pubs.btn.cann': { en: 'CANN', zh: 'CANN' },
     'pubs.btn.bibtex': { en: 'BibTeX', zh: 'BibTeX' },
     'pubs.stars': { en: 'GitHub stars', zh: 'GitHub 星标' },
     'pubs.newtab': { en: 'opens in a new tab', zh: '在新标签页打开' },
@@ -245,7 +245,6 @@
   var E = {}; // id -> { p, card, li, body, media, row, rowLi, ... }
   var SCOPES = [];
   var HAY = {};
-  var HERO = PAPERS.filter(function (p) { return p.isNew; })[0] || null;
 
   function tokensOf(q) {
     return fold(q).toLowerCase().split(/\s+/).filter(Boolean);
@@ -649,6 +648,8 @@
     if (l.project) out.push({ k: 'project', url: l.project, icon: 'globe', label: 'pubs.btn.project' });
     if (l.poster) out.push({ k: 'poster', url: l.poster, icon: 'layers', label: 'pubs.btn.poster' });
     if (l.openreview) out.push({ k: 'openreview', url: l.openreview, icon: 'external', label: 'pubs.btn.openreview' });
+    if (l.weights) out.push({ k: 'weights', url: l.weights, icon: 'cube', label: 'pubs.btn.weights' });
+    if (l.cann) out.push({ k: 'cann', url: l.cann, icon: 'cpu', label: 'pubs.btn.cann' });
     if (l.dataset) out.push({ k: 'dataset', url: l.dataset, icon: 'database', label: 'pubs.btn.dataset' });
     return out;
   }
@@ -1169,17 +1170,11 @@
       });
       V.stage.appendChild(ul);
     } else {
-      var hero = HERO && E[HERO.id] ? HERO : null;
-      var rest = PAPERS.filter(function (p) { return p.selected && p !== hero; });
-      var others = PAPERS.filter(function (p) { return !p.selected && p !== hero; });
-      if (hero) {
-        V.stage.appendChild(h('h3', { class: 'sr-only' }, ui('pubs.h.latest')));
-        var hl = list('pub-grid pub-grid--hero');
-        place(hl, E[hero.id], 0, { hero: true });
-        V.stage.appendChild(hl);
-      }
+      // selected work: one card grid in data order (newest first), no visible heading
+      var rest = PAPERS.filter(function (p) { return p.selected; });
+      var others = PAPERS.filter(function (p) { return !p.selected; });
       if (rest.length) {
-        V.stage.appendChild(heading(hero ? ui('pubs.h.more') : ui('pubs.h.selected'), rest.length));
+        V.stage.appendChild(h('h3', { class: 'sr-only' }, ui('pubs.h.selected')));
         var gl = list('pub-grid');
         rest.forEach(function (p, i) {
           place(gl, E[p.id], i % 2, { wide: i === rest.length - 1 && rest.length % 2 === 1 });

@@ -23,7 +23,6 @@
     'news.tag.career': { en: 'Career', zh: '经历' },
     'news.tag.award': { en: 'Award', zh: '荣誉' },
     'news.tag.event': { en: 'Event', zh: '活动' },
-    'news.new': { en: 'New', zh: '最新' },
     'news.view': { en: 'view paper', zh: '查看论文' },
     'news.showing': { en: 'Showing {n} entries', zh: '当前显示 {n} 条' },
   });
@@ -135,7 +134,6 @@
       h(
         'p',
         { class: 'news__text' },
-        paper && paper.isNew ? h('span', { class: 'badge badge--new news__new' }, S.ui('news.new')) : null,
         S.rich(it.text)
       ),
       paper

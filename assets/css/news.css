@@ -189,14 +189,6 @@
   color: var(--text);
   font-weight: 600;
 }
-.news__new {
-  margin-right: 0.7em;
-  vertical-align: 0.08em;
-  font-size: var(--fs-micro);
-}
-:root[data-theme="light"] .news__new {
-  color: color-mix(in srgb, rgb(var(--badge)) 62%, var(--text));
-}
 
 .news__view {
   position: relative;
@@ -375,9 +367,6 @@
   border-color: var(--accent);
   background: var(--accent);
   box-shadow: none;
-}
-:root:not([data-theme="light"]) .news__new {
-  --badge: var(--accent-rgb);
 }
 @media (hover: hover) and (pointer: fine) {
   :root:not([data-theme="light"]) .news__item:hover .news__node::after {
